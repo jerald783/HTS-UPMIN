@@ -1,0 +1,336 @@
+<div class="w-full bg-white">
+  <!-- Title / Header -->
+  <div class="mb-4" *ngIf="!UserId">
+    <h3 class="text-lg font-bold text-[#7b1113] tracking-tight m-0">
+      User Registration
+    </h3>
+    <p class="text-xs text-slate-500 mt-1 m-0">
+      Fill in the details to register a new user account.
+    </p>
+  </div>
+
+  <div class="mb-4" *ngIf="UserId">
+    <h3 class="text-lg font-bold text-[#7b1113] tracking-tight m-0">
+      User Profile
+    </h3>
+    <p class="text-xs text-slate-500 mt-1 m-0">
+      Update your profile information.
+    </p>
+  </div>
+
+
+  <form (ngSubmit)="onSubmit()" #registrationForm="ngForm" class="space-y-4">
+    <!-- User Information Grid -->
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <!-- Full Name -->
+      <div class="flex flex-col">
+        <label for="regFullName" class="mb-1 text-xs font-semibold uppercase tracking-wider text-slate-700">
+          Full Name
+        </label>
+        <div class="relative">
+          <input
+            type="text"
+            id="regFullName"
+            class="w-full h-10 px-3.5 pr-9 rounded-xl border border-slate-200 text-sm font-medium text-slate-900 bg-slate-50/50 outline-none transition-all focus:bg-white focus:border-[#7b1113] focus:ring-4 focus:ring-[#7b1113]/10"
+            [(ngModel)]="FullName"
+            name="FullName"
+            required
+            minlength="3"
+            #fullNameInput="ngModel"
+            placeholder="e.g., Juan Dela Cruz"
+          />
+          <span
+            *ngIf="fullNameInput.valid && (fullNameInput.touched || fullNameInput.dirty)"
+            class="absolute right-3 top-1/2 -translate-y-1/2 text-emerald-600 select-none flex items-center"
+          >
+            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+            </svg>
+          </span>
+        </div>
+        <div class="text-red-600 text-xs font-medium mt-1 px-1" *ngIf="fullNameInput.invalid && (fullNameInput.touched || fullNameInput.dirty)">
+          <span *ngIf="fullNameInput.errors?.['required']">Full name is required.</span>
+          <span *ngIf="fullNameInput.errors?.['minlength']">Must be at least 3 characters.</span>
+        </div>
+      </div>
+
+      <!-- Email Address -->
+      <div class="flex flex-col">
+        <label for="regEmail" class="mb-1 text-xs font-semibold uppercase tracking-wider text-slate-700">
+          Email Address
+        </label>
+        <div class="relative">
+          <input
+            type="email"
+            id="regEmail"
+            class="w-full h-10 px-3.5 pr-9 rounded-xl border border-slate-200 text-sm font-medium text-slate-900 bg-slate-50/50 outline-none transition-all focus:bg-white focus:border-[#7b1113] focus:ring-4 focus:ring-[#7b1113]/10"
+            [(ngModel)]="Email"
+            name="Email"
+            [pattern]="emailPattern"
+            required
+            #emailInput="ngModel"
+            placeholder="username@up.edu.ph"
+          />
+          <span
+            *ngIf="emailInput.valid && (emailInput.touched || emailInput.dirty)"
+            class="absolute right-3 top-1/2 -translate-y-1/2 text-emerald-600 select-none flex items-center"
+          >
+            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+            </svg>
+          </span>
+        </div>
+        <div *ngIf="emailInput.invalid && (emailInput.touched || emailInput.dirty)" class="text-red-600 text-xs font-medium mt-1 px-1 space-y-0.5">
+          <div *ngIf="emailInput.errors?.['required']">Email is required.</div>
+          <div *ngIf="emailInput.errors?.['pattern']">Must be a valid &#64;up.edu.ph profile.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Passwords Section -->
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <!-- Password -->
+      <div class="flex flex-col">
+        <label for="regPassword" class="mb-1 text-xs font-semibold uppercase tracking-wider text-slate-700">
+          Password
+        </label>
+        <div class="relative">
+          <input
+            type="password"
+            id="regPassword"
+            class="w-full h-10 px-3.5 pr-9 rounded-xl border border-slate-200 text-sm font-medium text-slate-900 bg-slate-50/50 outline-none transition-all focus:bg-white focus:border-[#7b1113] focus:ring-4 focus:ring-[#7b1113]/10"
+            [(ngModel)]="password"
+            name="password"
+            [required]="!UserId"
+            [pattern]="passwordPattern"
+            minlength="8"
+            #passwordInput="ngModel"
+            placeholder="Enter password"
+          />
+          <span *ngIf="passwordInput.valid && (passwordInput.touched || passwordInput.dirty)" class="absolute right-3 top-1/2 -translate-y-1/2 text-emerald-600 select-none flex items-center">
+            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+            </svg>
+          </span>
+        </div>
+
+        <!-- Password Checklist -->
+        <div class="mt-2 space-y-1 text-xs select-none pl-1" *ngIf="password">
+          <p [ngClass]="hasUppercase(password) ? 'text-emerald-600 font-semibold' : 'text-slate-400'" class="flex items-center gap-1.5 transition-colors">
+            <span class="text-sm leading-none">{{ hasUppercase(password) ? '✓' : '•' }}</span> Uppercase letter
+          </p>
+          <p [ngClass]="hasLowercase(password) ? 'text-emerald-600 font-semibold' : 'text-slate-400'" class="flex items-center gap-1.5 transition-colors">
+            <span class="text-sm leading-none">{{ hasLowercase(password) ? '✓' : '•' }}</span> Lowercase letter
+          </p>
+          <p [ngClass]="hasNumber(password) ? 'text-emerald-600 font-semibold' : 'text-slate-400'" class="flex items-center gap-1.5 transition-colors">
+            <span class="text-sm leading-none">{{ hasNumber(password) ? '✓' : '•' }}</span> One number
+          </p>
+          <p [ngClass]="hasSpecialChar(password) ? 'text-emerald-600 font-semibold' : 'text-slate-400'" class="flex items-center gap-1.5 transition-colors">
+            <span class="text-sm leading-none">{{ hasSpecialChar(password) ? '✓' : '•' }}</span> Special character
+          </p>
+          <p [ngClass]="password.length >= 8 ? 'text-emerald-600 font-semibold' : 'text-slate-400'" class="flex items-center gap-1.5 transition-colors">
+            <span class="text-sm leading-none">{{ password.length >= 8 ? '✓' : '•' }}</span> Minimum 8 characters
+          </p>
+        </div>
+
+        <div class="text-red-600 text-xs font-medium mt-1 px-1" *ngIf="passwordInput.invalid && passwordInput.touched && !password">
+          <span *ngIf="passwordInput.errors?.['required']">Password is required.</span>
+        </div>
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="flex flex-col">
+        <label for="regConfirmPassword" class="mb-1 text-xs font-semibold uppercase tracking-wider text-slate-700">
+          Confirm Password
+        </label>
+        <div class="relative">
+          <input
+            type="password"
+            id="regConfirmPassword"
+            class="w-full h-10 px-3.5 pr-9 rounded-xl border border-slate-200 text-sm font-medium text-slate-900 bg-slate-50/50 outline-none transition-all focus:bg-white focus:border-[#7b1113] focus:ring-4 focus:ring-[#7b1113]/10"
+            [(ngModel)]="confirmPassword"
+            name="confirmPassword"
+            [required]="password ? password.length > 0 : false"
+            minlength="8"
+            #confirmPasswordInput="ngModel"
+            placeholder="Confirm password"
+          />
+   <span *ngIf="confirmPassword && confirmPasswordInput.valid && password === confirmPassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-emerald-600 select-none flex items-center">
+  <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+  </svg>
+</span>
+        </div>
+        <div class="text-red-600 text-xs font-medium mt-1 px-1 space-y-0.5" *ngIf="confirmPasswordInput.touched">
+          <div *ngIf="confirmPasswordInput.errors?.['required']">Confirm password is required.</div>
+          <div *ngIf="confirmPasswordInput.errors?.['minlength']">Password must be at least 8 characters.</div>
+          <div *ngIf="password !== confirmPassword && confirmPasswordInput.valid">Passwords do not match.</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="text-[11px] text-slate-400 italic" *ngIf="UserId">
+      * Leave password fields blank if you do not wish to change them.
+    </p>
+
+   
+<!-- Role Configuration -->
+<div class="flex flex-col pt-1">
+  <label class="mb-1.5 text-xs font-semibold uppercase tracking-wider text-slate-700">
+    Assign System Role
+  </label>
+  <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+    <div *ngFor="let role of roles" class="relative">
+      <input
+        class="peer sr-only"
+        type="radio"
+        name="Role"
+        [id]="'role-' + role.id"
+        [value]="role.id"
+        [(ngModel)]="RoleId"
+        required
+      />
+      <label
+        class="flex items-center justify-between py-2 px-3 text-xs font-medium text-slate-700 bg-white border border-slate-200 rounded-lg cursor-pointer transition-all peer-checked:border-[#7b1113] peer-checked:bg-[#7b1113]/5 peer-checked:text-[#7b1113] peer-checked:font-semibold hover:bg-slate-50"
+        [for]="'role-' + role.id"
+      >
+        <span class="truncate">{{ role.name === "Regular" ? "Regular Employee" : role.name === "COS" ? "JO/COS" : role.name }}</span>
+        
+        <!-- Outer Ring -->
+        <div 
+          class="w-3.5 h-3.5 border rounded-full flex items-center justify-center bg-white shrink-0 ml-1 transition-all"
+          [class.border-[#7b1113]]="RoleId == role.id"
+          [class.border-slate-300]="RoleId != role.id"
+        >
+          <!-- Inner Dot -->
+          <div 
+            *ngIf="RoleId == role.id" 
+            class="w-1.5 h-1.5 rounded-full bg-[#7b1113]"
+          ></div>
+        </div>
+      </label>
+    </div>
+  </div>
+  <div class="text-red-600 text-xs font-medium mt-1 px-1" *ngIf="registrationForm.submitted && !RoleId">
+    Please select a role.
+  </div>
+</div>
+
+    <!-- Form Action Buttons -->
+    <div class="pt-4 border-t border-slate-100 flex items-center justify-end">
+      <button
+        type="submit"
+        class="w-full sm:w-auto min-w-[160px] h-10 px-5 rounded-xl bg-[#7b1113] hover:bg-[#8c1417] text-white text-sm font-semibold shadow-xs active:scale-[0.98] transition-all cursor-pointer border-0 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2"
+        [disabled]="registrationForm.invalid || (password && password !== confirmPassword) || isLoading"
+      >
+        <svg *ngIf="isLoading" class="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span>
+          {{ isLoading ? "Processing..." : UserId ? "Save Changes" : "Send Verification Email" }}
+        </span>
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- OTP Verification Modal -->
+<div
+  *ngIf="showOtp && !UserId"
+  class="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 transition-opacity animate-fade-in"
+>
+  <div class="relative w-full max-w-md bg-white rounded-2xl border-t-4 border-amber-400 shadow-2xl p-6 sm:p-8">
+    <!-- Close Button -->
+    <button
+      type="button"
+      (click)="closeOtpModal()"
+      class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 hover:bg-slate-100 p-1.5 rounded-full transition-all border-0 bg-transparent cursor-pointer"
+      aria-label="Close modal"
+    >
+      <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+      </svg>
+    </button>
+
+    <!-- Header -->
+    <div class="text-center mb-6">
+      <div class="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center mx-auto mb-3 border border-amber-200/60">
+        <svg class="h-6 w-6 text-[#7b1113]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+        </svg>
+      </div>
+      <h3 class="text-lg font-bold text-slate-900 tracking-tight m-0">Security Verification</h3>
+      <p class="text-xs text-slate-500 mt-1.5 leading-relaxed m-0">
+        Enter the 6-digit code sent to<br />
+        <span class="font-semibold text-slate-800 break-all">{{ Email }}</span>
+      </p>
+    </div>
+
+    <!-- Error Banner -->
+    <div *ngIf="otpErrorMessage" class="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl flex items-start gap-2.5 text-red-700 text-xs font-medium">
+      <svg class="h-4 w-4 shrink-0 mt-0.5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+      </svg>
+      <span>{{ otpErrorMessage }}</span>
+    </div>
+
+    <!-- Success Banner -->
+    <div *ngIf="otpSuccessMessage" class="mb-4 p-3 bg-emerald-50 border border-emerald-200 rounded-xl flex items-start gap-2.5 text-emerald-700 text-xs font-medium">
+      <svg class="h-4 w-4 shrink-0 mt-0.5 text-emerald-500" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+      </svg>
+      <span>{{ otpSuccessMessage }}</span>
+    </div>
+
+    <!-- OTP Input Box Grid -->
+    <div class="flex justify-between gap-1.5 sm:gap-2 my-6">
+      <input
+        *ngFor="let digit of otpDigits; let i = index; trackBy: trackByIndex"
+        #otpBox
+        type="text"
+        class="w-10 sm:w-12 h-12 text-center text-lg font-bold border rounded-xl bg-slate-50/50 text-slate-800 transition-all focus:bg-white focus:outline-none disabled:opacity-50"
+        [disabled]="isLoading"
+        [ngClass]="{
+          'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10': otpErrorMessage,
+          'border-emerald-300 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10': otpSuccessMessage,
+          'border-slate-200 focus:border-[#7b1113] focus:ring-4 focus:ring-[#7b1113]/10': !otpErrorMessage && !otpSuccessMessage
+        }"
+        maxlength="1"
+        inputmode="numeric"
+        autocomplete="one-time-code"
+        [value]="otpDigits[i]"
+        (input)="onOtpInput($event, i)"
+        (keyup)="onOtpKeyUp($event, i)"
+        (keydown)="onOtpKeyDown($event, i)"
+        (paste)="onOtpPaste($event)"
+      />
+    </div>
+
+    <!-- Resend Code -->
+    <div class="text-center mb-6">
+      <p class="text-xs text-slate-500 m-0">
+        Didn't receive the code?
+        <button
+          type="button"
+          (click)="resendOtp()"
+          [disabled]="resendCountdown > 0 || isLoading"
+          class="font-semibold text-[#7b1113] hover:underline disabled:text-slate-400 disabled:no-underline border-0 bg-transparent cursor-pointer transition-colors"
+        >
+          {{ resendCountdown > 0 ? "Resend in " + resendCountdown + "s" : "Resend Code" }}
+        </button>
+      </p>
+    </div>
+
+    <!-- Modal Actions -->
+    <div class="space-y-2">
+      <button
+        type="button"
+        (click)="closeOtpModal()"
+        class="w-full h-9 rounded-xl bg-slate-100 hover:bg-slate-200/70 text-slate-600 text-xs font-semibold transition-all border-0 cursor-pointer"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>

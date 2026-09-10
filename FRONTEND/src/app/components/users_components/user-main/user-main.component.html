@@ -1,0 +1,135 @@
+<!-- <div class="min-h-screen flex flex-col bg-gray-50/50">
+  
+  <app-user-header class="sticky top-0 left-0 right-0 z-[1030]"></app-user-header>
+
+  <main class="flex-grow container mx-auto pt-24 pb-16 px-6 flex items-center justify-center">
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl w-full items-stretch">
+      
+      <div class="card text-center p-8 bg-white rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.06)] border border-gray-50 flex flex-col justify-between h-full transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)]">
+        <div class="flex flex-col items-center">
+          <div class="mb-4 flex justify-center p-3 bg-gray-50 rounded-full">
+            <img src="assets/img/ost-logo.png" alt="Ticket Icon" class="w-16 h-16 object-contain" />
+          </div>
+          <h4 class="text-xl font-bold mb-3 text-gray-800 tracking-tight">Open a Ticket</h4>
+          <p class="text-gray-500 text-sm md:min-h-[48px] px-2 flex items-center justify-center leading-relaxed">
+            Post queries and/or concerns about our services
+          </p>
+        </div>
+        <a class="btn-primary inline-block text-center mt-6 w-full p-3.5 text-sm font-bold text-white rounded-xl cursor-pointer transition-all duration-300 bg-gradient-to-r from-[#4a1212] to-[#11311c] hover:opacity-90 tracking-wide shadow-md hover:shadow-lg" routerLink="/crtticket">
+          Open a New Ticket
+        </a>
+      </div>
+
+      <div class="card text-center p-8 bg-white rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.06)] border border-gray-50 flex flex-col justify-between h-full transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)]">
+        <div class="flex flex-col items-center">
+          <div class="mb-4 flex justify-center p-3 bg-gray-50 rounded-full">
+            <img src="assets/img/ost-logo.png" alt="Search Icon" class="w-16 h-16 object-contain" />
+          </div>
+          <h4 class="text-xl font-bold mb-3 text-gray-800 tracking-tight">Check a Ticket</h4>
+          <p class="text-gray-500 text-sm md:min-h-[48px] px-2 flex items-center justify-center leading-relaxed">
+            Follow-up on a previously posted ticket, or on matters that have been reported
+          </p>
+        </div>
+        <a routerLink="/viewticket" class="btn-primary inline-block text-center mt-6 w-full p-3.5 text-sm font-bold text-white rounded-xl cursor-pointer transition-all duration-300 bg-gradient-to-r from-[#4a1212] to-[#11311c] hover:opacity-90 tracking-wide shadow-md hover:shadow-lg">
+          Check Ticket Status
+        </a>
+      </div>
+
+      <div class="card text-center p-8 bg-white rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.06)] border border-gray-50 flex flex-col justify-between h-full transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)]">
+        <div class="flex flex-col items-center">
+          <div class="mb-4 flex justify-center p-3 bg-gray-50 rounded-full">
+            <img src="assets/img/ost-logo.png" alt="Ticket Icon" class="w-16 h-16 object-contain" />
+          </div>
+          <h4 class="text-xl font-bold mb-3 text-gray-800 tracking-tight">Webinar schedules</h4>
+          <p class="text-gray-500 text-sm md:min-h-[48px] px-2 flex items-center justify-center leading-relaxed">
+            View Webinar Schedule
+          </p>
+        </div>
+        <a class="btn-primary inline-block text-center mt-6 w-full p-3.5 text-sm font-bold text-white rounded-xl cursor-pointer transition-all duration-300 bg-gradient-to-r from-[#4a1212] to-[#11311c] hover:opacity-90 tracking-wide shadow-md hover:shadow-lg" routerLink="/zoomSchedule">
+          View Webinar Schedule
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="bg-white border-t border-gray-100 py-4 text-center text-xs text-gray-400">
+    © 2026 Helpdesk System. All rights reserved.
+  </footer>
+
+</div>
+
+<button class="top-btn fixed z-[1000] bg-white hover:bg-gray-50 shadow-xl rounded-full border border-gray-100 outline-none text-black/60 cursor-pointer group bottom-24 right-6 p-2 transition-all duration-300 md:bottom-6 md:right-6 hover:scale-105">
+
+</button>
+ -->
+
+ <div class="min-h-screen flex flex-col bg-gray-50/50">
+  
+  <app-user-header class="sticky top-0 left-0 right-0 z-[1030]"></app-user-header>
+
+  <main class="flex-grow container mx-auto pt-24 pb-16 px-6 flex items-center justify-center">
+    
+    <!-- Dynamic grid columns: 2 columns for students, 3 for non-students -->
+    <div 
+      class="grid grid-cols-1 gap-8 max-w-6xl w-full items-stretch"
+      [ngClass]="isStudent ? 'md:grid-cols-2' : 'md:grid-cols-3'"
+    >
+      
+      <!-- Open a Ticket Card -->
+      <div class="card text-center p-8 bg-white rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.06)] border border-gray-50 flex flex-col justify-between h-full transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)]">
+        <div class="flex flex-col items-center">
+          <div class="mb-4 flex justify-center p-3 bg-gray-50 rounded-full">
+            <img src="assets/img/ost-logo.png" alt="Ticket Icon" class="w-16 h-16 object-contain" />
+          </div>
+          <h4 class="text-xl font-bold mb-3 text-gray-800 tracking-tight">Open a Ticket</h4>
+          <p class="text-gray-500 text-sm md:min-h-[48px] px-2 flex items-center justify-center leading-relaxed">
+            Post queries and/or concerns about our services
+          </p>
+        </div>
+        <a class="btn-primary inline-block text-center mt-6 w-full p-3.5 text-sm font-bold text-white rounded-xl cursor-pointer transition-all duration-300 bg-gradient-to-r from-[#4a1212] to-[#11311c] hover:opacity-90 tracking-wide shadow-md hover:shadow-lg" routerLink="/crtticket">
+          Open a New Ticket
+        </a>
+      </div>
+
+      <!-- Check a Ticket Card -->
+      <div class="card text-center p-8 bg-white rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.06)] border border-gray-50 flex flex-col justify-between h-full transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)]">
+        <div class="flex flex-col items-center">
+          <div class="mb-4 flex justify-center p-3 bg-gray-50 rounded-full">
+            <img src="assets/img/ost-logo.png" alt="Search Icon" class="w-16 h-16 object-contain" />
+          </div>
+          <h4 class="text-xl font-bold mb-3 text-gray-800 tracking-tight">Check a Ticket</h4>
+          <p class="text-gray-500 text-sm md:min-h-[48px] px-2 flex items-center justify-center leading-relaxed">
+            Follow-up on a previously posted ticket, or on matters that have been reported
+          </p>
+        </div>
+        <a routerLink="/viewticket" class="btn-primary inline-block text-center mt-6 w-full p-3.5 text-sm font-bold text-white rounded-xl cursor-pointer transition-all duration-300 bg-gradient-to-r from-[#4a1212] to-[#11311c] hover:opacity-90 tracking-wide shadow-md hover:shadow-lg">
+          Check Ticket Status
+        </a>
+      </div>
+
+      <!-- Webinar Schedules Card (Hidden for Students) -->
+      <div *ngIf="!isStudent" class="card text-center p-8 bg-white rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.06)] border border-gray-50 flex flex-col justify-between h-full transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)]">
+        <div class="flex flex-col items-center">
+          <div class="mb-4 flex justify-center p-3 bg-gray-50 rounded-full">
+            <img src="assets/img/ost-logo.png" alt="Ticket Icon" class="w-16 h-16 object-contain" />
+          </div>
+          <h4 class="text-xl font-bold mb-3 text-gray-800 tracking-tight">Webinar schedules</h4>
+          <p class="text-gray-500 text-sm md:min-h-[48px] px-2 flex items-center justify-center leading-relaxed">
+            View Webinar Schedule
+          </p>
+        </div>
+        <a class="btn-primary inline-block text-center mt-6 w-full p-3.5 text-sm font-bold text-white rounded-xl cursor-pointer transition-all duration-300 bg-gradient-to-r from-[#4a1212] to-[#11311c] hover:opacity-90 tracking-wide shadow-md hover:shadow-lg" routerLink="/zoomSchedule">
+          View Webinar Schedule
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="bg-white border-t border-gray-100 py-4 text-center text-xs text-gray-400">
+    © 2026 Helpdesk System. All rights reserved.
+  </footer>
+
+</div>

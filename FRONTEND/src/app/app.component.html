@@ -1,0 +1,137 @@
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="square-jelly-box"
+  [fullScreen]="true"
+  [zIndex]="9999"
+>
+  <p style="color: white; font-weight: bold">Loading...</p>
+</ngx-spinner>
+
+<router-outlet></router-outlet>
+
+<!-- ========================= -->
+<!-- 🤖 AI ASSISTANT PANEL -->
+<!-- ========================= -->
+
+<!-- FLOATING AI PANEL INSIDE VIEW-TICKET -->
+<div *ngIf="showAiAssistant">
+  <div class="ai-floating-panel" [class.open]="aiOpen">
+    <mat-card class="ai-card">
+      <!-- HEADER -->
+      <div class="ai-header">
+        <!-- <mat-icon color="primary">smart_toy</mat-icon> -->
+        <span class="ai-avatar">
+          <img
+            src="assets/img/ai-avatar.png"
+            class="ai-icon-hello"
+            alt="ITGenie"
+        /></span>
+        <h2>iGenie AI Assistant</h2>
+        <button mat-icon-button (click)="toggleAiAssistant()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <!-- CHAT AREA -->
+      <div class="chat-box" #chatBox>
+        <div
+          class="chat-message"
+          *ngFor="let chat of chatHistory"
+          [ngClass]="chat.sender"
+        >
+          <!-- User icon -->
+          <div *ngIf="chat.sender === 'user'">
+            <mat-icon>person</mat-icon>
+          </div>
+
+          <!-- AI icon -->
+          <div *ngIf="chat.sender === 'ai'">
+            <img
+              src="assets/img/ai-avatar-msg.png"
+              class="ai-icon-hello"
+              alt="ITGenie"
+            />
+          </div>
+          <div
+            class="bubble"
+            [ngClass]="{
+              'ai-response': chat.sender === 'ai',
+              typing: chat.message.includes('analyzing'),
+            }"
+          >
+            {{ chat.message }}
+            <ng-container *ngIf="chat.message.includes('analyzing')">
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <!-- INPUT -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Describe your issue</mat-label>
+        <textarea matInput rows="3" [(ngModel)]="issueDesc"></textarea>
+      </mat-form-field>
+
+      <!-- BUTTON -->
+      <button
+        mat-raised-button
+        color="primary"
+        *ngIf="!loading"
+        (click)="analyzeIssue()"
+      >
+        <mat-icon>send</mat-icon>
+        Analyze Issue
+      </button>
+
+      <button
+        mat-raised-button
+        color="warn"
+        *ngIf="loading"
+        (click)="stopAnalysis()"
+      >
+        <mat-icon>stop</mat-icon>
+        Stop
+      </button>
+    </mat-card>
+  </div>
+
+  <!-- TOGGLE BUTTON -->
+
+  <!-- <button class="ai-float-btn" (click)="toggleAiAssistant()">
+
+  <mat-icon *ngIf="!aiOpen">smart_toy</mat-icon>
+  <mat-icon *ngIf="aiOpen">close</mat-icon>
+
+  <div class="ai-tooltip">
+    Hello! I'm <b>ITGenie</b>🤖<br>
+    Your technical support assistant.
+  </div>
+
+</button> -->
+  <button class="ai-float-btn" (click)="toggleAiAssistant()">
+    <!-- AI Icon -->
+    <img
+      *ngIf="!aiOpen"
+      src="assets/img/ai-avatar.png"
+      class="ai-icon"
+      alt="ITGenie"
+    />
+
+    <!-- Close Icon -->
+    <mat-icon *ngIf="aiOpen">close</mat-icon>
+
+    <div class="ai-tooltip">
+      <img
+        src="assets/img/ai-avatar.png"
+        class="ai-icon-hello"
+        alt="ITGenie"
+      />Hello! I'm <b>iGenie</b><br />
+      Your technical support assistant.
+    </div>
+  </button>
+</div>

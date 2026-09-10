@@ -1,0 +1,516 @@
+<div class="container-fluid p-4 relative min-h-[400px]">
+  <!-- Loading Spinner Overlay -->
+  <div
+    *ngIf="isLoading"
+    class="absolute inset-0 z-[60] bg-white/70 backdrop-blur-sm flex flex-col items-center justify-center gap-3"
+  >
+    <mat-spinner diameter="50" color="primary"></mat-spinner>
+    <span class="text-sm font-medium text-slate-600">Loading tickets...</span>
+  </div>
+
+  <!-- Styled Header Card Container (Admin View) -->
+<div class="bg-slate-50/50 border border-slate-200/80 rounded-2xl p-3.5 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-6 w-full max-w-full min-w-0 overflow-hidden">
+  <!-- Title Section -->
+  <div class="min-w-0 shrink">
+    <h1 class="text-base sm:text-xl text-[#7b1113] font-bold tracking-tight flex items-center justify-start gap-2 truncate">
+      Ticket Requests
+    </h1>
+    <p class="text-[11px] sm:text-xs text-slate-500 mt-0.5 mb-0 truncate">
+      Manage, assign, and track all incoming support inquiries
+    </p>
+  </div>
+
+  <!-- Actions Button & Dropdown Menu -->
+  <div class="flex items-center sm:justify-end shrink-0">
+    <button
+      mat-raised-button
+      color="primary"
+      [matMenuTriggerFor]="menu"
+      class="!rounded-xl py-1.5 px-3.5 shadow-xs text-xs font-semibold h-9"
+    >
+      <mat-icon class="!w-4 !h-4 !text-base mr-1">settings</mat-icon>
+      <span>Actions</span>
+    </button>
+
+    <mat-menu #menu="matMenu" xPosition="before" class="!rounded-2xl">
+      <!-- Stop propagation prevents input clicks from prematurely closing the menu -->
+      <div class="px-4 py-3 w-64 max-w-[calc(100vw-32px)]" (click)="$event.stopPropagation()">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>From</mat-label>
+          <input
+            matInput
+            [matDatepicker]="pickerFrom"
+            [(ngModel)]="filterDate.from"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="pickerFrom"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #pickerFrom></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full mt-2">
+          <mat-label>To</mat-label>
+          <input
+            matInput
+            [matDatepicker]="pickerTo"
+            [(ngModel)]="filterDate.to"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="pickerTo"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #pickerTo></mat-datepicker>
+        </mat-form-field>
+
+        <div class="flex justify-end gap-2 mt-2">
+          <button mat-button color="primary" (click)="applyDateFilter()">
+            Apply
+          </button>
+          <button mat-button (click)="clearDateFilter()">Clear</button>
+        </div>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <button mat-menu-item (click)="toggleResolved()">
+        <mat-icon>visibility</mat-icon>
+        <span>{{ showResolved ? "View Pending" : "View Resolved" }}</span>
+      </button>
+      
+      <button
+        mat-menu-item
+        (click)="downloadCSV()"
+        [disabled]="dataSource.data.length === 0"
+        class="!flex items-center text-slate-700 disabled:text-slate-400"
+      >
+        <mat-icon class="text-slate-600 mr-2">download</mat-icon>
+        <span class="font-medium">Download CSV Report</span>
+      </button>
+    </mat-menu>
+  </div>
+</div>
+
+  <div class="w-full" *ngIf="!isLoading">
+    <!-- Desktop Table View -->
+    <div class="hidden md:block w-full">
+      <div
+        class="mat-elevation-z8 w-full bg-white rounded-xl overflow-hidden flex flex-col"
+      >
+        <!-- Scrollable Table Container -->
+        <div class="w-full max-h-[500px] overflow-y-auto relative">
+          <table mat-table [dataSource]="dataSource" matSort class="w-full">
+            <ng-container matColumnDef="TicketNumber">
+              <th mat-header-cell *matHeaderCellDef>Ticket #</th>
+              <td mat-cell *matCellDef="let dataItem" class="font-medium">
+                {{ dataItem.TicketNumber }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="RequestDate">
+              <th mat-header-cell *matHeaderCellDef>Request Date</th>
+              <td mat-cell *matCellDef="let dataItem">
+                {{ dataItem.RequestDate | date: "MM-dd-yyyy HH:mm:ss" }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="FullName">
+              <th mat-header-cell *matHeaderCellDef>Client</th>
+              <td mat-cell *matCellDef="let dataItem">
+                {{ dataItem.FullName }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="HelpTopic">
+              <th mat-header-cell *matHeaderCellDef>Help Topic</th>
+              <td mat-cell *matCellDef="let dataItem">
+                {{ dataItem.HelpTopic }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="PriorityLevel">
+              <th mat-header-cell *matHeaderCellDef>Priority</th>
+              <td
+                mat-cell
+                *matCellDef="let dataItem"
+                class="font-bold"
+                [ngClass]="{
+                  'text-green-600': dataItem.PriorityLevel === 'Low',
+                  'text-orange-500': dataItem.PriorityLevel === 'Medium',
+                  'text-red-600': dataItem.PriorityLevel === 'High',
+                }"
+              >
+                {{ dataItem.PriorityLevel }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="CurrentStatus">
+              <th mat-header-cell *matHeaderCellDef>Status</th>
+              <td mat-cell *matCellDef="let dataItem">
+                {{ dataItem.CurrentStatus }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="DueDate">
+              <th mat-header-cell *matHeaderCellDef>Due Date</th>
+              <td mat-cell *matCellDef="let dataItem">
+                {{ dataItem.DueDate | date: "MM-dd-yyyy HH:mm:ss" }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Agent">
+              <th mat-header-cell *matHeaderCellDef>Agent</th>
+              <td mat-cell *matCellDef="let dataItem" class="py-1">
+                <mat-form-field appearance="outline" class="w-36 !mb-0">
+                  <mat-select
+                    [(ngModel)]="dataItem.AgentAssigned"
+                    (selectionChange)="assignAgentToTicket(dataItem)"
+                  >
+                    <mat-option
+                      *ngFor="let agent of agents"
+                      [value]="agent.Email"
+                    >
+                      {{ agent.FullName }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Overdue">
+              <th mat-header-cell *matHeaderCellDef>Overdue</th>
+              <td mat-cell *matCellDef="let dataItem">
+                {{ dataItem.Overdue ? "Yes" : "No" }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="SLA">
+              <th mat-header-cell *matHeaderCellDef>SLA Timer</th>
+              <td mat-cell *matCellDef="let dataItem">
+                <span
+                  class="font-semibold"
+                  [ngClass]="{
+                    'text-green-600': getSlaClass(dataItem) === 'sla-normal',
+                    'text-orange-500': getSlaClass(dataItem) === 'sla-warning',
+                    'text-red-600 font-bold':
+                      getSlaClass(dataItem) === 'sla-overdue',
+                  }"
+                >
+                  {{ getRemainingTime(dataItem) }}
+                </span>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Actions">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let dataItem">
+                <div class="flex items-center flex-wrap gap-2">
+                  <button
+                    mat-stroked-button
+                    color="primary"
+                    (click)="openTicketDetails(dataItem)"
+                  >
+                    View
+                  </button>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Sticky Header to ensure headers remain visible during scroll -->
+            <tr
+              mat-header-row
+              *matHeaderRowDef="displayedColumns"
+              class="sticky top-0 z-20 bg-white shadow-sm"
+            ></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+            <tr class="mat-row" *matNoDataRow>
+              <td
+                class="mat-cell text-center py-16"
+                [attr.colspan]="displayedColumns.length"
+              >
+                <div
+                  class="flex flex-col items-center justify-center gap-3 text-gray-400"
+                >
+                  <mat-icon class="!h-16 !w-16 text-6xl text-gray-300"
+                    >drafts</mat-icon
+                  >
+                  <div class="text-lg font-semibold text-gray-700">
+                    No tickets found
+                  </div>
+                  <p class="text-sm text-gray-500 max-w-sm mx-auto">
+                    It looks like there are no tickets matching your current
+                    filter view. Try adjusting the date range or filters.
+                  </p>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- Paginator stays at the bottom outside the scroll area -->
+        <mat-paginator
+          [pageSizeOptions]="[5, 10, 25]"
+          showFirstLastButtons
+        ></mat-paginator>
+      </div>
+    </div>
+
+    <!-- Mobile View -->
+    <div class="block md:hidden space-y-4">
+      <div
+        *ngIf="dataSource.filteredData.length === 0"
+        class="bg-white rounded-xl p-12 border border-gray-200 shadow-sm text-center"
+      >
+        <div
+          class="flex flex-col items-center justify-center gap-3 text-gray-400"
+        >
+          <mat-icon class="!h-14 !w-14 text-5xl text-gray-300">drafts</mat-icon>
+          <div class="text-base font-semibold text-gray-700">
+            No tickets found
+          </div>
+          <p class="text-xs text-gray-500 max-w-xs mx-auto">
+            Try modifying your date ranges or selection criteria.
+          </p>
+        </div>
+      </div>
+
+      <div
+        class="bg-white rounded-xl p-4 border border-gray-200 shadow-sm"
+        *ngFor="let dataItem of dataSource.filteredData"
+      >
+        <div class="flex justify-between items-start gap-2.5 mb-2.5">
+          <div>
+            <div class="font-bold text-base text-gray-900">
+              Ticket #{{ dataItem.TicketNumber }}
+            </div>
+            <div class="text-xs text-gray-500">
+              {{ dataItem.RequestDate | date: "MM-dd-yyyy HH:mm:ss" }}
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-2 text-sm">
+          <div class="flex flex-wrap gap-1.5">
+            <span class="font-semibold text-gray-700">Client:</span>
+            <span class="text-gray-900">{{ dataItem.FullName }}</span>
+          </div>
+
+          <div class="flex flex-wrap gap-1.5">
+            <span class="font-semibold text-gray-700">Topic:</span>
+            <span class="text-gray-900">{{ dataItem.HelpTopic }}</span>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2.5 my-1">
+            <span
+              class="px-2.5 py-1 rounded-full text-xs font-semibold"
+              [ngClass]="{
+                'bg-green-50 text-green-700': dataItem.PriorityLevel === 'Low',
+                'bg-orange-50 text-orange-700':
+                  dataItem.PriorityLevel === 'Medium',
+                'bg-red-50 text-red-700': dataItem.PriorityLevel === 'High',
+              }"
+            >
+              {{ dataItem.PriorityLevel }}
+            </span>
+
+            <span
+              class="px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-800"
+            >
+              {{ dataItem.CurrentStatus }}
+            </span>
+          </div>
+
+          <div class="w-full max-w-xs my-1">
+            <mat-form-field appearance="outline" class="w-full !mb-0">
+              <mat-select
+                [(ngModel)]="dataItem.AgentAssigned"
+                (selectionChange)="assignAgentToTicket(dataItem)"
+              >
+                <mat-option *ngFor="let agent of agents" [value]="agent.Email">
+                  {{ agent.FullName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="flex flex-wrap gap-1.5">
+            <span class="font-semibold text-gray-700">Office/Unit:</span>
+            <span class="text-gray-900">{{ dataItem.Location }}</span>
+          </div>
+
+          <div class="flex flex-wrap gap-1.5">
+            <span class="font-semibold text-gray-700">Due:</span>
+            <span class="text-gray-900">
+              {{ dataItem.DueDate | date: "MM-dd-yyyy HH:mm:ss" }}
+            </span>
+          </div>
+
+          <div class="flex flex-wrap gap-1.5">
+            <span class="font-semibold text-gray-700">Overdue:</span>
+            <span class="text-gray-900">{{
+              dataItem.Overdue ? "Yes" : "No"
+            }}</span>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-2.5 mt-3">
+          <button
+            class="w-full min-w-[120px]"
+            mat-stroked-button
+            color="primary"
+            (click)="openTicketDetails(dataItem)"
+          >
+            View
+          </button>
+        </div>
+        
+      </div>
+ 
+
+    </div>
+      <button 
+  *ngIf="showScrollTop"
+  (click)="scrollToTop()" 
+  class="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[1000] bg-slate-800 text-white p-3 rounded-full shadow-lg hover:bg-slate-700 active:scale-95 transition-all flex items-center justify-center border-none cursor-pointer"
+  aria-label="Scroll to top"
+>
+  <mat-icon class="!w-6 !h-6 !text-[24px]">arrow_upward</mat-icon>
+</button>
+  </div>
+
+
+</div>
+
+<!-- Custom Modal Details View -->
+<div
+  *ngIf="selectedTicket"
+  class="fixed inset-0 z-[150] flex items-center justify-center p-4 overflow-hidden"
+>
+  <div
+    class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity"
+    (click)="closeTicketDetailsModal()"
+  ></div>
+  <div
+    class="relative z-10 w-full max-w-lg bg-white rounded-2xl overflow-hidden shadow-2xl border flex flex-col max-h-[90vh]"
+  >
+    <div
+      class="bg-[#800000] text-white flex justify-between items-center px-6 py-4 shrink-0"
+    >
+      <h4
+        class="flex items-center gap-2 font-semibold m-0 text-base tracking-wide"
+      >
+        <mat-icon class="!w-5 !h-5 flex items-center justify-center"
+          >assignment</mat-icon
+        >
+        Ticket #{{ selectedTicket?.TicketNumber }} Details
+      </h4>
+      <button
+        type="button"
+        class="border-none bg-transparent text-2xl text-white cursor-pointer leading-none hover:opacity-80 outline-none"
+        (click)="closeTicketDetailsModal()"
+      >
+        &times;
+      </button>
+    </div>
+
+    <div class="p-6 bg-white overflow-y-auto space-y-4 text-sm text-gray-700">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <span
+            class="block text-xs font-semibold text-gray-400 uppercase tracking-wider"
+            >Client</span
+          >
+          <span class="text-gray-900 font-medium">{{
+            selectedTicket?.FullName
+          }}</span>
+        </div>
+        <div>
+          <span
+            class="block text-xs font-semibold text-gray-400 uppercase tracking-wider"
+            >Help Topic</span
+          >
+          <span class="text-gray-900 font-medium">{{
+            selectedTicket?.HelpTopic
+          }}</span>
+        </div>
+        <div>
+          <span
+            class="block text-xs font-semibold text-gray-400 uppercase tracking-wider"
+            >Date Requested</span
+          >
+          <span class="text-gray-900 font-medium">{{
+            selectedTicket?.RequestDate | date: "MM-dd-yyyy HH:mm:ss"
+          }}</span>
+        </div>
+        <div>
+          <span
+            class="block text-xs font-semibold text-gray-400 uppercase tracking-wider"
+            >Target Due Date</span
+          >
+          <span class="text-gray-900 font-medium">{{
+            selectedTicket?.DueDate | date: "MM-dd-yyyy HH:mm:ss"
+          }}</span>
+        </div>
+        <div>
+          <span
+            class="block text-xs font-semibold text-gray-400 uppercase tracking-wider"
+            >Priority Level</span
+          >
+          <span
+            class="inline-block px-2 py-0.5 rounded text-xs font-bold mt-0.5"
+            [ngClass]="{
+              'bg-green-50 text-green-700':
+                selectedTicket?.PriorityLevel === 'Low',
+              'bg-orange-50 text-orange-700':
+                selectedTicket?.PriorityLevel === 'Medium',
+              'bg-red-50 text-red-700':
+                selectedTicket?.PriorityLevel === 'High',
+            }"
+          >
+            {{ selectedTicket?.PriorityLevel }}
+          </span>
+        </div>
+        <div>
+          <span
+            class="block text-xs font-semibold text-gray-400 uppercase tracking-wider"
+            >Current Status</span
+          >
+          <span class="text-gray-900 font-medium">{{
+            selectedTicket?.CurrentStatus
+          }}</span>
+        </div>
+        <div>
+          <span
+            class="block text-xs font-semibold text-gray-400 uppercase tracking-wider"
+            >Office / Course</span
+          >
+          <span class="text-gray-900 font-medium">{{
+            selectedTicket?.Location || "Not Specified"
+          }}</span>
+        </div>
+        <div>
+          <span
+            class="block text-xs font-semibold text-gray-400 uppercase tracking-wider"
+            >Overdue Status</span
+          >
+          <span class="text-gray-900 font-medium">{{
+            selectedTicket?.Overdue ? "Yes" : "No"
+          }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="bg-gray-50 border-t border-gray-100 px-6 py-3.5 flex justify-end shrink-0"
+    >
+      <button
+        type="button"
+        class="px-4 py-2 border border-gray-300 text-gray-700 text-xs font-semibold rounded-lg bg-white shadow-sm hover:bg-gray-50 transition-all cursor-pointer outline-none"
+        (click)="closeTicketDetailsModal()"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+</div>

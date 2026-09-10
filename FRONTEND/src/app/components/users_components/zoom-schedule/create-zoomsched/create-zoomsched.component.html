@@ -1,0 +1,513 @@
+<div class="mx-auto my-6 max-w-2xl rounded-2xl bg-white p-6 shadow-xl border border-slate-100 transition-all duration-300" [class.animate-shake]="isSubmitted && zoomForm.invalid">
+  
+  <h3 class="mb-6 text-xl font-bold tracking-tight text-slate-800 sm:text-2xl">
+    {{ isEditMode ? "Edit Zoom Schedule" : "Create Zoom Schedule" }}
+  </h3>
+
+  <form #zoomForm="ngForm" (ngSubmit)="saveSchedule(zoomForm)" [class.is-submitted]="isSubmitted" novalidate>
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+      
+      <div class="flex flex-col relative group">
+        <div class="flex justify-between items-center mb-1.5 min-h-[20px]">
+          <label class="text-xs font-semibold text-slate-600">Zoom Topic</label>
+          <span *ngIf="activityName.valid && formData.activityName" class="h-5 w-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-sm animate-scaleIn">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path></svg>
+          </span>
+        </div>
+        <input
+          type="text"
+          placeholder="e.g., Q3 Project Review"
+          [(ngModel)]="formData.activityName"
+          name="activityName"
+          #activityName="ngModel"
+          required
+          [class.border-rose-300]="(activityName.touched || isSubmitted) && activityName.invalid"
+          [class.focus:ring-rose-100]="(activityName.touched || isSubmitted) && activityName.invalid"
+          class="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-sm text-slate-800 placeholder-slate-400 outline-none transition-all focus:border-slate-400 focus:ring-2 focus:ring-slate-100"
+        />
+        <div class="mt-1.5 flex items-center gap-1.5 text-xs font-medium text-rose-500" *ngIf="(activityName.touched || isSubmitted) && activityName.invalid">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"></path></svg>
+          Topic is required
+        </div>
+      </div>
+
+ <div class="flex flex-col relative group">
+  <!-- Label & Success Indicator Header -->
+  <div class="flex justify-between items-center mb-1.5 min-h-[20px]">
+    <label class="text-xs font-bold text-slate-700 tracking-wide block">
+      Zoom Type
+    </label>
+    <span
+      *ngIf="setupType.valid && formData.setupType"
+      class="h-5 w-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-sm animate-scaleIn"
+    >
+      <svg
+        class="w-3 h-3"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="3"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M4.5 12.75l6 6 9-13.5"
+        ></path>
+      </svg>
+    </span>
+  </div>
+
+  <!-- Searchable ng-select -->
+  <ng-select
+    name="setupType"
+    #setupType="ngModel"
+    [(ngModel)]="formData.setupType"
+    [items]="['Meeting', 'Webinar']"
+    placeholder="Select Type"
+    required
+    [searchable]="true"
+    [clearable]="true"
+    [class.is-invalid]="(setupType.touched || isSubmitted) && setupType.invalid"
+    class="w-full text-sm
+      [&_.ng-select-container]:!min-h-[42px]
+      [&_.ng-select-container]:!h-auto
+      [&_.ng-select-container]:!bg-white
+      [&_.ng-select-container]:!border
+      [&_.ng-select-container]:!border-slate-200
+      [&_.ng-select-container]:!rounded-xl
+      [&_.ng-select-container]:!px-3.5
+      [&_.ng-select-container]:!py-1
+      [&_.ng-select-container]:!shadow-none
+      [&_.ng-select-container]:!flex
+      [&_.ng-select-container]:!items-center
+      hover:[&_.ng-select-container]:!border-slate-300
+      [&.ng-select-focused_.ng-select-container]:!border-red-800
+      [&.ng-select-focused_.ng-select-container]:!ring-4
+      [&.ng-select-focused_.ng-select-container]:!ring-red-800/5
+      [&.is-invalid_.ng-select-container]:!border-rose-400
+      [&.is-invalid_.ng-select-container]:!bg-rose-50/10
+      [&_.ng-value-container]:!p-0
+      [&_.ng-value-container]:!flex
+      [&_.ng-value-container]:!items-center
+      [&_.ng-placeholder]:!text-slate-400
+      [&_.ng-placeholder]:!top-auto
+      [&_.ng-input]:!top-auto
+      [&_.ng-input]:!pl-0
+      [&_.ng-dropdown-panel]:!mt-1.5
+      [&_.ng-dropdown-panel]:!bg-white
+      [&_.ng-dropdown-panel]:!border
+      [&_.ng-dropdown-panel]:!border-slate-200
+      [&_.ng-dropdown-panel]:!rounded-xl
+      [&_.ng-dropdown-panel]:!shadow-xl
+      [&_.ng-dropdown-panel]:!overflow-hidden
+      [&_.ng-dropdown-panel-items]:!p-1.5
+      [&_.ng-option]:!px-3
+      [&_.ng-option]:!py-2.5
+      [&_.ng-option]:!rounded-lg
+      [&_.ng-option]:!text-slate-700
+      [&_.ng-option]:!text-xs
+      [&_.ng-option]:!whitespace-normal
+      [&_.ng-option]:!break-words
+      [&_.ng-option-marked]:!bg-slate-100"
+  >
+  </ng-select>
+
+  <!-- Error Message -->
+  <div
+    class="mt-1.5 flex items-center gap-1.5 text-xs font-medium text-rose-600 animate-fadeIn"
+    *ngIf="(setupType.touched || isSubmitted) && setupType.invalid"
+  >
+    <svg
+      class="w-3.5 h-3.5 flex-shrink-0"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.5"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+      ></path>
+    </svg>
+    Zoom Type is required
+  </div>
+</div>
+<div class="flex flex-col sm:col-span-2 relative group">
+        <div class="flex justify-between items-center mb-1.5 min-h-[20px]">
+          <label class="text-xs font-semibold text-slate-600">Zoom Description</label>
+          <span *ngIf="formData.zoomDescription && formData.zoomDescription.trim() !== ''" class="h-5 w-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-sm animate-scaleIn">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path></svg>
+          </span>
+        </div>
+        <textarea
+          placeholder="Provide a brief overview of the meeting..."
+          [(ngModel)]="formData.zoomDescription"
+          name="zoomDescription"
+          rows="3"
+          class="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-sm text-slate-800 placeholder-slate-400 outline-none transition-all focus:border-slate-400 focus:ring-2 focus:ring-slate-100 resize-y"
+        ></textarea>
+      </div>
+
+      <div class="flex flex-col relative group">
+        <div class="flex justify-between items-center mb-1.5 min-h-[20px]">
+          <label class="text-xs font-semibold text-slate-600">Start Date</label>
+          <span *ngIf="startDate.valid && formData.startDate" class="h-5 w-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-sm animate-scaleIn">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path></svg>
+          </span>
+        </div>
+        <input
+          type="date"
+          [(ngModel)]="formData.startDate"
+          name="startDate"
+          #startDate="ngModel"
+          required
+          [class.border-rose-300]="(startDate.touched || isSubmitted) && startDate.invalid"
+          [class.focus:ring-rose-100]="(startDate.touched || isSubmitted) && startDate.invalid"
+          class="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-sm text-slate-800 placeholder-slate-400 outline-none transition-all focus:border-slate-400 focus:ring-2 focus:ring-slate-100"
+        />
+        <div class="mt-1.5 flex items-center gap-1.5 text-xs font-medium text-rose-500" *ngIf="(startDate.touched || isSubmitted) && startDate.invalid">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"></path></svg>
+          Required
+        </div>
+      </div>
+
+      <div class="flex flex-col relative group">
+        <div class="flex justify-between items-center mb-1.5 min-h-[20px]">
+          <label class="text-xs font-semibold text-slate-600">End Date</label>
+          <span *ngIf="endDate.valid && formData.endDate" class="h-5 w-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-sm animate-scaleIn">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path></svg>
+          </span>
+        </div>
+        <input
+          type="date"
+          [(ngModel)]="formData.endDate"
+          name="endDate"
+          #endDate="ngModel"
+          required
+          [class.border-rose-300]="(endDate.touched || isSubmitted) && endDate.invalid"
+          [class.focus:ring-rose-100]="(endDate.touched || isSubmitted) && endDate.invalid"
+          class="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-sm text-slate-800 placeholder-slate-400 outline-none transition-all focus:border-slate-400 focus:ring-2 focus:ring-slate-100"
+        />
+        <div class="mt-1.5 flex items-center gap-1.5 text-xs font-medium text-rose-500" *ngIf="(endDate.touched || isSubmitted) && endDate.invalid">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"></path></svg>
+          Required
+        </div>
+      </div>
+
+      <div class="flex flex-col relative group">
+        <div class="flex justify-between items-center mb-1.5 min-h-[20px]">
+          <label class="text-xs font-semibold text-slate-600">Start Time</label>
+          <span *ngIf="timeStart.valid && formData.timeStart" class="h-5 w-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-sm animate-scaleIn">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path></svg>
+          </span>
+        </div>
+        <input
+          type="time"
+          [(ngModel)]="formData.timeStart"
+          name="timeStart"
+          #timeStart="ngModel"
+          required
+          [class.border-rose-300]="(timeStart.touched || isSubmitted) && timeStart.invalid"
+          [class.focus:ring-rose-100]="(timeStart.touched || isSubmitted) && timeStart.invalid"
+          class="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-sm text-slate-800 placeholder-slate-400 outline-none transition-all focus:border-slate-400 focus:ring-2 focus:ring-slate-100"
+        />
+        <div class="mt-1.5 flex items-center gap-1.5 text-xs font-medium text-rose-500" *ngIf="(timeStart.touched || isSubmitted) && timeStart.invalid">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"></path></svg>
+          Required
+        </div>
+      </div>
+
+      <div class="flex flex-col relative group">
+        <div class="flex justify-between items-center mb-1.5 min-h-[20px]">
+          <label class="text-xs font-semibold text-slate-600">End Time</label>
+          <span *ngIf="timeEnd.valid && formData.timeEnd" class="h-5 w-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-sm animate-scaleIn">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path></svg>
+          </span>
+        </div>
+        <input
+          type="time"
+          [(ngModel)]="formData.timeEnd"
+          name="timeEnd"
+          #timeEnd="ngModel"
+          required
+          [class.border-rose-300]="(timeEnd.touched || isSubmitted) && timeEnd.invalid"
+          [class.focus:ring-rose-100]="(timeEnd.touched || isSubmitted) && timeEnd.invalid"
+          class="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-sm text-slate-800 placeholder-slate-400 outline-none transition-all focus:border-slate-400 focus:ring-2 focus:ring-slate-100"
+        />
+        <div class="mt-1.5 flex items-center gap-1.5 text-xs font-medium text-rose-500" *ngIf="(timeEnd.touched || isSubmitted) && timeEnd.invalid">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"></path></svg>
+          Required
+        </div>
+      </div>
+
+      <div class="flex flex-col relative group">
+        <div class="flex justify-between items-center mb-1.5 min-h-[20px]">
+          <label class="text-xs font-semibold text-slate-600">Alternate Hosts & Emails</label>
+          <span *ngIf="formData.alternateHosts && formData.alternateHosts.trim() !== ''" class="h-5 w-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-sm animate-scaleIn">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path></svg>
+          </span>
+        </div>
+        <input
+          type="text"
+          placeholder="host@example.com"
+          [(ngModel)]="formData.alternateHosts"
+          name="alternateHosts"
+          class="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-sm text-slate-800 placeholder-slate-400 outline-none transition-all focus:border-slate-400 focus:ring-2 focus:ring-slate-100"
+        />
+      </div>
+
+   <div class="flex flex-col relative group">
+  <!-- Label & Success Indicator Header -->
+  <div class="flex justify-between items-center mb-1.5 min-h-[20px]">
+    <label class="text-xs font-bold text-slate-700 tracking-wide block">
+      Registration Required?
+    </label>
+    <span
+      *ngIf="formData.requireRegistration && formData.requireRegistration !== ''"
+      class="h-5 w-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-sm animate-scaleIn"
+    >
+      <svg
+        class="w-3 h-3"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="3"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M4.5 12.75l6 6 9-13.5"
+        ></path>
+      </svg>
+    </span>
+  </div>
+
+  <!-- Searchable ng-select -->
+  <ng-select
+    name="requireRegistration"
+    #requireRegistration="ngModel"
+    [(ngModel)]="formData.requireRegistration"
+    [items]="['Yes', 'No']"
+    placeholder="Select option"
+    [searchable]="true"
+    [clearable]="true"
+    class="w-full text-sm
+      [&_.ng-select-container]:!min-h-[42px]
+      [&_.ng-select-container]:!h-auto
+      [&_.ng-select-container]:!bg-white
+      [&_.ng-select-container]:!border
+      [&_.ng-select-container]:!border-slate-200
+      [&_.ng-select-container]:!rounded-xl
+      [&_.ng-select-container]:!px-3.5
+      [&_.ng-select-container]:!py-1
+      [&_.ng-select-container]:!shadow-none
+      [&_.ng-select-container]:!flex
+      [&_.ng-select-container]:!items-center
+      hover:[&_.ng-select-container]:!border-slate-300
+      [&.ng-select-focused_.ng-select-container]:!border-red-800
+      [&.ng-select-focused_.ng-select-container]:!ring-4
+      [&.ng-select-focused_.ng-select-container]:!ring-red-800/5
+      [&_.ng-value-container]:!p-0
+      [&_.ng-value-container]:!flex
+      [&_.ng-value-container]:!items-center
+      [&_.ng-placeholder]:!text-slate-400
+      [&_.ng-placeholder]:!top-auto
+      [&_.ng-input]:!top-auto
+      [&_.ng-input]:!pl-0
+      [&_.ng-dropdown-panel]:!mt-1.5
+      [&_.ng-dropdown-panel]:!bg-white
+      [&_.ng-dropdown-panel]:!border
+      [&_.ng-dropdown-panel]:!border-slate-200
+      [&_.ng-dropdown-panel]:!rounded-xl
+      [&_.ng-dropdown-panel]:!shadow-xl
+      [&_.ng-dropdown-panel]:!overflow-hidden
+      [&_.ng-dropdown-panel-items]:!p-1.5
+      [&_.ng-option]:!px-3
+      [&_.ng-option]:!py-2.5
+      [&_.ng-option]:!rounded-lg
+      [&_.ng-option]:!text-slate-700
+      [&_.ng-option]:!text-xs
+      [&_.ng-option]:!whitespace-normal
+      [&_.ng-option]:!break-words
+      [&_.ng-option-marked]:!bg-slate-100"
+  >
+  </ng-select>
+</div>
+
+      <div class="flex flex-col relative group">
+        <div class="flex justify-between items-center mb-1.5 min-h-[20px]">
+          <label class="text-xs font-semibold text-slate-600">Desired Passcode (8-10 Chars)</label>
+          <span *ngIf="desiredPasscode.valid && formData.desiredPasscode" class="h-5 w-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-sm animate-scaleIn">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path></svg>
+          </span>
+        </div>
+        <input
+          type="text"
+          placeholder="Enter passcode"
+          [(ngModel)]="formData.desiredPasscode"
+          name="desiredPasscode"
+          #desiredPasscode="ngModel"
+          required
+          minlength="8"
+          maxlength="10"
+          [class.border-rose-300]="(desiredPasscode.touched || isSubmitted) && desiredPasscode.invalid"
+          [class.focus:ring-rose-100]="(desiredPasscode.touched || isSubmitted) && desiredPasscode.invalid"
+          class="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-slate-800 placeholder-slate-400 outline-none transition-all focus:border-slate-400 focus:ring-2 focus:ring-slate-100 tracking-wider font-mono text-sm"
+        />
+        <div class="mt-1.5 flex items-center gap-1.5 text-xs font-medium text-rose-500" *ngIf="(desiredPasscode.touched || isSubmitted) && desiredPasscode.errors?.['required']">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"></path></svg>
+          Required
+        </div>
+        <div class="mt-1.5 flex items-center gap-1.5 text-xs font-medium text-rose-500" *ngIf="desiredPasscode.touched && desiredPasscode.errors?.['minlength']">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"></path></svg>
+          Min 8 characters required
+        </div>
+      </div>
+
+      <div class="flex flex-col relative group">
+        <div class="flex justify-between items-center mb-1.5 min-h-[20px]">
+          <label class="text-xs font-semibold text-slate-600">Requester Name</label>
+          <span *ngIf="requesterName.valid && formData.requesterName" class="h-5 w-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-sm animate-scaleIn">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path></svg>
+          </span>
+        </div>
+        <input
+          type="text"
+          placeholder="John Doe"
+          [(ngModel)]="formData.requesterName"
+          name="requesterName"
+          #requesterName="ngModel"
+          required
+          [class.border-rose-300]="(requesterName.touched || isSubmitted) && requesterName.invalid"
+          [class.focus:ring-rose-100]="(requesterName.touched || isSubmitted) && requesterName.invalid"
+          class="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-sm text-slate-800 placeholder-slate-400 outline-none transition-all focus:border-slate-400 focus:ring-2 focus:ring-slate-100"
+        />
+        <div class="mt-1.5 flex items-center gap-1.5 text-xs font-medium text-rose-500" *ngIf="(requesterName.touched || isSubmitted) && requesterName.invalid">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"></path></svg>
+          Required
+        </div>
+      </div>
+
+      <div class="flex flex-col relative group">
+        <div class="flex justify-between items-center mb-1.5 min-h-[20px]">
+          <label class="text-xs font-semibold text-slate-400">Requester Email (Read-Only)</label>
+          <span *ngIf="formData.requesterEmail && formData.requesterEmail !== ''" class="h-5 w-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-sm animate-scaleIn">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path></svg>
+          </span>
+        </div>
+        <input
+          type="email"
+          [(ngModel)]="formData.requesterEmail"
+          name="requesterEmail"
+          readonly
+          class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-sm text-slate-400 cursor-not-allowed outline-none"
+        />
+      </div>
+
+      <div class="flex flex-col relative group">
+        <div class="flex justify-between items-center mb-1.5 min-h-[20px]">
+          <label class="text-xs font-semibold text-slate-600">Office / Unit / Project</label>
+          <span *ngIf="officeUnitProject.valid && formData.officeUnitProject" class="h-5 w-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-sm animate-scaleIn">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path></svg>
+          </span>
+        </div>
+        <input
+          type="text"
+          placeholder="e.g., HR Department"
+          [(ngModel)]="formData.officeUnitProject"
+          name="officeUnitProject"
+          #officeUnitProject="ngModel"
+          required
+          [class.border-rose-300]="(officeUnitProject.touched || isSubmitted) && officeUnitProject.invalid"
+          [class.focus:ring-rose-100]="(officeUnitProject.touched || isSubmitted) && officeUnitProject.invalid"
+          class="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-sm text-slate-800 placeholder-slate-400 outline-none transition-all focus:border-slate-400 focus:ring-2 focus:ring-slate-100"
+        />
+        <div class="mt-1.5 flex items-center gap-1.5 text-xs font-medium text-rose-500" *ngIf="(officeUnitProject.touched || isSubmitted) && officeUnitProject.invalid">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"></path></svg>
+          Required
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:col-span-2 relative group">
+        <div class="flex justify-between items-center mb-1.5 min-h-[20px]">
+          <label class="text-xs font-semibold text-slate-600">Additional Details</label>
+          <span *ngIf="formData.additionalDetails && formData.additionalDetails.trim() !== ''" class="h-5 w-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-sm animate-scaleIn">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path></svg>
+          </span>
+        </div>
+        <textarea
+          placeholder="Any special setup instructions..."
+          [(ngModel)]="formData.additionalDetails"
+          name="additionalDetails"
+          rows="2"
+          class="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-sm text-slate-800 placeholder-slate-400 outline-none transition-all focus:border-slate-400 focus:ring-2 focus:ring-slate-100 resize-y"
+        ></textarea>
+      </div>
+
+      <div class="flex flex-col sm:col-span-2 space-y-2">
+        <label class="text-xs font-bold text-slate-700 tracking-wide block">Attach Reference File (PDF / DOCX, max 10MB)</label>
+        <div class="group relative flex items-center justify-center w-full">
+          
+          <label 
+            class="flex flex-col items-center justify-center w-full min-h-[96px] py-4 border-2 border-slate-200 border-dashed rounded-xl cursor-pointer transition-all duration-200"
+            [ngClass]="fileInput.files && fileInput.files.length > 0 ? 'bg-emerald-50/40 border-emerald-300 hover:bg-emerald-50/60' : 'bg-slate-50/30 hover:bg-slate-50/80 hover:border-slate-300'"
+            (dragover)="$event.preventDefault()"
+            (drop)="$event.preventDefault(); $event.dataTransfer && $event.dataTransfer.files && (fileInput.files = $event.dataTransfer.files) && onFileSelected({ target: { files: $event.dataTransfer.files } })"
+          >
+            <div class="flex items-center gap-3 px-4">
+              
+              <div 
+                class="p-2 rounded-lg border shadow-sm transition-colors"
+                [ngClass]="fileInput.files && fileInput.files.length > 0 ? 'bg-white border-emerald-200 text-emerald-600' : 'bg-white border-slate-200/60 text-slate-400 group-hover:text-slate-800'"
+              >
+                <svg *ngIf="!fileInput.files || fileInput.files.length === 0" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 16v-8m0 8l-4-4m4 4l4-4M4 4h16v16H4V4z"></path>
+                </svg>
+                <svg *ngIf="fileInput.files && fileInput.files.length > 0" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                </svg>
+              </div>
+              
+              <div class="text-left">
+                <ng-container *ngIf="!fileInput.files || fileInput.files.length === 0">
+                  <p class="text-xs text-slate-600 font-semibold"><span class="text-slate-900 hover:underline">Upload reference files</span> or drag drop here</p>
+                  <p class="text-[10px] text-slate-400 font-normal">Supports PDF, DOC, or DOCX formats up to 10MB sizes.</p>
+                </ng-container>
+
+                <ng-container *ngIf="fileInput.files && fileInput.files.length > 0">
+                  <p class="text-xs text-emerald-800 font-bold">Successfully Staged!</p>
+                  <p class="text-[10px] text-emerald-600 font-medium truncate max-w-[320px] sm:max-w-[450px]">
+                    📎 Prepared to upload: {{ fileInput.files[0].name }}
+                  </p>
+                </ng-container>
+              </div>
+
+            </div>
+
+            <input 
+              #fileInput
+              type="file" 
+              accept=".pdf,.doc,.docx"
+              (change)="onFileSelected($event)" 
+              class="hidden" 
+            />
+          </label>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="mt-8 flex justify-end border-t border-slate-100 pt-4">
+      <button 
+        type="submit" 
+        [disabled]="isSaving"
+        class="inline-flex w-full items-center justify-center rounded-xl bg-slate-900 px-6 py-3 text-base font-semibold text-white shadow-md transition-all hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+      >
+        <span *ngIf="isSaving" class="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
+        {{ isSaving ? "Saving..." : isEditMode ? "Update Schedule" : "Save Schedule" }}
+      </button>
+    </div>
+  </form>
+</div>

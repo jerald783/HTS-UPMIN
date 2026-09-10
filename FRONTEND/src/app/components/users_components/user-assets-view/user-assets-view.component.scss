@@ -1,0 +1,95 @@
+/* Content spacing */
+.content {
+  margin-top: 80px;
+}
+
+/* Search field */
+.search-field {
+  min-width: 250px;
+  max-width: 300px; /* better UX */
+}
+
+/* Transfer button */
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+/* Table header */
+.mat-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+
+/* Table cells */
+.mat-table td,
+.mat-table th {
+  padding: 10px 14px;
+  vertical-align: middle;
+  font-size: 14px;
+}
+
+/* Row hover effect */
+.mat-row:hover {
+  background-color: #f8f9fa;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+/* Word wrap */
+.word-wrap {
+  white-space: normal;
+  word-break: break-word;
+  max-width: 200px;
+}
+
+/* Truncate long text */
+.truncate {
+  max-width: 220px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Text utilities */
+.text-end {
+  text-align: right;
+}
+.fw-bold {
+  font-weight: bold;
+}
+
+/* Status badges */
+.status-badge {
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+.status-badge.active {
+  background: #d4edda;
+  color: #155724;
+}
+.status-badge.inactive {
+  background: #f8d7da;
+  color: #721c24;
+}
+.status-badge.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+/* ================= HEADER ================= */
+.fixed-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

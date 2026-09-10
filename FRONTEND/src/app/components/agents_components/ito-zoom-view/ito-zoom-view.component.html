@@ -1,0 +1,407 @@
+<app-ito-headers class="fixed-header"></app-ito-headers>
+
+<div class="min-h-screen lg:h-screen w-screen flex flex-col bg-gray-50 font-sans antialiased pt-16">
+  
+  <div class="flex-1 min-h-0 px-3 py-3 sm:px-6 lg:px-8 overflow-y-auto lg:overflow-hidden">
+    <div class="mx-auto w-full max-w-7xl flex flex-col h-full min-h-0 space-y-4">
+      
+<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 border-b border-slate-200 pb-4 shrink-0">
+  <!-- Title Section -->
+  <div class="flex items-center gap-3">
+    <div class="p-2.5 rounded-xl bg-slate-100 text-slate-700 border border-slate-200/80 flex items-center justify-center shrink-0">
+      <svg class="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+      </svg>
+    </div>
+    <div>
+      <h2 class="text-lg sm:text-xl font-bold tracking-tight text-slate-900">
+        Zoom Schedule Calendar
+      </h2>
+      <p class="text-xs sm:text-sm text-slate-500 mt-0.5">
+        Manage, review, and track administrative virtual meeting requests.
+      </p>
+    </div>
+  </div>
+
+  <!-- Right Side Wrapper: Legend + Controls Toolbar -->
+  <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 w-full lg:w-auto lg:justify-end">
+    <!-- Legend for Holidays -->
+    <div class="flex items-center gap-1.5 bg-slate-50 p-1 rounded-xl border border-slate-200/80">
+      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-purple-50 text-purple-700 border border-purple-200/60 text-[11px] font-semibold">
+        <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span> Regular
+      </span>
+      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-cyan-50 text-cyan-700 border border-cyan-200/60 text-[11px] font-semibold">
+        <span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span> Special
+      </span>
+      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 border border-dashed border-slate-300 text-[11px] font-semibold">
+        <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> Tentative
+      </span>
+    </div>
+
+    <!-- Controls Toolbar: Status Filter + Datepicker + CSV Download -->
+    <div class="flex items-center gap-2 w-full sm:w-auto">
+      <!-- Status Dropdown Filter -->
+      <div class="relative flex-1 sm:flex-initial">
+        <select
+          aria-label="Filter by status"
+          class="w-full h-9 pl-3 pr-8 bg-white border border-slate-200 rounded-xl text-xs font-semibold shadow-xs hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all cursor-pointer appearance-none"
+          [class.text-slate-700]="selectedStatusFilter === 'All'"
+          [class.text-amber-700]="selectedStatusFilter === 'Pending'"
+          [class.text-emerald-700]="selectedStatusFilter === 'Approved'"
+          [class.text-rose-700]="selectedStatusFilter === 'Rejected'"
+          [ngModel]="selectedStatusFilter"
+          (ngModelChange)="onStatusFilterChange($event)"
+        >
+          <option value="All" class="text-slate-700">All Statuses</option>
+          <option value="Pending" class="text-amber-700">Pending</option>
+          <option value="Approved" class="text-emerald-700">Approved</option>
+          <option value="Rejected" class="text-rose-700">Rejected</option>
+        </select>
+        <div class="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Date Picker -->
+      <div class="relative flex-1 sm:flex-initial">
+        <input 
+          type="date" 
+          aria-label="Filter schedule date"
+          class="w-full h-9 px-3 bg-white border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 shadow-xs hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all cursor-pointer"
+          [ngModel]="getPickerDateString()"
+          (ngModelChange)="onDatePickerChange($event)"
+        />
+      </div>
+
+      <!-- Download CSV Button -->
+      <button 
+        type="button" 
+        (click)="downloadCSV()"
+        [disabled]="!schedules || schedules.length === 0"
+        class="h-9 inline-flex items-center justify-center gap-2 px-3.5 text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100/80 border border-emerald-200 rounded-xl shadow-xs transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shrink-0 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+        title="Download visible schedules as CSV"
+      >
+        <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+        </svg>
+        <span class="hidden sm:inline">Export CSV</span>
+        <span class="sm:hidden">CSV</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+      <div class="grid grid-cols-1 gap-4 lg:gap-6 lg:grid-cols-3 lg:flex-1 lg:min-h-0 lg:overflow-hidden pb-6 lg:pb-0">
+        
+        <!-- Calendar Grid -->
+        <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 p-3 sm:p-5 flex flex-col lg:h-full lg:overflow-hidden">
+          
+          <div class="grid grid-cols-7 gap-1 sm:gap-2 text-center text-[10px] sm:text-xs font-bold uppercase tracking-wider text-amber-900/80 mb-2 sm:mb-4 shrink-0">
+            <div *ngFor="let d of weekDays" class="py-1">{{ d }}</div>
+          </div>
+          
+          <div class="grid grid-cols-7 gap-1 sm:gap-2 lg:flex-1 lg:min-h-0 lg:auto-rows-fr">
+            <div
+              *ngFor="let day of days"
+              (click)="day && selectDate(day)"
+              [class.pointer-events-none]="!day"
+              [class.bg-transparent]="!day"
+              [class.border-transparent]="!day"
+              [class.bg-emerald-900]="day && selectedDate === getDateForDay(day)"
+              [class.text-white]="day && selectedDate === getDateForDay(day)"
+              class="group relative flex flex-col justify-between p-1 sm:p-2 aspect-square lg:aspect-auto rounded-lg sm:rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-emerald-50/50 hover:border-emerald-200 hover:shadow-sm transition-all cursor-pointer overflow-hidden lg:h-full lg:min-h-0"
+            >
+              <div 
+                *ngIf="day" 
+                class="text-[10px] sm:text-xs font-bold shrink-0"
+                [class.text-white]="selectedDate === getDateForDay(day)"
+                [class.text-gray-700]="selectedDate !== getDateForDay(day)"
+              >
+                {{ day }}
+              </div>
+
+              <!-- Badges for Schedules and Holidays with Dynamic Status Colors -->
+              <div *ngIf="day" class="hidden sm:block space-y-1 mt-1 overflow-hidden flex-1">
+                <div
+                         *ngFor="let e of getEvents(day).slice(0, 2)"
+                class="block text-[10px] font-medium px-1.5 py-0.5 rounded truncate shadow-xs"
+                [ngClass]="{
+                  'bg-purple-700 text-white': e.isHoliday && e.holidayType === 'Regular Holiday',
+                  'bg-cyan-600 text-white': e.isHoliday && e.holidayType === 'Special Non-Working',
+                  'bg-gray-700 text-white-900 border border-dashed border-gray-400': e.isHoliday && e.holidayType === 'Tentative Holiday',
+                  'bg-emerald-600 text-white': !e.isHoliday && e.Status === 'Approved',
+                  'bg-rose-600 text-white': !e.isHoliday && e.Status === 'Rejected',
+                  'bg-amber-500 text-white': !e.isHoliday && e.Status !== 'Approved' && e.Status !== 'Rejected'
+                }"
+                >
+                  {{ e.ActivityName }}
+                </div>
+              </div>
+
+              <!-- Mobile Dots -->
+              <div 
+                *ngIf="day && getEvents(day).length > 0" 
+                class="mt-auto flex justify-center sm:justify-start"
+              >
+                <span 
+                  class="sm:hidden block w-1.5 h-1.5 rounded-full" 
+                  [class.bg-white]="selectedDate === getDateForDay(day)"
+                  [class.bg-purple-600]="selectedDate !== getDateForDay(day) && getHolidaysForDay(day).length > 0"
+                  [class.bg-rose-600]="selectedDate !== getDateForDay(day) && getHolidaysForDay(day).length === 0"
+                ></span>
+                
+                <span 
+                  *ngIf="getEvents(day).length > 2"
+                  class="hidden sm:block text-[9px] sm:text-[10px] font-bold text-emerald-800"
+                  [class.text-emerald-200]="selectedDate === getDateForDay(day)"
+                >
+                  +{{ getEvents(day).length - 2 }} more
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side Panel -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5 flex flex-col max-h-[550px] lg:max-h-none lg:h-full lg:overflow-hidden">
+          <div class="pb-3 mb-3 shrink-0 flex flex-col gap-2 border-b border-gray-100">
+            <div class="flex flex-row items-center justify-between gap-2">
+              <div>
+                <h3 *ngIf="viewMode === 'day' && selectedDate" class="text-base sm:text-xl font-bold text-gray-900 m-0 tracking-tight">
+                  Schedules for {{ selectedDate }}
+                </h3>
+                <h3 *ngIf="viewMode === 'month'" class="text-base sm:text-xl font-bold text-gray-900 m-0 tracking-tight">
+                  <span *ngIf="dateScopeFilter === 'month'">Requests for {{ monthNames[currentMonth] }} {{ currentYear }}</span>
+                  <span *ngIf="dateScopeFilter === 'year'">All Requests for Year {{ currentYear }}</span>
+                  <span *ngIf="dateScopeFilter === 'allTime'">All Requests (All Time)</span>
+                </h3>
+              </div>
+
+              <button 
+                *ngIf="viewMode === 'day'" 
+                class="inline-flex items-center justify-center px-2.5 py-1.5 text-[11px] sm:text-xs font-semibold rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 border-0 transition-colors cursor-pointer outline-none shadow-sm shrink-0" 
+                (click)="showMonthSchedules()"
+              >
+                📅 <span class="hidden xs:inline ml-1">Show Calendar View</span><span class="xs:hidden ml-1">Calendar View</span>
+              </button>
+            </div>
+
+            <!-- Date Scope Toggle Buttons -->
+            <div class="flex items-center gap-1.5 bg-gray-100 p-1 rounded-lg self-start">
+              <button
+                type="button"
+                class="px-2 py-1 text-xs font-semibold rounded-md transition-all cursor-pointer border-0"
+                [ngClass]="dateScopeFilter === 'month' ? 'bg-white text-gray-900 shadow-xs' : 'text-gray-500 hover:text-gray-800 bg-transparent'"
+                (click)="onDateScopeChange('month')"
+              >
+                Month
+              </button>
+              <button
+                type="button"
+                class="px-2 py-1 text-xs font-semibold rounded-md transition-all cursor-pointer border-0"
+                [ngClass]="dateScopeFilter === 'year' ? 'bg-white text-gray-900 shadow-xs' : 'text-gray-500 hover:text-gray-800 bg-transparent'"
+                (click)="onDateScopeChange('year')"
+              >
+                Entire {{ currentYear }}
+              </button>
+              <button
+                type="button"
+                class="px-2 py-1 text-xs font-semibold rounded-md transition-all cursor-pointer border-0"
+                [ngClass]="dateScopeFilter === 'allTime' ? 'bg-white text-gray-900 shadow-xs' : 'text-gray-500 hover:text-gray-800 bg-transparent'"
+                (click)="onDateScopeChange('allTime')"
+              >
+                All Time
+              </button>
+            </div>
+
+            <p class="text-xs text-gray-400 m-0">
+              Showing <span class="font-bold text-gray-700">{{ selectedStatusFilter }}</span> requests ({{ schedules.length }} found)
+            </p>
+          </div>
+
+          <!-- Holiday Banner inside side-panel on day selection -->
+          <div *ngIf="viewMode === 'day' && selectedDate && holidaysMap[selectedDate]?.length" class="mb-3 p-3 bg-purple-50 border border-purple-200 rounded-xl space-y-1">
+            <div *ngFor="let h of holidaysMap[selectedDate]" class="flex items-center gap-2 text-xs font-bold text-purple-900">
+              <span>{{ h.type === 'Tentative Holiday' ? '⏳' : '🎉' }}</span>
+              <span>{{ h.name }}</span>
+              <span class="text-[10px] px-1.5 py-0.2 rounded bg-purple-200 text-purple-800 font-semibold">{{ h.type }}</span>
+            </div>
+          </div>
+
+          <div *ngIf="schedules.length === 0" class="text-center py-10 sm:py-12 flex-1 flex flex-col justify-center text-xs sm:text-sm italic text-gray-400 font-medium">
+            No {{ selectedStatusFilter !== 'All' ? selectedStatusFilter.toLowerCase() : '' }} schedules found
+          </div>
+
+          <div *ngIf="schedules.length > 0" class="flex-1 min-h-0 overflow-y-auto pr-1 space-y-3 custom-scrollbar">
+            <div 
+              *ngFor="let s of schedules"
+              class="p-3 sm:p-4 rounded-xl border border-gray-200 bg-white shadow-xs flex flex-col space-y-2.5 sm:space-y-3 hover:border-gray-300 transition-all"
+            >
+              <div class="flex flex-col xs:flex-row xs:items-start justify-between gap-2">
+                <h4 class="text-sm sm:text-[15px] font-bold text-gray-800 leading-snug break-words flex-1 m-0">
+                  {{ s.ActivityName }}
+                </h4>
+                
+                <div class="shrink-0 relative w-full xs:w-auto">
+                  <span
+                    class="inline-flex items-center justify-center px-3 py-1 text-[11px] sm:text-xs font-bold rounded-full border shadow-xs"
+                    [ngClass]="{
+                      'bg-emerald-50 text-emerald-700 border-emerald-200': s.Status === 'Approved',
+                      'bg-rose-50 text-rose-700 border-rose-200': s.Status === 'Rejected',
+                      'bg-amber-50 text-amber-700 border-amber-200': s.Status === 'Pending' || (s.Status !== 'Approved' && s.Status !== 'Rejected')
+                    }"
+                  >
+                    {{ s.Status }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="flex items-end justify-between gap-2 pt-1 border-t border-dashed border-gray-100">
+                <div class="space-y-1 text-[11px] sm:text-xs text-gray-500 font-medium">
+                  <div class="flex items-center gap-1.5">
+                    <span class="text-gray-400 text-xs">📅</span>
+                    <span class="flex flex-wrap items-center gap-1">
+                      {{ s.StartDate }}
+                      <span *ngIf="s.EndDate" class="text-gray-400 font-normal">→ {{ s.EndDate }}</span>
+                    </span>
+                  </div>
+                  <div class="flex items-center gap-1.5">
+                    <span class="text-gray-400 text-xs">🕒</span>
+                    <span class="text-gray-600 font-semibold">{{ s.TimeStart }} - {{ s.TimeEnd }}</span>
+                  </div>
+                </div>
+
+                <button 
+                  type="button"
+                  class="inline-flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-lg bg-emerald-800 text-white hover:bg-emerald-900 border-0 shadow-sm hover:scale-105 active:scale-95 transition-all cursor-pointer outline-none shrink-0" 
+                  (click)="viewSchedule(s)"
+                  title="View Details"
+                >
+                  <mat-icon class="text-base sm:text-lg w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center">visibility</mat-icon>
+                </button>
+              </div>
+
+            </div>
+          </div>
+          
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Pure Tailwind View Schedule Details Modal -->
+<div 
+  *ngIf="isViewModalOpen || selectedSchedule"
+  class="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-4 overflow-x-hidden overflow-y-auto"
+>
+  <!-- Backdrop -->
+  <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" (click)="closeModal()"></div>
+  
+  <div class="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden my-auto max-h-[90vh] flex flex-col">
+    
+    <!-- Modal Header -->
+    <div class="px-6 py-4 bg-emerald-900 text-white flex items-center justify-between shrink-0">
+      <h3 class="text-base font-bold tracking-tight m-0 flex items-center gap-2">
+        📋 Zoom Request Details
+      </h3>
+      <button 
+        type="button" 
+        (click)="closeModal()"
+        class="text-white/80 hover:text-white text-lg font-bold transition-colors cursor-pointer border-0 bg-transparent leading-none"
+      >
+        ✕
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="p-6 space-y-4 overflow-y-auto flex-1 text-left" *ngIf="selectedSchedule">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="text-xs font-bold text-gray-400 uppercase tracking-wider block">Activity Name</label>
+          <p class="text-sm font-semibold text-gray-800 m-0 mt-0.5">{{ selectedSchedule.ActivityName }}</p>
+        </div>
+        <div>
+          <label class="text-xs font-bold text-gray-400 uppercase tracking-wider block">Status</label>
+          <div class="mt-0.5">
+            <span 
+              class="inline-block px-2.5 py-0.5 text-xs font-bold rounded-full"
+              [ngClass]="{
+                'bg-emerald-100 text-emerald-800': selectedSchedule.Status === 'Approved',
+                'bg-rose-100 text-rose-800': selectedSchedule.Status === 'Rejected',
+                'bg-amber-100 text-amber-800': selectedSchedule.Status === 'Pending'
+              }"
+            >
+              {{ selectedSchedule.Status }}
+            </span>
+          </div>
+        </div>
+        <div>
+          <label class="text-xs font-bold text-gray-400 uppercase tracking-wider block">Date Schedule</label>
+          <p class="text-sm font-semibold text-gray-800 m-0 mt-0.5">
+            {{ selectedSchedule.StartDate }} <span *ngIf="selectedSchedule.EndDate">→ {{ selectedSchedule.EndDate }}</span>
+          </p>
+        </div>
+        <div>
+          <label class="text-xs font-bold text-gray-400 uppercase tracking-wider block">Time</label>
+          <p class="text-sm font-semibold text-gray-800 m-0 mt-0.5">{{ selectedSchedule.TimeStart }} - {{ selectedSchedule.TimeEnd }}</p>
+        </div>
+        <div>
+          <label class="text-xs font-bold text-gray-400 uppercase tracking-wider block">Requester</label>
+          <p class="text-sm font-semibold text-gray-800 m-0 mt-0.5">{{ selectedSchedule.RequesterName }}</p>
+          <p class="text-xs text-gray-500 m-0">{{ selectedSchedule.RequesterEmail }}</p>
+        </div>
+        <div>
+          <label class="text-xs font-bold text-gray-400 uppercase tracking-wider block">Setup Type</label>
+          <p class="text-sm font-semibold text-gray-800 m-0 mt-0.5">{{ selectedSchedule.SetupType }}</p>
+        </div>
+      </div>
+
+      <div *ngIf="selectedSchedule.ZoomDescription">
+        <label class="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">Description</label>
+        <p class="text-sm text-gray-700 bg-gray-50 p-3 rounded-xl border border-gray-100 m-0">{{ selectedSchedule.ZoomDescription }}</p>
+      </div>
+
+      <!-- Attachment Preview Section -->
+      <div *ngIf="selectedSchedule?.ConfigFile" class="border-t border-gray-100 pt-4">
+        <label class="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-2">
+          Attachment File: <span class="text-gray-700 font-semibold">{{ selectedSchedule.ConfigFile }}</span>
+        </label>
+        
+        <div class="flex items-center gap-2">
+          <button 
+            type="button" 
+            (click)="viewAttachmentFullScreen()" 
+            [disabled]="!rawAttachmentUrl"
+            class="px-3 py-1.5 text-xs font-semibold bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 border border-blue-200 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            🔍 View Fullscreen
+          </button>          
+          <button 
+            type="button" 
+            (click)="downloadAttachment()" 
+            [disabled]="!rawAttachmentUrl"
+            class="px-3 py-1.5 text-xs font-semibold bg-emerald-50 text-emerald-700 rounded-lg hover:bg-emerald-100 border border-emerald-200 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            📥 Download Attachment
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="px-6 py-3 bg-gray-50/80 border-t border-gray-100 flex items-center justify-end shrink-0">
+      <button 
+        type="button" 
+        (click)="closeModal()"
+        class="px-4 py-2 text-xs font-semibold rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 border-0 transition-all cursor-pointer"
+      >
+        Close
+      </button>
+    </div>
+
+  </div>
+</div>

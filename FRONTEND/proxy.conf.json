@@ -1,0 +1,9 @@
+{
+  "/hubs/notification": {
+    "target": "https://j8327hfp-5000.asse.devtunnels.ms",
+    "secure": false,
+    "changeOrigin": true,
+    "ws": true,
+    "logLevel": "debug"
+  }
+}

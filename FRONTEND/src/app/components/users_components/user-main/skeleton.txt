@@ -1,0 +1,137 @@
+<div class="min-h-screen flex flex-col bg-gray-50/50">
+  
+  <app-user-header class="sticky top-0 left-0 right-0 z-[1030]"></app-user-header>
+
+  <main class="flex-grow container mx-auto pt-24 pb-16 px-6 flex items-center justify-center">
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl w-full items-stretch">
+      
+      @if (isLoading) {
+        <!-- Skeleton Loading Placeholder Grid -->
+        @for (item of [1, 2, 3]; track item) {
+          <div class="card p-8 bg-white rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.06)] border border-gray-50 flex flex-col justify-between h-full animate-pulse">
+            <div class="flex flex-col items-center w-full">
+              <!-- Circle image skeleton -->
+              <div class="mb-4 p-3 bg-gray-100 rounded-full w-20 h-20"></div>
+              <!-- Header title skeleton -->
+              <div class="h-6 bg-gray-200 rounded-md w-3/4 mb-4"></div>
+              <!-- Paragraph paragraph skeleton -->
+              <div class="w-full space-y-2 flex flex-col items-center">
+                <div class="h-4 bg-gray-200 rounded-md w-5/6"></div>
+                <div class="h-4 bg-gray-200 rounded-md w-2/3"></div>
+              </div>
+            </div>
+            <!-- Button skeleton -->
+            <div class="mt-6 w-full h-12 bg-gray-200 rounded-xl"></div>
+          </div>
+        }
+      } @else {
+        <!-- Actual Content Cards -->
+        <!-- Card 1 -->
+        <div class="card text-center p-8 bg-white rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.06)] border border-gray-50 flex flex-col justify-between h-full transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)]">
+          <div class="flex flex-col items-center">
+            <div class="mb-4 flex justify-center p-3 bg-gray-50 rounded-full">
+              <img src="assets/img/ost-logo.png" alt="Ticket Icon" class="w-16 h-16 object-contain" />
+            </div>
+            <h4 class="text-xl font-bold mb-3 text-gray-800 tracking-tight">Open a Ticket</h4>
+            <p class="text-gray-500 text-sm md:min-h-[48px] px-2 flex items-center justify-center leading-relaxed">
+              Post queries and/or concerns about our services
+            </p>
+          </div>
+          <a class="btn-primary inline-block text-center mt-6 w-full p-3.5 text-sm font-bold text-white rounded-xl cursor-pointer transition-all duration-300 bg-gradient-to-r from-[#4a1212] to-[#11311c] hover:opacity-90 tracking-wide shadow-md hover:shadow-lg" routerLink="/crtticket">
+            Open a New Ticket
+          </a>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card text-center p-8 bg-white rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.06)] border border-gray-50 flex flex-col justify-between h-full transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)]">
+          <div class="flex flex-col items-center">
+            <div class="mb-4 flex justify-center p-3 bg-gray-50 rounded-full">
+              <img src="assets/img/ost-logo.png" alt="Search Icon" class="w-16 h-16 object-contain" />
+            </div>
+            <h4 class="text-xl font-bold mb-3 text-gray-800 tracking-tight">Check a Ticket</h4>
+            <p class="text-gray-500 text-sm md:min-h-[48px] px-2 flex items-center justify-center leading-relaxed">
+              Follow-up on a previously posted ticket, or on matters that have been reported
+            </p>
+          </div>
+          <a routerLink="/viewticket" class="btn-primary inline-block text-center mt-6 w-full p-3.5 text-sm font-bold text-white rounded-xl cursor-pointer transition-all duration-300 bg-gradient-to-r from-[#4a1212] to-[#11311c] hover:opacity-90 tracking-wide shadow-md hover:shadow-lg">
+            Check Ticket Status
+          </a>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card text-center p-8 bg-white rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.06)] border border-gray-50 flex flex-col justify-between h-full transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)]">
+          <div class="flex flex-col items-center">
+            <div class="mb-4 flex justify-center p-3 bg-gray-50 rounded-full">
+              <img src="assets/img/ost-logo.png" alt="Ticket Icon" class="w-16 h-16 object-contain" />
+            </div>
+            <h4 class="text-xl font-bold mb-3 text-gray-800 tracking-tight">Webinar schedules</h4>
+            <p class="text-gray-500 text-sm md:min-h-[48px] px-2 flex items-center justify-center leading-relaxed">
+              View Webinar Schedule
+            </p>
+          </div>
+          <a class="btn-primary inline-block text-center mt-6 w-full p-3.5 text-sm font-bold text-white rounded-xl cursor-pointer transition-all duration-300 bg-gradient-to-r from-[#4a1212] to-[#11311c] hover:opacity-90 tracking-wide shadow-md hover:shadow-lg" routerLink="/zoomSchedule">
+            View Webinar Schedule
+          </a>
+        </div>
+      }
+
+    </div>
+  </main>
+
+  <footer class="bg-white border-t border-gray-100 py-4 text-center text-xs text-gray-400">
+    © 2026 Helpdesk System. All rights reserved.
+  </footer>
+
+</div>
+
+<button class="top-btn fixed z-[1000] bg-white hover:bg-gray-50 shadow-xl rounded-full border border-gray-100 outline-none text-black/60 cursor-pointer group bottom-24 right-6 p-2 transition-all duration-300 md:bottom-6 md:right-6 hover:scale-105">
+  <mat-icon class="!text-[36px] !w-9 !h-9 transition-colors duration-300 text-gray-600 group-hover:text-[#7b1113]">
+    arrow_upward
+  </mat-icon>
+</button>
+
+
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
+
+@Component({
+  selector: 'app-main',
+  standalone: false,
+  templateUrl: './user-main.component.html',
+  styleUrl: './user-main.component.scss',
+})
+export class UserMainComponent implements OnInit, OnDestroy {
+  isLoading: boolean = true; // Added loading flag
+  private destroy$ = new Subject<void>();
+
+  constructor(private toastr: ToastrService) {}
+
+  ngOnInit(): void {
+    // Simulating slow internet or API fetch (2.5 seconds)
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 2500);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    const myButton = document.getElementById('myBtn');
+    if (myButton) {
+      myButton.style.display = window.scrollY > 20 ? 'block' : 'none';
+    }
+  }
+}
+
+
+
+
+
+
+

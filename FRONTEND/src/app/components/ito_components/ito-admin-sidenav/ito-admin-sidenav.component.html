@@ -1,0 +1,384 @@
+<!-- 
+<div class="layout-wrapper h-screen w-full overflow-hidden">
+  <mat-sidenav-container class="sidenav-wrapper h-screen w-full">
+    
+    <mat-sidenav
+      [mode]="isMobile ? 'over' : 'side'"
+      [(opened)]="opened"
+      class="app-sidenav w-[290px] bg-white border-r border-[#ececec] flex flex-col justify-between shadow-[4px_0_20px_rgba(0,0,0,0.04)]"
+    >
+      <div class="logo-container text-center px-5 pt-[35px] pb-5 border-b border-[#f0f0f0]">
+        <img src="assets/img/UPM_LOGO1.png" alt="ITS" class="itsLogo w-[85px] rounded-full mb-3 mx-auto shadow-[0_6px_18px_rgba(0,0,0,0.08)]" />
+        <h2 class="system-title text-[15px] font-bold text-[#800000] tracking-[0.5px]">Helpdesk Ticketing</h2>
+        <span class="system-subtitle text-[12px] text-[#999] mt-0.5 block">Admin Panel</span>
+      </div>
+
+      <mat-nav-list class="p-[15px] flex-1 overflow-y-auto" (click)="isMobile ? opened = false : null">
+        
+        <a
+          mat-list-item
+          routerLinkActive="bg-[rgba(128,0,0,0.12)] border-l-4 border-[#800000] font-semibold"
+          [routerLink]="[{ outlets: { secondary: ['itoadmindashboard'] } }]"
+          class="rounded-[12px] my-1.5 !px-3.5 !py-3 font-medium flex items-center transition-all duration-250 ease-in-out hover:bg-[rgba(128,0,0,0.08)] hover:translate-x-1.25"
+        >
+          <mat-icon class="mr-4 text-[#800000] text-[20px]">dashboard</mat-icon>
+          <span>Dashboard</span>
+        </a>
+
+        <a 
+          mat-list-item 
+          (click)="toggleMasterFileMenu(); $event.stopPropagation()" 
+          class="collapsible rounded-[12px] my-1.5 !px-3.5 !py-3 font-medium flex items-center transition-all duration-250 ease-in-out hover:bg-[rgba(128,0,0,0.08)] hover:translate-x-1.25 cursor-pointer"
+        >
+          <mat-icon class="mr-4 text-[#800000] text-[20px]">folder</mat-icon>
+          <span>Master File</span>
+          <span class="spacer flex-grow"></span>
+          <mat-icon class="expand-icon text-[#800000] text-[20px] transition-transform duration-300" [class.rotate-180]="isMasterFileMenuOpen">
+            expand_more
+          </mat-icon>
+        </a>
+        
+        <div 
+          class="submenu overflow-hidden transition-[max-height] duration-350 ease-in-out pl-[20px]" 
+          [class.max-h-[500px]]="isMasterFileMenuOpen" 
+          [class.max-h-0]="!isMasterFileMenuOpen"
+        >
+          <a
+            mat-list-item
+            routerLinkActive="bg-[rgba(128,0,0,0.12)] border-l-4 border-[#800000] font-semibold"
+            [routerLink]="[{ outlets: { secondary: ['ia-tickets'] } }]"
+            class="rounded-[12px] my-1 text-[14px] !px-3.5 !py-2.5 font-medium flex items-center text-gray-700 opacity-90 transition-all duration-250 ease-in-out hover:bg-[rgba(128,0,0,0.08)] hover:translate-x-1.25"
+          >
+            <mat-icon class="mr-4 text-[#800000] text-[20px]">confirmation_number</mat-icon>
+            <span>Ticket Request</span>
+          </a>
+
+          <a
+            mat-list-item
+            routerLinkActive="bg-[rgba(128,0,0,0.12)] border-l-4 border-[#800000] font-semibold"
+            [routerLink]="[{ outlets: { secondary: ['iazoomrequest'] } }]"
+            class="rounded-[12px] my-1 text-[14px] !px-3.5 !py-2.5 font-medium flex items-center text-gray-700 opacity-90 transition-all duration-250 ease-in-out hover:bg-[rgba(128,0,0,0.08)] hover:translate-x-1.25"
+          >
+            <mat-icon class="mr-4 text-[#800000] text-[20px]">event</mat-icon>
+            <span>Zoom Request</span>
+          </a>
+        </div>
+
+        <div class="mt-4 border-t border-gray-100 pt-2">
+          <a
+            mat-list-item
+            routerLinkActive="bg-[rgba(128,0,0,0.12)] border-l-4 border-[#800000] font-semibold"
+            [routerLink]="[{ outlets: { secondary: ['admin-register'] } }]"
+            class="rounded-[12px] my-1.5 !px-3.5 !py-3 font-medium flex items-center transition-all duration-250 ease-in-out hover:bg-[rgba(128,0,0,0.08)] hover:translate-x-1.25"
+          >
+            <mat-icon class="mr-4 text-[#800000] text-[20px]">person</mat-icon>
+            <span>Users</span>
+          </a>
+          
+          <a
+            mat-list-item
+            routerLinkActive="bg-[rgba(128,0,0,0.12)] border-l-4 border-[#800000] font-semibold"
+            [routerLink]="[{ outlets: { secondary: ['iasettings'] } }]"
+            class="rounded-[12px] my-1.5 !px-3.5 !py-3 font-medium flex items-center transition-all duration-250 ease-in-out hover:bg-[rgba(128,0,0,0.08)] hover:translate-x-1.25"
+          >
+            <mat-icon class="mr-4 text-[#800000] text-[20px]">settings</mat-icon>
+            <span>Settings</span>
+          </a>
+        </div>
+      </mat-nav-list>
+
+      <div class="sidenav-user p-[18px] border-t border-[#f0f0f0] bg-[#fafafa]">
+        <button
+          mat-button
+          (click)="$event.stopPropagation()"
+          class="user-btn w-full flex items-center rounded-[12px] p-2.5 transition-colors duration-200 hover:bg-[rgba(128,0,0,0.05)] text-left"
+          [matMenuTriggerFor]="sharedUserMenu"
+        >
+          <div class="head-user-avatar relative flex items-center justify-center">
+            <span
+              *ngIf="fullName"
+              class="email-avatar w-[38px] h-[38px] rounded-full text-white font-semibold text-[14px] flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,0.15)]"
+              [style.background-color]="getAvatarColor(fullName)"
+            >
+              {{ getInitials(fullName) }}
+            </span>
+            <div class="circle-indicator w-[9px] h-[9px] rounded-full absolute -top-0.5 -right-0.5 bg-[#029716] border-2 border-white animate-pulse"></div>
+          </div>
+          <div class="user-details ml-3 flex flex-col overflow-hidden">
+            <span class="user-name text-[13px] font-semibold text-[#333] truncate">{{ fullName }}</span>
+            <span class="user-email text-[11px] text-[#888] truncate">{{ Email }}</span>
+          </div>
+        </button>
+      </div>
+    </mat-sidenav>
+<mat-sidenav-content class="right-content h-screen bg-white overflow-hidden flex flex-col">
+      
+      <div *ngIf="isMobile" class="w-full bg-white border-b border-[#ececec] min-h-[60px] px-4 flex items-center justify-between shadow-[0_2px_10px_rgba(0,0,0,0.02)] z-10">
+        <button mat-icon-button (click)="opened = !opened" class="text-[#800000]">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <h2 class="font-bold text-[#800000] text-[15px]">Helpdesk Ticketing</h2>
+        <div class="w-10"></div>
+      </div>
+
+    <mat-menu #sharedUserMenu="matMenu" xPosition="before" class="custom-user-menu">
+  <button mat-menu-item (click)="logOut()">
+    <mat-icon class="!text-red-600">exit_to_app</mat-icon>
+    <span class="text-sm font-medium text-red-700">Logout</span>
+  </button>
+</mat-menu>
+
+      <div class="w-full flex-1 overflow-y-auto" [class.h-full]="!isMobile" [class.h-[calc(100vh-60px)]]="isMobile">
+        <router-outlet name="secondary"></router-outlet>
+      </div>
+
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
+<div class="flex min-h-screen bg-slate-100 relative">
+-->
+  <!-- Mobile Top Header Bar -->
+<header 
+  *ngIf="isMobile" 
+  class="fixed top-0 left-0 right-0 h-16 bg-[#630e10] border-b border-white/10 flex items-center justify-between px-4 z-30 shadow-md"
+>
+  <button 
+    (click)="toggleSidenav()" 
+    type="button" 
+    aria-label="Toggle Navigation Menu"
+    class="p-2 text-[#FDB813] hover:text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-[#FDB813]/40 rounded-lg transition-colors"
+  >
+    <mat-icon class="text-xl">menu</mat-icon>
+  </button>
+  
+  <div class="flex items-center gap-2.5">
+    <img src="assets/img/UPM_LOGO1.png" alt="UP Mindanao Logo" class="w-7 h-7 rounded-full object-cover border border-[#FDB813]/40 shadow-sm" />
+    <span class="text-sm font-semibold text-white tracking-wide">Helpdesk Ticketing</span>
+  </div>
+
+  <div class="w-8"></div>
+</header>
+
+<!-- Mobile Dark Overlay Backdrop -->
+<div 
+  *ngIf="isMobile && opened" 
+  (click)="closeMobileMenu()"
+  aria-hidden="true"
+  class="fixed inset-0 bg-black/60 backdrop-blur-xs z-40 transition-opacity duration-300"
+></div>
+
+<!-- Responsive Sidenav/Drawer -->
+<aside 
+  aria-label="Main Navigation"
+  class="fixed inset-y-0 left-0 flex flex-col bg-[#630e10] text-white/80 transition-all duration-300 ease-in-out shadow-2xl z-50 border-r border-white/10 overflow-x-hidden"
+  [ngClass]="{
+    'translate-x-0': !isMobile || (isMobile && opened),
+    '-translate-x-full': isMobile && !opened,
+    'w-[280px]': !isCollapsed || isMobile,
+    'w-20': isCollapsed && !isMobile
+  }"
+>
+  <!-- Sidenav Header -->
+  <div 
+    class="flex items-center min-h-[64px] py-3 px-3.5 border-b border-white/10 bg-black/10 transition-all duration-300 overflow-hidden"
+    [ngClass]="isCollapsed && !isMobile ? 'justify-center px-2' : 'justify-between gap-3'"
+  >
+    <!-- Logo Title -->
+    <div class="flex items-center gap-3 min-w-0 flex-1 overflow-hidden" *ngIf="!isCollapsed || isMobile">
+      <div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center shadow-inner flex-shrink-0 border border-[#FDB813]/30">
+        <img src="assets/img/UPM_LOGO1.png" alt="UP Mindanao Logo" class="w-7 h-7 rounded-full object-cover" />
+      </div>
+      <div class="flex flex-col min-w-0 flex-1 justify-center overflow-hidden">
+        <span class="text-xs font-bold text-white tracking-wide leading-tight truncate">
+          Helpdesk Ticketing
+        </span>
+        <span class="text-[10px] text-[#FDB813] font-medium leading-tight truncate mt-0.5">
+          UP Mindanao Admin Panel
+        </span>
+      </div>
+    </div>
+
+    <!-- Toggle Button -->
+    <button 
+      (click)="toggleSidenav()" 
+      type="button"
+      [attr.aria-label]="isMobile ? 'Close menu' : 'Toggle collapsed menu'"
+      class="p-2 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-colors focus:outline-none flex-shrink-0 flex items-center justify-center"
+    >
+      <mat-icon class="text-xl">{{ isMobile ? 'close' : (isCollapsed ? 'menu' : 'menu_open') }}</mat-icon>
+    </button>
+  </div>
+
+  <!-- Navigation Menu Items -->
+  <nav class="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto overflow-x-hidden">
+    
+    <!-- Dashboard -->
+    <a
+      (click)="closeMobileMenu()"
+      [routerLink]="[{ outlets: { secondary: ['itoadmindashboard'] } }]"
+      [routerLinkActive]="(isCollapsed && !isMobile) 
+        ? 'bg-white/15 text-white shadow-sm ring-1 ring-[#FDB813]/40' 
+        : 'bg-white/15 text-white font-semibold shadow-sm border-l-4 border-[#FDB813] rounded-r-xl rounded-l-xs'"
+      [matTooltip]="isCollapsed && !isMobile ? 'Dashboard' : ''"
+      matTooltipPosition="right"
+      class="no-underline flex items-center transition-all hover:bg-white/10 hover:text-white cursor-pointer group text-white/80"
+      [ngClass]="(isCollapsed && !isMobile) ? 'w-11 h-11 mx-auto justify-center rounded-xl' : 'px-3.5 py-2.5 rounded-xl gap-3'"
+    >
+      <div class="w-5 h-5 flex-shrink-0 flex items-center justify-center">
+        <mat-icon class="text-[#FDB813] text-xl">dashboard</mat-icon>
+      </div>
+      <span *ngIf="!isCollapsed || isMobile" class="whitespace-nowrap overflow-hidden text-sm font-medium">
+        Dashboard
+      </span>
+    </a>
+
+    <!-- Master File Submenu -->
+    <div class="space-y-1">
+      <a 
+        (click)="toggleMasterFileMenu(); $event.stopPropagation()" 
+        [matTooltip]="isCollapsed && !isMobile ? 'Master File' : ''"
+        matTooltipPosition="right"
+        [attr.aria-expanded]="isMasterFileMenuOpen"
+        class="no-underline flex items-center transition-all hover:bg-white/10 hover:text-white cursor-pointer group text-white/80"
+        [ngClass]="(isCollapsed && !isMobile) 
+          ? 'w-11 h-11 mx-auto justify-center rounded-xl' 
+          : 'justify-between px-3.5 py-2.5 rounded-xl'"
+      >
+        <div class="flex items-center gap-3 overflow-hidden">
+          <div class="w-5 h-5 flex-shrink-0 flex items-center justify-center">
+            <mat-icon class="text-white/70 group-hover:text-white text-xl transition-colors">folder</mat-icon>
+          </div>
+          <span *ngIf="!isCollapsed || isMobile" class="whitespace-nowrap overflow-hidden text-sm font-medium">
+            Master File
+          </span>
+        </div>
+        <mat-icon 
+          *ngIf="!isCollapsed || isMobile" 
+          class="text-white/40 group-hover:text-white text-lg transition-transform duration-200 flex-shrink-0"
+          [class.rotate-180]="isMasterFileMenuOpen"
+        >
+          expand_more
+        </mat-icon>
+      </a>
+
+      <!-- Master File Sub-links -->
+      <div 
+        *ngIf="!isCollapsed || isMobile"
+        class="overflow-hidden transition-all duration-300 ease-in-out ml-5 pl-3 border-l border-white/15 space-y-1 mt-1"
+        [class.max-h-96]="isMasterFileMenuOpen" 
+        [class.max-h-0]="!isMasterFileMenuOpen"
+      >
+        <a
+          (click)="closeMobileMenu()"
+          [routerLink]="[{ outlets: { secondary: ['ia-tickets'] } }]"
+          routerLinkActive="bg-white/15 text-white font-semibold border-l-2 border-[#FDB813] rounded-r-lg rounded-l-none"
+          class="no-underline flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-white/70 hover:bg-white/10 hover:text-white transition-colors"
+        >
+          <mat-icon class="text-white/60 text-base">confirmation_number</mat-icon>
+          <span class="truncate">Ticket Request</span>
+        </a>
+
+        <a
+          (click)="closeMobileMenu()"
+          [routerLink]="[{ outlets: { secondary: ['iazoomrequest'] } }]"
+          routerLinkActive="bg-white/15 text-white font-semibold border-l-2 border-[#FDB813] rounded-r-lg rounded-l-none"
+          class="no-underline flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-white/70 hover:bg-white/10 hover:text-white transition-colors"
+        >
+          <mat-icon class="text-white/60 text-base">event</mat-icon>
+          <span class="truncate">Zoom Request</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Users -->
+    <a
+      (click)="closeMobileMenu()"
+      [routerLink]="[{ outlets: { secondary: ['admin-register'] } }]"
+      [routerLinkActive]="(isCollapsed && !isMobile) 
+        ? 'bg-white/15 text-white shadow-sm ring-1 ring-[#FDB813]/40' 
+        : 'bg-white/15 text-white font-semibold shadow-sm border-l-4 border-[#FDB813] rounded-r-xl rounded-l-xs'"
+      [matTooltip]="isCollapsed && !isMobile ? 'Users' : ''"
+      matTooltipPosition="right"
+      class="no-underline flex items-center transition-all hover:bg-white/10 hover:text-white cursor-pointer group text-white/80"
+      [ngClass]="(isCollapsed && !isMobile) ? 'w-11 h-11 mx-auto justify-center rounded-xl' : 'px-3.5 py-2.5 rounded-xl gap-3'"
+    >
+      <div class="w-5 h-5 flex-shrink-0 flex items-center justify-center">
+        <mat-icon class="text-white/70 group-hover:text-white text-xl transition-colors">person</mat-icon>
+      </div>
+      <span *ngIf="!isCollapsed || isMobile" class="whitespace-nowrap overflow-hidden text-sm font-medium">
+        Users
+      </span>
+    </a>
+
+    <!-- Settings -->
+    <a
+      (click)="closeMobileMenu()"
+      [routerLink]="[{ outlets: { secondary: ['iasettings'] } }]"
+      [routerLinkActive]="(isCollapsed && !isMobile) 
+        ? 'bg-white/15 text-white shadow-sm ring-1 ring-[#FDB813]/40' 
+        : 'bg-white/15 text-white font-semibold shadow-sm border-l-4 border-[#FDB813] rounded-r-xl rounded-l-xs'"
+      [matTooltip]="isCollapsed && !isMobile ? 'Settings' : ''"
+      matTooltipPosition="right"
+      class="no-underline flex items-center transition-all hover:bg-white/10 hover:text-white cursor-pointer group text-white/80"
+      [ngClass]="(isCollapsed && !isMobile) ? 'w-11 h-11 mx-auto justify-center rounded-xl' : 'px-3.5 py-2.5 rounded-xl gap-3'"
+    >
+      <div class="w-5 h-5 flex-shrink-0 flex items-center justify-center">
+        <mat-icon class="text-white/70 group-hover:text-white text-xl transition-colors">settings</mat-icon>
+      </div>
+      <span *ngIf="!isCollapsed || isMobile" class="whitespace-nowrap overflow-hidden text-sm font-medium">
+        Settings
+      </span>
+    </a>
+
+  </nav>
+
+  <!-- Bottom User Profile Footer -->
+  <div class="p-3 border-t border-white/10 bg-black/10 overflow-hidden">
+    <button
+      type="button"
+      (click)="$event.stopPropagation()"
+      [matMenuTriggerFor]="sharedUserMenu"
+      aria-label="User Account Options"
+      [matTooltip]="isCollapsed && !isMobile ? fullName : ''"
+      matTooltipPosition="right"
+      class="w-full flex items-center gap-3 p-2 rounded-xl hover:bg-white/10 transition-colors text-left focus:outline-none cursor-pointer"
+      [ngClass]="(isCollapsed && !isMobile) ? 'justify-center p-0 w-11 h-11 mx-auto' : ''"
+    >
+      <div class="relative flex-shrink-0 w-9 h-9">
+        <span
+          *ngIf="fullName"
+          class="w-9 h-9 rounded-full text-white font-bold text-xs flex items-center justify-center bg-white/20 border border-[#FDB813]/50 shadow-xs"
+        >
+          {{ getInitials(fullName) }}
+        </span>
+        <span class="w-2.5 h-2.5 rounded-full absolute bottom-0 right-0 bg-emerald-500 ring-2 ring-[#630e10]"></span>
+      </div>
+
+      <div class="flex flex-col min-w-0 flex-1 overflow-hidden text-left" *ngIf="!isCollapsed || isMobile">
+        <span class="text-xs font-semibold text-white truncate leading-tight">{{ fullName }}</span>
+        <span class="text-[11px] text-white/60 truncate leading-tight mt-0.5">{{ Email }}</span>
+      </div>
+    </button>
+  </div>
+
+</aside>
+
+<!-- Logout Context Menu -->
+<mat-menu #sharedUserMenu="matMenu" xPosition="before" class="custom-user-menu">
+  <button mat-menu-item (click)="logOut()">
+    <mat-icon class="!text-[#7B1113]">exit_to_app</mat-icon>
+    <span class="text-sm font-medium text-[#7B1113]">Logout</span>
+  </button>
+</mat-menu>
+
+<!-- Dynamic Content Area -->
+<main 
+  class="flex-1 transition-all duration-300 ease-in-out min-h-screen overflow-y-auto"
+  [ngClass]="{
+    'pt-16 ml-0': isMobile,
+    'ml-[280px]': !isMobile && !isCollapsed,
+    'ml-20': !isMobile && isCollapsed
+  }"
+>
+  <router-outlet name="secondary"></router-outlet>
+</main>

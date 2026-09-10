@@ -1,0 +1,683 @@
+
+
+
+------NEW TABLE FOR hts-db
+
+-- =========================
+-- ROLES
+-- =========================
+CREATE TABLE tbl_roles (
+    RoleId INT AUTO_INCREMENT PRIMARY KEY,
+    RoleName VARCHAR(50) NOT NULL
+);
+
+-- =========================
+-- USERS
+-- =========================
+CREATE TABLE tbl_users (
+    UserId INT AUTO_INCREMENT PRIMARY KEY,
+    FullName VARCHAR(100) NOT NULL,
+    Password VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) NOT NULL UNIQUE,
+    RoleId INT DEFAULT 2,
+    FailedAttempts INT DEFAULT 0,
+    LockoutEnd DATETIME NULL,
+    FOREIGN KEY (RoleId) REFERENCES tbl_roles(RoleId)
+);
+
+-- =========================
+-- ASSETS
+-- =========================
+CREATE TABLE tbl_assets (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    CollCode VARCHAR(100),
+    Name VARCHAR(255),
+    Desc1 TEXT,
+    AnDate DATE,
+    MrNum VARCHAR(100),
+    PropNo VARCHAR(100),
+    Qty INT,
+    UM VARCHAR(50),
+    UCost DECIMAL(18,2),
+    TCost DECIMAL(18,2),
+    UserName VARCHAR(100),
+    Email VARCHAR(100),
+    CurrentUser VARCHAR(100),
+    EqStatus VARCHAR(100),
+    SerialNumber VARCHAR(100),
+    Location VARCHAR(100),
+    UserId INT,
+    FOREIGN KEY (UserId) REFERENCES tbl_users(UserId)
+);
+
+-- =========================
+-- TICKETS
+-- =========================
+CREATE TABLE tbl_tickets (
+    TicketId INT AUTO_INCREMENT PRIMARY KEY,
+    TicketNumber VARCHAR(255),
+    PropNo VARCHAR(255),
+    FullName VARCHAR(255),
+    Email VARCHAR(255),
+    RequestDate DATETIME,
+    HelpTopic VARCHAR(100),
+    IssueDesc VARCHAR(200),
+    Location VARCHAR(255),
+    PriorityLevel VARCHAR(50),
+    CurrentStatus VARCHAR(100),
+    LastUpdated DATETIME,
+    DueDate DATETIME NULL,
+    Overdue TINYINT(1),
+    AgentAssigned VARCHAR(255) NULL,
+    ReopenCount INT DEFAULT 0,
+
+    -- NEW (non-breaking)
+    UserId INT NULL,
+
+    FileName VARCHAR(255) NULL,
+    FileContentType VARCHAR(50) NULL,
+    ExtraFields JSON NULL,
+
+    FOREIGN KEY (UserId) REFERENCES tbl_users(UserId)
+);
+
+-- =========================
+-- TICKET MESSAGES
+-- =========================
+CREATE TABLE tbl_ticketmessages (
+    MessageId INT AUTO_INCREMENT PRIMARY KEY,
+    TicketId INT NOT NULL,
+    SenderEmail VARCHAR(255) NOT NULL,
+    Message TEXT NOT NULL,
+    Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    -- NEW (optional relationship)
+    UserId INT NULL,
+
+    FileName VARCHAR(255) NULL,
+    FilePath VARCHAR(500) NULL,
+    FileType VARCHAR(100) NULL,
+    FileSize BIGINT NULL,
+
+    FOREIGN KEY (TicketId) REFERENCES tbl_tickets(TicketId),
+    FOREIGN KEY (UserId) REFERENCES tbl_users(UserId)
+);
+
+-- =========================
+-- TICKET FEEDBACK
+-- =========================
+CREATE TABLE tbl_ticketfeedback (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    TicketNumber VARCHAR(50) NOT NULL,
+
+    -- NEW (non-breaking relationship)
+    TicketId INT NULL,
+
+    CompanyName VARCHAR(100),
+    Unit VARCHAR(50),
+    FullName VARCHAR(100),
+    Email VARCHAR(100),
+    Phone VARCHAR(20),
+    SupportAgent VARCHAR(100),
+    IssueType VARCHAR(255),
+    SupportChannel VARCHAR(255),
+    OtherIssue VARCHAR(255),
+    DateRequested DATE,
+    DateResolved DATE,
+    FeedbackText TEXT,
+    Rating INT,
+    ResponseTime VARCHAR(20),
+    TechnicalKnowledge VARCHAR(20),
+    Professionalism VARCHAR(20),
+    Communication VARCHAR(20),
+    Resolution VARCHAR(20),
+    Signature VARCHAR(255),
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (TicketId) REFERENCES tbl_tickets(TicketId)
+);
+
+-- =========================
+-- TICKET NOTIFICATIONS
+-- =========================
+CREATE TABLE tbl_ticketnotifications (
+    NotificationId INT AUTO_INCREMENT PRIMARY KEY,
+    TicketId INT NOT NULL,
+    RecipientEmail VARCHAR(255) NOT NULL,
+    SenderEmail VARCHAR(255) NOT NULL,
+    Message TEXT,
+    Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    IsRead BOOLEAN DEFAULT FALSE,
+
+    FOREIGN KEY (TicketId) REFERENCES tbl_tickets(TicketId)
+);
+
+-- =========================
+-- ZOOM SCHEDULE
+-- =========================
+CREATE TABLE tbl_zoom_schedule (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    ActivityName VARCHAR(255),
+    SetupType VARCHAR(100),
+    ZoomDescription TEXT,
+    StartDate DATE,
+    EndDate DATE,
+    EventDate DATE,
+    TimeStart TIME,
+    TimeEnd TIME,
+    AlternateHosts TEXT,
+    RequireRegistration VARCHAR(10),
+    DesiredPasscode VARCHAR(50),
+    RequesterName VARCHAR(150),
+    RequesterEmail VARCHAR(150),
+    OfficeUnitProject VARCHAR(150),
+    AdditionalDetails TEXT,
+    Score INT,
+    EmailAddress VARCHAR(150),
+    ConfigFile VARCHAR(255),
+    DateAddressed DATE,
+    Status VARCHAR(50)
+);
+
+-- =========================
+-- LOGS
+-- =========================
+CREATE TABLE log_transferasset (
+    AuditId INT AUTO_INCREMENT PRIMARY KEY,
+    Action VARCHAR(50) NOT NULL,
+    PerformedBy VARCHAR(100) NOT NULL,
+    PerformedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    Details TEXT
+);
+
+CREATE TABLE log_user (
+    AuditId INT AUTO_INCREMENT PRIMARY KEY,
+    UserId INT NULL,
+    Email VARCHAR(100) NOT NULL,
+    Action VARCHAR(50) NOT NULL,
+    Details TEXT,
+    PerformedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (UserId) REFERENCES tbl_users(UserId)
+);
+
+-- =========================
+-- SETTINGS
+-- =========================
+CREATE TABLE tbl_smtp_settings (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    server VARCHAR(100),
+    port INT,
+    sender_name VARCHAR(100),
+    sender_email VARCHAR(100),
+    username VARCHAR(100),
+    password VARCHAR(255),
+    enable_ssl BOOLEAN
+);
+
+INSERT INTO tbl_smtp_settings
+(server, port, sender_name, sender_email, username, password, enable_ssl)
+VALUES
+('smtp.gmail.com', 587, 'Help Desk Ticketing System',
+ 'jntulibao@up.edu.ph', 'jntulibao@up.edu.ph', 'udaobdqmzipgnbal', true);
+
+CREATE TABLE tbl_googlelogin (
+    SettingKey VARCHAR(100) PRIMARY KEY,
+    SettingValue TEXT
+);
+
+INSERT INTO tbl_googlelogin (SettingKey, SettingValue)
+VALUES ('google_client_id', 'YOUR_CLIENT_ID');
+
+-- =========================
+-- EXTRA FIELDS
+-- =========================
+CREATE TABLE tbl_ticket_extra_fields (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    FieldName VARCHAR(100),
+    FieldLabel VARCHAR(100),
+    FieldType VARCHAR(50),
+    Options TEXT,
+    IsRequired BOOLEAN DEFAULT FALSE,
+    IsActive BOOLEAN DEFAULT TRUE
+);
+
+-- =========================
+-- EMAIL VERIFICATION
+-- =========================
+CREATE TABLE tbl_email_verification (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Email VARCHAR(255),
+    OtpCode VARCHAR(10),
+    Expiry DATETIME
+);
+
+-- =========================
+-- ACTIVITY LOGS
+-- =========================
+CREATE TABLE tbl_activity_logs (
+    LogId INT AUTO_INCREMENT PRIMARY KEY,
+    UserId INT NULL,
+    UserEmail VARCHAR(255),
+    Module VARCHAR(100),
+    Action VARCHAR(100),
+    ReferenceId VARCHAR(100),
+    Description TEXT,
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (UserId) REFERENCES tbl_users(UserId)
+);
+
+-- =========================
+-- PASSWORD RESET
+-- =========================
+CREATE TABLE tbl_password_reset (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Email VARCHAR(255),
+    ResetToken VARCHAR(255),
+    Expiry DATETIME,
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- =========================
+-- INDEXES (performance)
+-- =========================
+CREATE INDEX idx_users_roleid ON tbl_users(RoleId);
+CREATE INDEX idx_assets_userid ON tbl_assets(UserId);
+CREATE INDEX idx_tickets_userid ON tbl_tickets(UserId);
+CREATE INDEX idx_messages_ticketid ON tbl_ticketmessages(TicketId);
+CREATE INDEX idx_messages_userid ON tbl_ticketmessages(UserId);
+CREATE INDEX idx_feedback_ticketid ON tbl_ticketfeedback(TicketId);
+
+
+
+
+CREATE TABLE tbl_support_requests (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    
+    name VARCHAR(150) NOT NULL,
+    up_email VARCHAR(150) NOT NULL,
+    request_date DATE NOT NULL,
+    
+    category VARCHAR(100) NOT NULL,
+    course_dept VARCHAR(150) NOT NULL,
+    
+    concern TEXT NOT NULL,
+    
+    status VARCHAR(50) DEFAULT 'Pending',
+    
+    username VARCHAR(100),
+    password VARCHAR(255),
+    
+    date_resolved DATE,
+    
+    notes TEXT,
+    
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
+        ON UPDATE CURRENT_TIMESTAMP
+);
+
+
+INSERT INTO tbl_support_requests
+(
+    name,
+    up_email,
+    request_date,
+    category,
+    course_dept,
+    concern,
+    status,
+    username,
+    password,
+    date_resolved,
+    notes
+)
+VALUES
+(
+    'Juan Dela Cruz',
+    'jdelacruz@up.edu.ph',
+    '2026-05-08',
+    'WiFi',
+    'BS Computer Science',
+    'Unable to connect to UPMINDANAO-WIFI',
+    'Resolved',
+    'juan.dc',
+    'samplepassword',
+    '2026-05-08',
+    'Reset WiFi account successfully'
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- . Add RoleId column to Users table
+-- ALTER TABLE Users
+-- ADD COLUMN RoleId INT;
+
+-- 3. Add a foreign key constraint
+
+-- This links Users.RoleId to Roles.RoleId:
+
+-- ALTER TABLE Users
+-- ADD CONSTRAINT fk_users_roles
+-- FOREIGN KEY (RoleId) REFERENCES Roles(RoleId);
+
+--UUID(BINARY16) for UserId and RoleId
+-- CREATE TABLE Roles (
+--     RoleId BINARY(16) PRIMARY KEY DEFAULT (UUID_TO_BIN(UUID())),
+--     RoleName VARCHAR(50) NOT NULL
+-- );
+
+-- CREATE TABLE Users (
+--     UserId BINARY(16) PRIMARY KEY DEFAULT (UUID_TO_BIN(UUID())),
+--     FullName VARCHAR(100) NOT NULL,
+--     Password VARCHAR(255) NOT NULL,
+--     Email VARCHAR(255) NOT NULL UNIQUE,
+--     RoleId BINARY(16) DEFAULT NULL,
+--     FOREIGN KEY (RoleId) REFERENCES Roles(RoleId)
+-- );
+
+
+-- -- Insert Roles
+-- INSERT INTO Roles (RoleId, RoleName) VALUES (UUID_TO_BIN(UUID()), 'Admin');
+-- INSERT INTO Roles (RoleId, RoleName) VALUES (UUID_TO_BIN(UUID()), 'Agent');
+-- INSERT INTO Roles (RoleId, RoleName) VALUES (UUID_TO_BIN(UUID()), 'Regular');
+-- INSERT INTO Roles (RoleId, RoleName) VALUES (UUID_TO_BIN(UUID()), 'COS');
+        
+        
+--         INSERT INTO Users (UserId, FullName, Password, Email, RoleId)
+-- VALUES (UUID_TO_BIN(UUID()),'Jerald Tulibao', 'hashed_password_here', 'jeraldtulibao783@gmail.com',
+--         (SELECT RoleId FROM Roles WHERE RoleName = 'Agent'));
+
+-- INSERT INTO Users (UserId, FullName, Password, Email, RoleId)
+-- VALUES (UUID_TO_BIN(UUID()),'Jerald Tulibao', 'hashed_password_here', 'jeraldtulibao@gmail.com',
+--         (SELECT RoleId FROM Roles WHERE RoleName = 'Admin'));
+
+-- INSERT INTO Users (UserId, FullName, Password, Email, RoleId)
+-- VALUES (UUID_TO_BIN(UUID()),'Darlene Talapian', 'hashed_password_here', 'dmtalapian@up.edu.ph',
+--         (SELECT RoleId FROM Roles WHERE RoleName = 'Regular'));
+        
+--         INSERT INTO Users (UserId, FullName, Password, Email, RoleId)
+-- VALUES (UUID_TO_BIN(UUID()),'Froebel Acebedo', 'hashed_password_here', 'fracebedo.edu.ph',
+--         (SELECT RoleId FROM Roles WHERE RoleName = 'COS'));
+RENAME TABLE 
+       
+             ticketfeedback TO tbl_ticketfeedback,
+             ticketmessages TO tbl_ticketmessages,
+             tickets TO tbl_tickets,
+             users TO tbl_users; 
+
+
+CREATE TABLE tbl_roles (
+    RoleId INT AUTO_INCREMENT PRIMARY KEY,
+    RoleName VARCHAR(50) NOT NULL
+);
+
+
+CREATE TABLE tbl_users (
+    UserId INT AUTO_INCREMENT PRIMARY KEY,
+    FullName VARCHAR(100) NOT NULL ,
+    Password VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) NOT NULL UNIQUE,
+    RoleId INT DEFAULT 2,
+    FOREIGN KEY (RoleId) REFERENCES tbl_roles(RoleId)
+);
+ALTER
+ TABLE tbl_users 
+ADD COLUMN FailedAttempts INT DEFAULT 0,
+ADD COLUMN LockoutEnd DATETIME NULL;
+
+CREATE TABLE tbl_assets (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    CollCode VARCHAR(100),
+    Name VARCHAR(255),
+    Desc1 TEXT,
+    AnDate DATE,
+    MrNum VARCHAR(100),
+    PropNo VARCHAR(100),
+    Qty INT,
+    UM VARCHAR(50),
+    UCost DECIMAL(18, 2),
+    TCost DECIMAL(18, 2),
+    UserName VARCHAR(100),
+    Email VARCHAR(100),
+    CurrentUser VARCHAR(100),
+    EqStatus VARCHAR(100),
+    SerialNumber VARCHAR(100),
+    Location VARCHAR(100),
+    UserId Int ,
+    FOREIGN KEY (UserId) REFERENCES tbl_Users(UserId)
+
+);
+
+CREATE TABLE tbl_tickets (
+    TicketId INT AUTO_INCREMENT PRIMARY KEY,
+    TicketNumber VARCHAR(255),
+    PropNo VARCHAR(255),
+    FullName VARCHAR(255),
+    Email VARCHAR(255),
+    RequestDate DATETIME,
+    HelpTopic VARCHAR(100),
+    IssueDesc VARCHAR(200),
+    Location VARCHAR(255),
+    PriorityLevel VARCHAR(50),
+    CurrentStatus VARCHAR(100),
+    LastUpdated DATETIME,
+    DueDate DATETIME NULL,
+    Overdue TINYINT(1),
+    AgentAssigned VARCHAR(255) NULL,
+    ReopenCount INT DEFAULT 0
+);
+ALTER TABLE tbl_tickets
+ADD COLUMN FileName VARCHAR(255) NULL,
+ADD COLUMN FileContentType VARCHAR(50) NULL;
+ADD COLUMN ExtraFields JSON NULL;
+
+
+
+
+CREATE TABLE tbl_ticketmessages (
+  MessageId INT AUTO_INCREMENT PRIMARY KEY,
+  TicketId INT NOT NULL,
+  SenderEmail VARCHAR(255) NOT NULL,
+  Message TEXT NOT NULL,
+  Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (TicketId) REFERENCES tbl_tickets(TicketId)
+);
+
+ALTER TABLE tbl_ticketmessages
+ADD COLUMN FileName VARCHAR(255) NULL,
+ADD COLUMN FilePath VARCHAR(500) NULL,
+ADD COLUMN FileType VARCHAR(100) NULL,
+ADD COLUMN FileSize BIGINT NULL;
+-- CREATE TABLE tbl_ticketfeedback (
+--     Id INT AUTO_INCREMENT PRIMARY KEY,
+--     TicketNumber INT NOT NULL,
+--     Unit VARCHAR(50) NOT NULL,
+--     FullName VARCHAR(100) NOT NULL,
+--     Email VARCHAR(100) NOT NULL,
+--     DateResolved DATE NOT NULL,
+--     FeedbackText TEXT,
+--     Rating INT CHECK (Rating BETWEEN 1 AND 5),
+--     Signature VARCHAR(255)
+-- );
+CREATE TABLE tbl_ticketfeedback (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    TicketNumber VARCHAR(50) NOT NULL,
+    CompanyName VARCHAR(100),
+    Unit VARCHAR(50),
+    FullName VARCHAR(100),
+    Email VARCHAR(100),
+    Phone VARCHAR(20),
+    SupportAgent VARCHAR(100),
+    IssueType VARCHAR(255),
+    SupportChannel VARCHAR(255),
+    OtherIssue VARCHAR(255),
+    DateRequested DATE,      
+    DateResolved DATE,       
+    FeedbackText TEXT,
+    Rating INT,
+    ResponseTime VARCHAR(20),
+    TechnicalKnowledge VARCHAR(20),
+    Professionalism VARCHAR(20),
+    Communication VARCHAR(20),
+    Resolution VARCHAR(20),
+    Signature VARCHAR(255),
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE tbl_zoom_schedule (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    ActivityName VARCHAR(255),
+    SetupType VARCHAR(100),
+    ZoomDescription TEXT,
+    EventDate DATE,
+    TimeStart TIME,
+    TimeEnd TIME,
+    AlternateHosts TEXT,
+    RequireRegistration VARCHAR(10),
+    DesiredPasscode VARCHAR(50),
+    RequesterName VARCHAR(150),
+    RequesterEmail VARCHAR(150),
+    OfficeUnitProject VARCHAR(150),
+    AdditionalDetails TEXT,
+    Score INT,
+    EmailAddress VARCHAR(150),
+    ConfigFile VARCHAR(255),
+    DateAddressed DATE,
+    Status VARCHAR(50)
+);
+
+
+ALTER TABLE tbl_zoom_schedule
+ADD COLUMN StartDate DATE AFTER ZoomDescription,
+ADD COLUMN EndDate DATE AFTER StartDate;
+
+
+CREATE TABLE log_transferasset (
+    AuditId INT AUTO_INCREMENT PRIMARY KEY,
+    Action VARCHAR(50) NOT NULL,
+    PerformedBy VARCHAR(100) NOT NULL,
+    PerformedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    Details TEXT
+);
+
+CREATE TABLE log_user (
+    AuditId INT AUTO_INCREMENT PRIMARY KEY,
+    UserId INT NULL,
+    Email VARCHAR(100) NOT NULL,
+    Action VARCHAR(50) NOT NULL,
+    Details TEXT,
+    PerformedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE tbl_ticketnotifications (
+    NotificationId INT AUTO_INCREMENT PRIMARY KEY,
+    TicketId INT NOT NULL,
+    RecipientEmail VARCHAR(255) NOT NULL,
+    SenderEmail VARCHAR(255) NOT NULL,
+    Message TEXT,
+    Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    IsRead BOOLEAN DEFAULT FALSE
+);
+
+
+
+
+CREATE TABLE tbl_smtp_settings (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    server VARCHAR(100),
+    port INT,
+    sender_name VARCHAR(100),
+    sender_email VARCHAR(100),
+    username VARCHAR(100),
+    password VARCHAR(255),
+    enable_ssl BOOLEAN
+);
+
+INSERT INTO tbl_smtp_settings
+(server, port, sender_name, sender_email, username, password, enable_ssl)
+VALUES
+('smtp.gmail.com', 587, 'Help Desk Ticketing System', 
+'jntulibao@up.edu.ph', 'jntulibao@up.edu.ph', 'udaobdqmzipgnbal', true);
+
+
+CREATE TABLE tbl_googlelogin (
+    SettingKey VARCHAR(100) PRIMARY KEY,
+    SettingValue TEXT
+);
+
+INSERT INTO tbl_googlelogin (SettingKey, SettingValue)
+VALUES ('google_client_id', '693611222238-rmrnu8v3j3cc5uj4k22sdsqgk6tkenr8.apps.googleusercontent.com');
+
+
+CREATE TABLE tbl_ticket_extra_fields (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    FieldName VARCHAR(100),
+    FieldLabel VARCHAR(100),
+    FieldType VARCHAR(50),
+    Options TEXT,
+    IsRequired BOOLEAN DEFAULT FALSE,
+    IsActive BOOLEAN DEFAULT TRUE
+);
+
+
+CREATE TABLE tbl_email_verification (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Email VARCHAR(255),
+    OtpCode VARCHAR(10),
+    Expiry DATETIME
+);
+
+
+CREATE TABLE tbl_activity_logs (
+    LogId INT AUTO_INCREMENT PRIMARY KEY,
+    UserId INT NULL,
+    UserEmail VARCHAR(255),
+    Module VARCHAR(100),      
+    Action VARCHAR(100),     
+    ReferenceId VARCHAR(100),  
+    Description TEXT,
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE tbl_password_reset (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Email VARCHAR(255),
+    ResetToken VARCHAR(255),
+    Expiry DATETIME,
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+

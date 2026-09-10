@@ -1,0 +1,171 @@
+<!-- Modal Header (Maroon Theme) -->
+<h2
+  mat-dialog-title
+  class="!flex !flex-row !justify-between !items-center w-full text-lg md:text-xl font-black px-6 py-4 bg-[#800000] text-white tracking-wide font-['Roboto',_sans-serif] m-0 border-none">
+
+  <div class="flex items-center gap-2">
+    <mat-icon class="!w-5 !h-5 flex items-center justify-center text-white">assignment</mat-icon>
+    <span class="font-semibold text-base">Ticket #{{ data.TicketNumber }} Details</span>
+  </div>
+
+  <button
+    type="button"
+    class="border-none bg-transparent text-2xl text-white cursor-pointer leading-none hover:opacity-80 outline-none"
+    (click)="close()">
+    &times;
+  </button>
+</h2>
+
+<!-- Modal Content -->
+<mat-dialog-content class="!p-6 max-h-[74vh] overflow-y-auto bg-white text-gray-700 space-y-5 text-sm font-['Roboto',_sans-serif]">
+  
+  <!-- Status & Priority Banner -->
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-5 rounded-xl bg-gray-50 border border-gray-100">
+    <div>
+      <div class="text-2xl font-bold tracking-tight text-gray-900">#{{ data.TicketNumber }}</div>
+      <div class="mt-1 text-sm font-medium text-gray-500">{{ data.HelpTopic }}</div>
+    </div>
+
+    <div class="flex flex-wrap gap-2 sm:justify-end">
+      <!-- Status Badge -->
+      <span
+        class="inline-flex items-center px-2.5 py-1 rounded text-xs font-bold uppercase tracking-wider"
+        [ngClass]="{
+          'bg-blue-50 text-blue-700': data.CurrentStatus?.toLowerCase() === 'open' || data.CurrentStatus?.toLowerCase() === 'resolved',
+          'bg-amber-50 text-amber-700': data.CurrentStatus?.toLowerCase() === 'pending',
+          'bg-gray-100 text-gray-700': data.CurrentStatus?.toLowerCase() === 'closed'
+        }"
+      >
+        {{ data.CurrentStatus }}
+      </span>
+
+      <!-- Priority Badge -->
+      <span
+        class="inline-flex items-center px-2.5 py-1 rounded text-xs font-bold uppercase tracking-wider"
+        [ngClass]="{
+          'bg-green-50 text-green-700': data.PriorityLevel?.toLowerCase() === 'low',
+          'bg-orange-50 text-orange-700': data.PriorityLevel?.toLowerCase() === 'medium',
+          'bg-red-50 text-red-700': data.PriorityLevel?.toLowerCase() === 'high'
+        }"
+      >
+        {{ data.PriorityLevel }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Metadata Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    
+    <div class="bg-white border border-gray-200/60 p-4 rounded-xl">
+      <span class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Client</span>
+      <span class="text-gray-900 font-medium break-words">{{ data.FullName }}</span>
+    </div>
+
+    <div class="bg-white border border-gray-200/60 p-4 rounded-xl">
+      <span class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Email</span>
+      <span class="text-gray-900 font-medium break-words">{{ data.Email }}</span>
+    </div>
+
+    <div class="bg-white border border-gray-200/60 p-4 rounded-xl">
+      <span class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Property No | Program</span>
+      <span class="text-gray-900 font-medium break-words">{{ data.PropNo || 'N/A' }}</span>
+    </div>
+
+    <div class="bg-white border border-gray-200/60 p-4 rounded-xl">
+      <span class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Location | Course</span>
+      <span class="text-gray-900 font-medium break-words">{{ data.Location || 'Not Specified' }}</span>
+    </div>
+
+    <div class="bg-white border border-gray-200/60 p-4 rounded-xl">
+      <span class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Request Date</span>
+      <span class="text-gray-900 font-medium break-words">
+        {{ data.RequestDate | date: "MM-dd-yyyy HH:mm:ss" }}
+      </span>
+    </div>
+
+    <div class="bg-white border border-gray-200/60 p-4 rounded-xl">
+      <span class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Last Updated</span>
+      <span class="text-gray-900 font-medium break-words">
+        {{ data.LastUpdated | date: "MM-dd-yyyy HH:mm:ss" }}
+      </span>
+    </div>
+
+    <div class="bg-white border border-gray-200/60 p-4 rounded-xl">
+      <span class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Due Date</span>
+      <span class="text-gray-900 font-medium break-words">
+        {{ data.DueDate | date: "MM-dd-yyyy HH:mm:ss" }}
+      </span>
+    </div>
+
+    <div class="bg-white border border-gray-200/60 p-4 rounded-xl">
+      <span class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Overdue</span>
+      <div class="text-sm font-bold break-words flex items-center gap-1.5 mt-0.5" [ngClass]="data.Overdue ? 'text-red-600' : 'text-green-600'">
+        <span class="w-2 h-2 rounded-full inline-block" [ngClass]="data.Overdue ? 'bg-red-500' : 'bg-green-500'"></span>
+        {{ data.Overdue ? "Yes" : "No" }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Extra Fields Section -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" *ngIf="data.ExtraFields">
+    <div 
+      class="bg-white border border-gray-200/60 p-4 rounded-xl"
+      *ngFor="let item of data.ExtraFields | jsonParse | keyvalue"
+    >
+      <span class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">{{ item.key }}</span>
+      <span class="text-gray-900 font-medium break-words">{{ item.value }}</span>
+    </div>
+  </div>
+
+  <!-- Description Section -->
+  <div class="space-y-2">
+    <div class="flex items-center gap-2 text-xs font-bold text-gray-400 uppercase tracking-wider">
+      <mat-icon class="text-gray-400 !text-lg flex items-center justify-center">description</mat-icon>
+      Description
+    </div>
+    <div class="bg-white border border-gray-200/60 p-4 rounded-xl text-sm leading-relaxed text-gray-700 whitespace-pre-wrap break-words">
+      {{ data.IssueDesc || "No description provided." }}
+    </div>
+  </div>
+
+  <!-- Attachment Section -->
+  <div class="space-y-2">
+    <div class="flex items-center gap-2 text-xs font-bold text-gray-400 uppercase tracking-wider">
+      <mat-icon class="text-gray-400 !text-lg flex items-center justify-center">attach_file</mat-icon>
+      Attachment
+    </div>
+
+    <div class="flex items-center justify-between bg-white border border-gray-200/60 p-4 rounded-xl">
+      <div class="flex items-center gap-2">
+        <mat-icon class="text-gray-400 !text-lg">insert_drive_file</mat-icon>
+        <span class="text-sm font-semibold text-gray-700" *ngIf="data.FileName; else noFile">
+          {{ data.FileName }}
+        </span>
+        <ng-template #noFile>
+          <span class="text-sm font-medium text-gray-400 italic">No attachment uploaded</span>
+        </ng-template>
+      </div>
+
+      <button
+        mat-flat-button
+        class="!rounded-lg !bg-[#800000] !text-white hover:opacity-90 !px-4 !h-9 flex items-center justify-center"
+        *ngIf="data.FileName"
+        (click)="viewFile(data.FileName)"
+      >
+        <mat-icon class="!mr-1 !text-base text-white">download</mat-icon>
+        <span class="text-xs font-bold tracking-wide">Download</span>
+      </button>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<!-- Modal Footer -->
+<mat-dialog-actions align="end" class="!border-t !border-gray-100 !p-4 !bg-gray-50 flex justify-end shrink-0">
+  <button 
+    type="button" 
+    class="px-4 py-2 border border-gray-300 text-gray-700 text-xs font-semibold rounded-lg bg-white shadow-sm hover:bg-gray-50 transition-all cursor-pointer outline-none" 
+    (click)="close()"
+  >
+    Close
+  </button>
+</mat-dialog-actions>

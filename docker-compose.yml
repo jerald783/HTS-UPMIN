@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: D@rlJe_0514_2019
+      MYSQL_DATABASE: hts_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql:Z 
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:Z
+    networks:
+      - app-net
+
+  api:
+    build:
+      context: ./BACKEND  
+      dockerfile: Dockerfile
+    container_name: dotnet-api
+    restart: always
+    environment:
+      - ConnectionStrings__InvAppCon=Server=mysql-db;Database=hts_db;Uid=root;Pwd=D@rlJe_0514_2019;
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5000:8080"
+    depends_on:
+      - mysql
+    networks:
+      - app-net
+
+  frontend:
+    build:
+      context: ./FRONTEND 
+      dockerfile: Dockerfile
+    container_name: angular-frontend
+    restart: always
+    ports:
+      - "4200:80"         
+    depends_on:
+      - api
+    networks:
+      - app-net
+
+volumes:
+  mysql_data:
+
+networks:
+  app-net:
+    driver: bridge

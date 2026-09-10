@@ -1,0 +1,21 @@
+
+
+
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+    "ConnectionStrings": {
+    "InvAppCon": "server=localhost;user=root;password=D@rlJe_0514_2019;database=hts_db"
+  },
+"JwtSettings": {
+  "SecretKey": ",WvCtc&!w4u_d+VhgSeXn/{V3*@f=o]Fw,?TAX|!>g.Q6N#hQf.Q3H6zSB#;5ZL+VcDMkLHq[C,&x%<Ab}Uv).",
+  "Issuer": "OSInventoryAPI",
+  "Audience": "OSInventoryClient",
+  "ExpirationMinutes": 60
+}
+}

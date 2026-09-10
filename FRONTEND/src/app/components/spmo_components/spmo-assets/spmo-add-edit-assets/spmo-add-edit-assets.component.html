@@ -1,0 +1,227 @@
+<div class="form-container container">
+  <!-- Text Input -->
+  <div class="input-container">
+    <input type="number" name="" id="PPE" [(ngModel)]="PPE" />
+  </div>
+  <div class="input-container">
+    <input
+      type="number"
+      id="Fund_Cluster"
+      [(ngModel)]="Fund_Cluster"
+      name="Fund_Cluster"
+      required
+      placeholder=" "
+    />
+    <label for="Fund_Cluster">Fund Cluster</label>
+  </div>
+  <div class="input-container">
+    <input
+      type="text"
+      id="CollCode"
+      [(ngModel)]="CollCode"
+      name="CollCode"
+      required
+      placeholder=" "
+    />
+    <label for="CollCode">CollCode</label>
+  </div>
+
+  <!-- Dropdown: Equipment Type -->
+  <div class="input-container">
+    <select id="equipmentType" [(ngModel)]="Name">
+      <option [ngValue]="undefined" disabled selected>
+        Choose Equipment Type
+      </option>
+      <option *ngFor="let type of equipmentTypes" [value]="type">
+        {{ type }}
+      </option>
+    </select>
+    <label for="equipmentType">Equipment Type</label>
+  </div>
+
+  <div class="input-container">
+    <input
+      type="text"
+      id="SerialNumber"
+      [(ngModel)]="SerialNumber"
+      name="SerialNumber"
+      required
+      placeholder=" "
+    />
+    <label for="SerialNumber">Serial Number</label>
+  </div>
+  <!-- Text Inputs -->
+  <div class="input-container">
+    <input
+      type="text"
+      id="Desc1"
+      [(ngModel)]="Desc1"
+      name="Desc1"
+      required
+      placeholder=" "
+    />
+    <label for="Desc1">Description</label>
+  </div>
+
+  <div class="input-container">
+    <input
+      type="number"
+      id="PropNo"
+      [(ngModel)]="PropNo"
+      name="PropNo"
+      required
+      placeholder=" "
+    />
+    <label for="PropNo">Property Number</label>
+  </div>
+  <div class="input-container">
+    <input
+      type="number"
+      id="MrNum"
+      [(ngModel)]="MrNum"
+      name="MrNum"
+      required
+      placeholder=" "
+    />
+    <label for="MrNum">MR Number</label>
+  </div>
+
+  <div class="input-container">
+    <input
+      type="number"
+      id="Qty"
+      [(ngModel)]="Qty"
+      name="Qty"
+      required
+      placeholder=" "
+      (ngModelChange)="updateTotalCost()"
+    />
+    <label for="Qty">Quantity</label>
+  </div>
+  <div class="input-container">
+    <input
+      type="text"
+      id="UM"
+      [(ngModel)]="UM"
+      name="UM"
+      required
+      placeholder=" "
+    />
+    <label for="UM">Unit Measure</label>
+  </div>
+
+  <div class="input-container">
+    <input
+      type="number"
+      id="UCost"
+      [(ngModel)]="UCost"
+      name="UCost"
+      required
+      placeholder=" "
+      (ngModelChange)="updateTotalCost()"
+    />
+    <label for="UCost">Unit Cost</label>
+  </div>
+
+  <div class="input-container">
+    <input
+      type="number"
+      id="TCost"
+      [(ngModel)]="TCost"
+      name="TCost"
+      required
+      placeholder=" "
+      readonly
+    />
+    <label for="TCost">Total Cost</label>
+    <!-- Dropdown: Status -->
+
+    <div class="input-container">
+      <select id="StatusTypes" [(ngModel)]="EqStatus">
+        <option [ngValue]="undefined" disabled selected>
+          Choose Equipment Status
+        </option>
+        <option *ngFor="let type of StatusTypes" [value]="type">
+          {{ type }}
+        </option>
+      </select>
+      <label for="StatusTypes">Status</label>
+    </div>
+    <div class="input-container">
+      <input
+        type="date"
+        id="Andate"
+        [(ngModel)]="Andate"
+        name="Andate"
+        required
+        placeholder=" "
+      />
+      <label for="Andate">Date</label>
+    </div>
+    <div class="input-container">
+      <input
+        type="text"
+        id="Location"
+        [(ngModel)]="Location"
+        name="Location"
+        required
+        placeholder=" "
+      />
+      <label for="Location">Location</label>
+    </div>
+
+    <div class="input-container">
+      <input
+        type="text"
+        id="UserName"
+        [(ngModel)]="UserName"
+        (ngModelChange)="CurrentUser = UserName"
+        name="UserName"
+        required
+        placeholder=" "
+      />
+      <label for="UserName">User</label>
+    </div>
+
+    <div class="input-container">
+      <ng-select
+        [items]="usersemail"
+        bindLabel="Emails"
+        [(ngModel)]="selectedUser"
+        placeholder="Choose Email"
+        [searchable]="true"
+        [clearable]="true"
+        name="UserId"
+        [addTag]="true"
+        required
+        class="form-control custom-ngselect"
+      ></ng-select>
+    </div>
+    <div class="input-container" style="display: none">
+      <input
+        type="text"
+        id="CurrentUser"
+        [(ngModel)]="CurrentUser"
+        name="CurrentUser"
+        required
+        placeholder=" "
+      />
+      <label for="CurrentUser">Current User</label>
+    </div>
+
+    <button
+      (click)="addEvents()"
+      class="btn btn-primary"
+      *ngIf="events.Id == 0"
+    >
+      Save
+    </button>
+    <button
+      (click)="updateEvents()"
+      class="btn btn-warning"
+      *ngIf="events.Id != 0"
+    >
+      Update
+    </button>
+  </div>
+</div>

@@ -1,0 +1,310 @@
+<div class="bg-slate-50/60 min-h-screen w-full flex flex-col p-4 sm:p-3 font-sans antialiased text-slate-900">
+  
+  <!-- Header Section (Fixed at Top) -->
+  <header class="bg-white/90 backdrop-blur-md rounded-2xl p-4 sm:px-6 sm:py-4 border border-slate-200/80 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-4 shrink-0">
+    <div>
+      <h2 class="text-xl text-[#7b1113] font-bold tracking-tight flex items-center justify-start gap-2">
+        <mat-icon class="!w-6 !h-6 !text-[24px]">settings</mat-icon>
+        <span>System Settings</span>
+      </h2>
+      <p class="text-slate-500 text-xs sm:text-sm mt-0.5">
+        University of the Philippines Mindanao — Admin Configuration
+      </p>
+    </div>
+   
+  </header>
+<br>
+  <!-- Main Configuration Container (Scrollable Flex Item) -->
+<main class="flex-1 w-full min-h-0">
+    <mat-card class="!h-full !rounded-2xl !border !border-slate-200/80 !shadow-sm !bg-white flex flex-col overflow-hidden">
+      
+      <mat-tab-group 
+        class="up-pro-tabs h-full flex flex-col overflow-hidden"
+        style="
+          --mdc-tab-indicator-active-indicator-color: #7b1113; 
+          --mat-tab-header-active-label-text-color: #7b1113; 
+          --mat-tab-header-active-focus-label-text-color: #7b1113;
+        "
+      >
+        
+        <!-- ==================== TAB 1: EXTRA FIELDS ==================== -->
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <div class="flex items-center gap-2 py-1 text-xs font-semibold tracking-wide">
+              <mat-icon class="!w-4 !h-4 !text-[18px]">tune</mat-icon>
+              <span>Custom Ticket Fields</span>
+            </div>
+          </ng-template>
+
+          <!-- Tab Content Inner Scroll -->
+          <div class="h-full overflow-y-auto p-4 sm:p-6 lg:p-8">
+            <!-- Form Header -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 pb-4 border-b border-slate-100">
+              <div>
+                <h2 class="text-sm sm:text-base font-semibold text-slate-900">Add New Ticket Field</h2>
+                <p class="text-xs text-slate-500 mt-0.5">Define dynamically injected inputs for user support forms.</p>
+              </div>
+            </div>
+
+            <!-- Field Generation Form -->
+            <form [formGroup]="fieldForm" class="w-full">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1">
+                
+                <mat-form-field appearance="outline" class="w-full">
+                  <mat-label>Field Variable Name</mat-label>
+                  <input matInput formControlName="FieldName" placeholder="e.g. departmentCode" />
+                  <mat-icon matPrefix class="!w-4 !h-4 !text-[18px] text-slate-400 mr-2">code</mat-icon>
+                  <mat-hint>camelCase without spaces</mat-hint>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-full">
+                  <mat-label>UI Display Label</mat-label>
+                  <input matInput formControlName="FieldLabel" placeholder="e.g. Department Code" />
+                  <mat-icon matPrefix class="!w-4 !h-4 !text-[18px] text-slate-400 mr-2">label</mat-icon>
+                  <mat-hint>Visible title shown to users</mat-hint>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-full">
+                  <mat-label>Input Control Type</mat-label>
+                  <mat-select formControlName="FieldType">
+                    <mat-option value="text">
+                      <div class="flex items-center gap-2">
+                        <mat-icon class="!w-4 !h-4 !text-[16px] text-slate-500">short_text</mat-icon>
+                        <span>Text Input</span>
+                      </div>
+                    </mat-option>
+                    <mat-option value="textarea">
+                      <div class="flex items-center gap-2">
+                        <mat-icon class="!w-4 !h-4 !text-[16px] text-slate-500">notes</mat-icon>
+                        <span>Text Area (Multi-line)</span>
+                      </div>
+                    </mat-option>
+                    <mat-option value="select">
+                      <div class="flex items-center gap-2">
+                        <mat-icon class="!w-4 !h-4 !text-[16px] text-slate-500">arrow_drop_down_circle</mat-icon>
+                        <span>Dropdown Select</span>
+                      </div>
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-full">
+                  <mat-label>Select Options</mat-label>
+                  <input matInput formControlName="Options" placeholder="Option A, Option B, Option C" />
+                  <mat-icon matPrefix class="!w-4 !h-4 !text-[18px] text-slate-400 mr-2">list</mat-icon>
+                  <mat-hint>Required only if Control Type is Dropdown</mat-hint>
+                </mat-form-field>
+
+              </div>
+
+              <div class="mt-3 flex justify-end">
+                <button
+                  mat-flat-button
+                  type="button"
+                  (click)="addField()"
+                  class="w-full sm:w-auto !bg-[#7b1113] hover:!bg-[#5e0d0f] !text-white !px-5 !py-2.5 !rounded-xl text-xs font-semibold shadow-xs flex items-center justify-center gap-2 transition-all"
+                >
+                  <mat-icon class="!w-4 !h-4 !text-[18px]">add</mat-icon>
+                  <span>Create Field</span>
+                </button>
+              </div>
+            </form>
+
+            <!-- Table Section -->
+            <div class="mt-8">
+              <div class="flex items-center justify-between mb-3">
+                <div>
+                  <h3 class="text-xs sm:text-sm font-bold text-slate-900 uppercase tracking-wider">Active Schema Fields</h3>
+                  <p class="text-xs text-slate-500">Currently deployed dynamic fields on active tickets.</p>
+                </div>
+                <span class="text-xs font-medium text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full whitespace-nowrap">
+                  {{ fields.length }} Registered
+                </span>
+              </div>
+
+              <!-- Data Grid Table -->
+              <div class="overflow-x-auto rounded-xl border border-slate-200/80 shadow-xs">
+                <table class="w-full text-left border-collapse text-xs min-w-[500px]">
+                  <thead>
+                    <tr class="bg-slate-50/80 border-b border-slate-200/80 text-slate-500 font-semibold tracking-wider uppercase text-[10px]">
+                      <th class="py-3 px-4">Label</th>
+                      <th class="py-3 px-4">Variable Key</th>
+                      <th class="py-3 px-4">Type</th>
+                      <th class="py-3 px-4 text-right">Actions</th>
+                    </tr>
+                  </thead>
+
+                  <tbody class="divide-y divide-slate-100 bg-white">
+                    <tr *ngFor="let field of fields" class="hover:bg-slate-50/60 transition-colors group">
+                      <td class="py-3.5 px-4 font-semibold text-slate-800">
+                        {{ field.FieldLabel }}
+                      </td>
+
+                      <td class="py-3.5 px-4 font-mono text-slate-500 text-[11px]">
+                        {{ field.FieldName || 'field_key' }}
+                      </td>
+
+                      <td class="py-3.5 px-4">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-amber-50 text-amber-900 border border-amber-200/60">
+                          <span class="w-1.5 h-1.5 rounded-full bg-[#ffb81c]"></span>
+                          {{ field.FieldType }}
+                        </span>
+                      </td>
+
+                      <td class="py-3.5 px-4 text-right">
+                        <button 
+                          mat-icon-button
+                          type="button"
+                          (click)="deleteField(field.Id)"
+                          class="!w-8 !h-8 !text-slate-400 hover:!text-red-600 hover:!bg-red-50 !rounded-lg transition-colors"
+                          matTooltip="Remove field"
+                        >
+                          <mat-icon class="!w-4 !h-4 !text-[18px]">delete_outline</mat-icon>
+                        </button>
+                      </td>
+                    </tr>
+
+                    <tr *ngIf="fields.length === 0">
+                      <td colspan="4" class="text-center py-10 text-slate-400">
+                        <div class="flex flex-col items-center justify-center gap-2">
+                          <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+                            <mat-icon class="!w-5 !h-5 !text-[20px]">layers_clear</mat-icon>
+                          </div>
+                          <p class="text-xs font-medium text-slate-600">No dynamic fields configured</p>
+                          <p class="text-[11px] text-slate-400">Add a new field above to modify the ticket intake schema.</p>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </mat-tab>
+
+        <!-- ==================== TAB 2: SMTP SETTINGS ==================== -->
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <div class="flex items-center gap-2 py-1 text-xs font-semibold tracking-wide">
+              <mat-icon class="!w-4 !h-4 !text-[18px]">mark_email_read</mat-icon>
+              <span>SMTP Gateway</span>
+            </div>
+          </ng-template>
+
+          <div class="h-full overflow-y-auto p-4 sm:p-6 lg:p-8">
+            <form [formGroup]="smtpForm" (ngSubmit)="updateSmtp()" class="w-full">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 pb-4 border-b border-slate-100">
+                <div>
+                  <h2 class="text-sm sm:text-base font-semibold text-slate-900">Email Dispatch Server</h2>
+                  <p class="text-xs text-slate-500 mt-0.5">Configure transactional mail server credentials for notifications.</p>
+                </div>
+          
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1">
+                <mat-form-field appearance="outline" class="w-full">
+                  <mat-label>SMTP Host</mat-label>
+                  <input matInput formControlName="server" placeholder="smtp.gmail.com" />
+                  <mat-icon matPrefix class="!w-4 !h-4 !text-[18px] text-slate-400 mr-2">dns</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-full">
+                  <mat-label>Port</mat-label>
+                  <input matInput formControlName="port" placeholder="587" />
+                  <mat-icon matPrefix class="!w-4 !h-4 !text-[18px] text-slate-400 mr-2">tag</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-full">
+                  <mat-label>Sender Display Name</mat-label>
+                  <input matInput formControlName="senderName" placeholder="UP Mindanao Support" />
+                  <mat-icon matPrefix class="!w-4 !h-4 !text-[18px] text-slate-400 mr-2">badge</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-full">
+                  <mat-label>Sender Email Address</mat-label>
+                  <input matInput formControlName="senderEmail" placeholder="no-reply@up.edu.ph" />
+                  <mat-icon matPrefix class="!w-4 !h-4 !text-[18px] text-slate-400 mr-2">alternate_email</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-full">
+                  <mat-label>Auth Username</mat-label>
+                  <input matInput formControlName="username" />
+                  <mat-icon matPrefix class="!w-4 !h-4 !text-[18px] text-slate-400 mr-2">person</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-full">
+                  <mat-label>Auth Password</mat-label>
+                  <input matInput type="password" formControlName="password" />
+                  <mat-icon matPrefix class="!w-4 !h-4 !text-[18px] text-slate-400 mr-2">key</mat-icon>
+                </mat-form-field>
+              </div>
+
+              <!-- Footer Controls -->
+              <div class="mt-6 pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <button 
+                  mat-button 
+                  type="button" 
+                  class="w-full sm:w-auto !text-slate-600 hover:!bg-slate-100 !px-4 !py-2 !rounded-xl text-xs font-semibold"
+                >
+                  Send Test Email
+                </button>
+
+                <button 
+                  mat-flat-button 
+                  type="submit"
+                  class="w-full sm:w-auto !bg-[#7b1113] hover:!bg-[#5e0d0f] !text-white !px-6 !py-2.5 !rounded-xl text-xs font-semibold shadow-xs flex items-center justify-center gap-2 transition-all"
+                >
+                  <mat-icon class="!w-4 !h-4 !text-[18px]">save</mat-icon>
+                  <span>Save SMTP Configuration</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </mat-tab>
+
+        <!-- ==================== TAB 3: GOOGLE AUTH ==================== -->
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <div class="flex items-center gap-2 py-1 text-xs font-semibold tracking-wide">
+              <mat-icon class="!w-4 !h-4 !text-[18px]">verified_user</mat-icon>
+              <span>Single Sign-On</span>
+            </div>
+          </ng-template>
+
+          <div class="h-full overflow-y-auto p-4 sm:p-6 lg:p-8">
+            <form [formGroup]="googleForm" (ngSubmit)="updateGoogle()" class="w-full">
+              <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
+                <div>
+                  <h2 class="text-sm sm:text-base font-semibold text-slate-900">Google OAuth 2.0 Credentials</h2>
+                  <p class="text-xs text-slate-500 mt-0.5">Authorize institutional &#64;up.edu.ph accounts for single sign-on.</p>
+                </div>
+              </div>
+
+              <div class="max-w-xl">
+                <mat-form-field appearance="outline" class="w-full">
+                  <mat-label>Client ID Key</mat-label>
+                  <input matInput formControlName="clientId" placeholder="xxxx.apps.googleusercontent.com" />
+                  <mat-icon matPrefix class="!w-4 !h-4 !text-[18px] text-slate-400 mr-2">vpn_key</mat-icon>
+                  <mat-hint>Generated from Google Cloud Platform Console</mat-hint>
+                </mat-form-field>
+              </div>
+
+              <div class="mt-8 pt-4 border-t border-slate-100 flex justify-end">
+                <button 
+                  mat-flat-button 
+                  type="submit"
+                  class="w-full sm:w-auto !bg-[#7b1113] hover:!bg-[#5e0d0f] !text-white !px-6 !py-2.5 !rounded-xl text-xs font-semibold shadow-xs flex items-center justify-center gap-2 transition-all"
+                >
+                  <mat-icon class="!w-4 !h-4 !text-[18px]">save</mat-icon>
+                  <span>Save Authentication Keys</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </mat-tab>
+
+      </mat-tab-group>
+    </mat-card>
+  </main>
+</div>

@@ -1,9 +1,23 @@
-<nav class="fixed top-0 left-0 w-full h-16 bg-white shadow-sm border-b border-slate-100 flex items-center z-[1050]">
-  <div class="container-fluid w-full flex items-center justify-between px-4 lg:px-6">
-    
-    <a class="flex items-center gap-3 cursor-pointer no-underline hover:no-underline select-none" routerLink="/ito" (click)="closeAllDropdowns(); isMenuOpen = false">
-      <img src="assets/img/ITO.png" alt="Logo" class="w-10 h-10 rounded-full object-cover shadow-sm ring-2 ring-slate-100" />
-      <span class="hidden md:inline font-extrabold text-sm text-slate-900 tracking-tight uppercase">Helpdesk System</span>
+<nav
+  class="fixed top-0 left-0 w-full h-16 bg-white shadow-sm border-b border-slate-100 flex items-center z-[1050]"
+>
+  <div
+    class="container-fluid w-full flex items-center justify-between px-4 lg:px-6"
+  >
+    <a
+      class="flex items-center gap-3 cursor-pointer no-underline hover:no-underline select-none"
+      routerLink="/ito"
+      (click)="closeAllDropdowns(); isMenuOpen = false"
+    >
+      <img
+        src="assets/img/ITO.png"
+        alt="Logo"
+        class="w-10 h-10 rounded-full object-cover shadow-sm ring-2 ring-slate-100"
+      />
+      <span
+        class="hidden md:inline font-extrabold text-sm text-slate-900 tracking-tight uppercase"
+        >Helpdesk System</span
+      >
     </a>
 
     <button
@@ -13,54 +27,107 @@
       [attr.aria-expanded]="isMenuOpen"
       aria-label="Toggle navigation"
     >
-      <mat-icon class="!w-5 !h-5 !text-xl">{{ isMenuOpen ? "close" : "menu" }}</mat-icon>
+      <mat-icon class="!w-5 !h-5 !text-xl">{{
+        isMenuOpen ? "close" : "menu"
+      }}</mat-icon>
     </button>
 
-    <div 
-      class="max-lg:fixed max-lg:top-0 max-lg:bottom-0 max-lg:w-[280px] max-lg:bg-white max-lg:z-[1100] max-lg:overflow-y-auto max-lg:flex max-lg:flex-col lg:flex lg:items-center lg:justify-between lg:flex-1 lg:ms-8 [backface-visibility:hidden] [perspective:1000px] transition-[left,visibility,box-shadow] cubic-bezier(0.25,1,0.5,1) duration-300" 
+    <div
+      class="max-lg:fixed max-lg:top-0 max-lg:bottom-0 max-lg:w-[280px] max-lg:bg-white max-lg:z-[1100] max-lg:overflow-y-auto max-lg:flex max-lg:flex-col lg:flex lg:items-center lg:justify-between lg:flex-1 lg:ms-8 [backface-visibility:hidden] [perspective:1000px] transition-[left,visibility,box-shadow] cubic-bezier(0.25,1,0.5,1) duration-300"
       [class.max-lg:-left-[300px]]="!isMenuOpen"
       [class.max-lg:invisible]="!isMenuOpen"
       [class.max-lg:left-0]="isMenuOpen"
       [class.max-lg:visible]="isMenuOpen"
       [class.max-lg:shadow-[8px_0_32px_rgba(15,23,42,0.15)]]="isMenuOpen"
     >
-      
-      <div class="lg:hidden pt-8 px-5 pb-6 bg-gradient-to-br from-[#7b1113] to-[#500000] relative text-white text-center shadow-inner overflow-hidden">
+      <div
+        class="lg:hidden pt-8 px-5 pb-6 bg-gradient-to-br from-[#7b1113] to-[#500000] relative text-white text-center shadow-inner overflow-hidden"
+      >
         <div class="absolute inset-0 bg-white/5 backdrop-blur-sm z-0"></div>
         <div class="relative z-10">
-          <div class="w-20 h-20 mx-auto mb-3 rounded-full p-1 bg-white/20 shadow-md backdrop-blur-sm">
-            <img src="assets/img/ITO.png" alt="ITO Logo" class="w-full h-full rounded-full object-cover bg-white" />
+          <div
+            class="w-20 h-20 mx-auto mb-3 rounded-full p-1 bg-white/20 shadow-md backdrop-blur-sm"
+          >
+            <img
+              src="assets/img/ITO.png"
+              alt="ITO Logo"
+              class="w-full h-full rounded-full object-cover bg-white"
+            />
           </div>
-          <h5 class="font-extrabold text-base m-0 tracking-tight">Helpdesk Ticketing</h5>
-          <span class="text-[11px] font-medium opacity-75 block mt-0.5 tracking-wider uppercase">Agent Dashboard</span>
+          <h5 class="font-extrabold text-base m-0 tracking-tight">
+            Helpdesk Ticketing
+          </h5>
+          <span
+            class="text-[11px] font-medium opacity-75 block mt-0.5 tracking-wider uppercase"
+            >Agent Dashboard</span
+          >
         </div>
       </div>
 
-      <ul class="flex max-lg:flex-col lg:flex-row lg:items-center gap-1 max-lg:p-6 list-none m-0 lg:ms-auto">
-        <li class="relative group" routerLinkActive="active [&>a]:text-[#7b1113] [&>a]:bg-red-50/60" [routerLinkActiveOptions]="{ exact: true }">
-          <a class="text-slate-600 font-semibold text-sm px-4 py-2 rounded-xl transition-all duration-150 block hover:bg-slate-50 hover:text-[#7b1113] no-underline hover:no-underline" routerLink="/ito" (click)="closeAllDropdowns(); isMenuOpen = false">
+      <ul
+        class="flex max-lg:flex-col lg:flex-row lg:items-center gap-1 max-lg:p-6 list-none m-0 lg:ms-auto"
+      >
+        <li
+          class="relative group"
+          routerLinkActive="active [&>a]:text-[#7b1113] [&>a]:bg-red-50/60"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <a
+            class="text-slate-600 font-semibold text-sm px-4 py-2 rounded-xl transition-all duration-150 block hover:bg-slate-50 hover:text-[#7b1113] no-underline hover:no-underline"
+            routerLink="/ito"
+            (click)="closeAllDropdowns(); isMenuOpen = false"
+          >
+            <mat-icon class="!w-4 !h-4 !text-base opacity-70"
+              >dashboard</mat-icon
+            >
+
             Dashboard
           </a>
         </li>
-        <li class="relative group" routerLinkActive="active [&>a]:text-[#7b1113] [&>a]:bg-red-50/60" [routerLinkActiveOptions]="{ exact: true }">
-          <a class="text-slate-600 font-semibold text-sm px-4 py-2 rounded-xl transition-all duration-150 block hover:bg-slate-50 hover:text-[#7b1113] no-underline hover:no-underline" routerLink="/ticketview" (click)="closeAllDropdowns(); isMenuOpen = false">
+        <li
+          class="relative group"
+          routerLinkActive="active [&>a]:text-[#7b1113] [&>a]:bg-red-50/60"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <a
+            class="text-slate-600 font-semibold text-sm px-4 py-2 rounded-xl transition-all duration-150 block hover:bg-slate-50 hover:text-[#7b1113] no-underline hover:no-underline"
+            routerLink="/ticketview"
+            (click)="closeAllDropdowns(); isMenuOpen = false"
+          >
+            <mat-icon
+              class="!w-4 !h-4 !text-base text-slate-400 group-hover:text-[#7b1113] transition-colors"
+              >confirmation_number</mat-icon
+            >
             Open Tickets
           </a>
         </li>
-        <li class="relative group" routerLinkActive="active [&>a]:text-[#7b1113] [&>a]:bg-red-50/60" [routerLinkActiveOptions]="{ exact: true }">
-          <a class="text-slate-600 font-semibold text-sm px-4 py-2 rounded-xl transition-all duration-150 block hover:bg-slate-50 hover:text-[#7b1113] no-underline hover:no-underline" routerLink="/agent-zoomview" (click)="closeAllDropdowns(); isMenuOpen = false">
+        <li
+          class="relative group"
+          routerLinkActive="active [&>a]:text-[#7b1113] [&>a]:bg-red-50/60"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <a
+            class="text-slate-600 font-semibold text-sm px-4 py-2 rounded-xl transition-all duration-150 block hover:bg-slate-50 hover:text-[#7b1113] no-underline hover:no-underline"
+            routerLink="/agent-zoomview"
+            (click)="closeAllDropdowns(); isMenuOpen = false"
+          >
+            <mat-icon
+              class="!w-4 !h-4 !text-base text-slate-400 group-hover:text-[#7b1113] transition-colors"
+              >videocam</mat-icon
+            >
             Zoom Request
           </a>
         </li>
-        <li class="relative group" routerLinkActive="active [&>a]:text-[#7b1113] [&>a]:bg-red-50/60" [routerLinkActiveOptions]="{ exact: true }">
+        <!-- <li class="relative group" routerLinkActive="active [&>a]:text-[#7b1113] [&>a]:bg-red-50/60" [routerLinkActiveOptions]="{ exact: true }">
           <a class="text-slate-600 font-semibold text-sm px-4 py-2 rounded-xl transition-all duration-150 block hover:bg-slate-50 hover:text-[#7b1113] no-underline hover:no-underline" routerLink="/itowifireq" (click)="closeAllDropdowns(); isMenuOpen = false">
             WiFi Support
           </a>
-        </li>
+        </li> -->
       </ul>
 
-      <ul class="flex max-lg:flex-col lg:items-center list-none m-0 max-lg:p-6 lg:p-0 lg:ms-4 gap-4 max-lg:mt-auto border-t border-slate-100 lg:border-t-0 max-lg:pt-6">
-        
+      <ul
+        class="flex max-lg:flex-col lg:items-center list-none m-0 max-lg:p-6 lg:p-0 lg:ms-4 gap-4 max-lg:mt-auto border-t border-slate-100 lg:border-t-0 max-lg:pt-6"
+      >
         <li class="hidden lg:block relative">
           <input
             type="text"
@@ -68,7 +135,10 @@
             placeholder="Search tickets..."
             (keyup)="onFilterChange($event)"
           />
-          <mat-icon class="absolute left-3 top-1/2 -translate-y-1/2 !w-4 !h-4 !text-base text-slate-400 pointer-events-none">search</mat-icon>
+          <mat-icon
+            class="absolute left-3 top-1/2 -translate-y-1/2 !w-4 !h-4 !text-base text-slate-400 pointer-events-none !inline-flex !items-center !justify-center"
+            >search</mat-icon
+          >
         </li>
 
         <li class="relative w-full lg:w-auto">
@@ -78,28 +148,50 @@
             (click)="toggleNotifDropdown($event)"
           >
             <mat-icon class="!w-5 !h-5 !text-xl">notifications</mat-icon>
-            <span *ngIf="notifCount > 0" class="absolute top-1.5 right-1.5 bg-red-600 text-white text-[10px] font-black rounded-full px-1.5 py-0.5 leading-none shadow-sm">{{ notifCount }}</span>
+            <span
+              *ngIf="notifCount > 0"
+              class="absolute top-1.5 right-1.5 bg-red-600 text-white text-[10px] font-black rounded-full px-1.5 py-0.5 leading-none shadow-sm"
+              >{{ notifCount }}</span
+            >
           </a>
 
           <div
             *ngIf="isNotifOpen"
             class="absolute right-0 max-lg:left-0 max-lg:right-auto bg-white rounded-xl p-1.5 mt-2 shadow-xl shadow-slate-200/80 z-50 w-[280px] max-h-[320px] overflow-y-auto border border-slate-100 max-lg:static max-lg:shadow-none max-lg:w-full max-lg:bg-slate-50/50 max-lg:mt-1"
           >
-            <div *ngIf="notifications.length === 0" class="px-4 py-6 text-center text-xs font-medium text-slate-400">
+            <div
+              *ngIf="notifications.length === 0"
+              class="px-4 py-6 text-center text-xs font-medium text-slate-400"
+            >
               No new notifications
             </div>
-            
+
             <div
               *ngFor="let notif of notifications"
               class="cursor-pointer rounded-lg p-3 mb-1 transition-all duration-150 border border-transparent relative hover:bg-slate-50"
-              [ngClass]="{'bg-red-50/40 border-l-4 border-l-[#7b1113]': !notif.read, 'bg-white opacity-75': notif.read}"
+              [ngClass]="{
+                'bg-red-50/40 border-l-4 border-l-[#7b1113]': !notif.read,
+                'bg-white opacity-75': notif.read,
+              }"
               (click)="openTicket(notif.TicketId, notif.NotificationId)"
             >
               <div class="flex justify-between items-start text-xs">
-                <strong [class.text-[#7b1113]]="!notif.read" [class.font-bold]="!notif.read" [class.text-slate-700]="notif.read">{{ notif.SenderEmail }}</strong>
-                <span *ngIf="!notif.read" class="w-1.5 h-1.5 bg-[#7b1113] rounded-full mt-1 shrink-0"></span>
+                <strong
+                  [class.text-[#7b1113]]="!notif.read"
+                  [class.font-bold]="!notif.read"
+                  [class.text-slate-700]="notif.read"
+                  >{{ notif.SenderEmail }}</strong
+                >
+                <span
+                  *ngIf="!notif.read"
+                  class="w-1.5 h-1.5 bg-[#7b1113] rounded-full mt-1 shrink-0"
+                ></span>
               </div>
-              <div class="text-xs text-slate-600 truncate mt-0.5" [class.font-semibold]="!notif.read" [class.text-slate-900]="!notif.read">
+              <div
+                class="text-xs text-slate-600 truncate mt-0.5"
+                [class.font-semibold]="!notif.read"
+                [class.text-slate-900]="!notif.read"
+              >
                 {{ notif.Message }}
               </div>
               <div class="text-[10px] text-slate-400 mt-1 block font-medium">
@@ -125,24 +217,38 @@
             </span>
 
             <div class="flex flex-col text-left leading-tight">
-              <div class="text-xs font-bold text-slate-900 truncate max-w-[130px]">{{ fullName }}</div>
-              <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">Agent</div>
+              <div
+                class="text-xs font-bold text-slate-900 truncate max-w-[130px]"
+              >
+                {{ fullName }}
+              </div>
+              <div
+                class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5"
+              >
+                Agent
+              </div>
             </div>
-            
-            <mat-icon class="hidden lg:block !w-4 !h-4 !text-base text-slate-400 transition-transform duration-200" [class.rotate-180]="isUserDropdownOpen">keyboard_arrow_down</mat-icon>
+
+            <mat-icon
+              class="hidden lg:block !w-4 !h-4 !text-base text-slate-400 transition-transform duration-200"
+              [class.rotate-180]="isUserDropdownOpen"
+              >keyboard_arrow_down</mat-icon
+            >
           </a>
 
-          <ul 
+          <ul
             *ngIf="isUserDropdownOpen"
             class="absolute right-0 max-lg:left-0 max-lg:right-auto bg-white rounded-xl p-1.5 mt-2 shadow-xl shadow-slate-200/80 z-50 list-none border border-slate-100 min-w-[160px] max-lg:static max-lg:shadow-none max-lg:w-full max-lg:border-0 max-lg:bg-slate-50/50 max-lg:mt-1"
           >
             <li>
-           <button
+              <button
                 class="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg font-bold text-red-600 hover:bg-red-50 transition-all duration-150 cursor-pointer border-0 bg-transparent text-left text-xs"
                 type="button"
                 (click)="logOut(); closeAllDropdowns(); isMenuOpen = false"
               >
-                <mat-icon class="!text-lg !w-[18px] !h-[18px] text-red-600">exit_to_app</mat-icon>
+                <mat-icon class="!text-lg !w-[18px] !h-[18px] text-red-600 !inline-flex !items-center !justify-center"
+                  >exit_to_app</mat-icon
+                >
                 <span>Sign Out</span>
               </button>
             </li>
@@ -151,8 +257,8 @@
       </ul>
     </div>
 
-    <div 
-      class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[1090] transition-all duration-300 lg:hidden" 
+    <div
+      class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[1090] transition-all duration-300 lg:hidden"
       [class.opacity-100]="isMenuOpen"
       [class.visible]="isMenuOpen"
       [class.opacity-0]="!isMenuOpen"

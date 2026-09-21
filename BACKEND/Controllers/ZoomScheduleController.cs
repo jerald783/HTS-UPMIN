@@ -450,51 +450,51 @@ namespace BACKEND.Controllers
             }
         }
 
-// [HttpGet("zoomstats")]
-// public IActionResult GetZoomStats(string? fromDate = null, string? toDate = null)
-// {
-//     try
-//     {
-//         string query = @"
-//             SELECT 
-//                 YEAR(COALESCE(StartDate, EventDate)) AS Year,
-//                 MONTH(COALESCE(StartDate, EventDate)) AS Month,
-//                 COUNT(*) AS Total,
-//                 SUM(CASE WHEN Status = 'Pending' THEN 1 ELSE 0 END) AS Pending,
-//                 SUM(CASE WHEN Status = 'Approved' THEN 1 ELSE 0 END) AS Approved,
-//                 SUM(CASE WHEN Status = 'Rejected' THEN 1 ELSE 0 END) AS Rejected
-//             FROM tbl_zoom_schedule
-//             WHERE (@FromDate IS NULL OR COALESCE(StartDate, EventDate) >= @FromDate)
-//               AND (@ToDate IS NULL OR COALESCE(EndDate, EventDate) <= @ToDate)
-//               AND (@ToDate IS NULL OR COALESCE(EndDate, EventDate) < DATE_ADD(@ToDate, INTERVAL 1 DAY))
-//             GROUP BY Year, Month
-//             ORDER BY Year, Month;";
+        // [HttpGet("zoomstats")]
+        // public IActionResult GetZoomStats(string? fromDate = null, string? toDate = null)
+        // {
+        //     try
+        //     {
+        //         string query = @"
+        //             SELECT 
+        //                 YEAR(COALESCE(StartDate, EventDate)) AS Year,
+        //                 MONTH(COALESCE(StartDate, EventDate)) AS Month,
+        //                 COUNT(*) AS Total,
+        //                 SUM(CASE WHEN Status = 'Pending' THEN 1 ELSE 0 END) AS Pending,
+        //                 SUM(CASE WHEN Status = 'Approved' THEN 1 ELSE 0 END) AS Approved,
+        //                 SUM(CASE WHEN Status = 'Rejected' THEN 1 ELSE 0 END) AS Rejected
+        //             FROM tbl_zoom_schedule
+        //             WHERE (@FromDate IS NULL OR COALESCE(StartDate, EventDate) >= @FromDate)
+        //               AND (@ToDate IS NULL OR COALESCE(EndDate, EventDate) <= @ToDate)
+        //               AND (@ToDate IS NULL OR COALESCE(EndDate, EventDate) < DATE_ADD(@ToDate, INTERVAL 1 DAY))
+        //             GROUP BY Year, Month
+        //             ORDER BY Year, Month;";
 
-//         DataTable table = new();
-//         using var con = GetConnection();
-//         using var cmd = new MySqlCommand(query, con);
+        //         DataTable table = new();
+        //         using var con = GetConnection();
+        //         using var cmd = new MySqlCommand(query, con);
 
-//         cmd.Parameters.AddWithValue("@FromDate", (object)fromDate ?? DBNull.Value);
-//         cmd.Parameters.AddWithValue("@ToDate", (object)toDate ?? DBNull.Value);
+        //         cmd.Parameters.AddWithValue("@FromDate", (object)fromDate ?? DBNull.Value);
+        //         cmd.Parameters.AddWithValue("@ToDate", (object)toDate ?? DBNull.Value);
 
-//         con.Open();
-//         table.Load(cmd.ExecuteReader());
+        //         con.Open();
+        //         table.Load(cmd.ExecuteReader());
 
-//         return Ok(table);
-//     }
-//     catch (Exception ex)
-//     {
-//         return StatusCode(500, new { message = "Internal server error", detail = ex.Message });
-//     }
-// }
+        //         return Ok(table);
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         return StatusCode(500, new { message = "Internal server error", detail = ex.Message });
+        //     }
+        // }
 
-[HttpGet("zoomstats")]
-public IActionResult GetZoomStats(string? fromDate = null, string? toDate = null)
-{
-    try
-    {
-        // Replaced StartDate/EventDate with Timestamp
-        string query = @"
+        [HttpGet("zoomstats")]
+        public IActionResult GetZoomStats(string? fromDate = null, string? toDate = null)
+        {
+            try
+            {
+                // Replaced StartDate/EventDate with Timestamp
+                string query = @"
             SELECT 
                 YEAR(Timestamp) AS Year,
                 MONTH(Timestamp) AS Month,
@@ -509,27 +509,27 @@ public IActionResult GetZoomStats(string? fromDate = null, string? toDate = null
             GROUP BY YEAR(Timestamp), MONTH(Timestamp), DAY(Timestamp)
             ORDER BY Year, Month, Day;";
 
-        DataTable table = new();
-        using var con = GetConnection();
-        using var cmd = new MySqlCommand(query, con);
+                DataTable table = new();
+                using var con = GetConnection();
+                using var cmd = new MySqlCommand(query, con);
 
-        cmd.Parameters.AddWithValue("@FromDate",
-            string.IsNullOrEmpty(fromDate) ? DBNull.Value : DateTime.Parse(fromDate));
+                cmd.Parameters.AddWithValue("@FromDate",
+                    string.IsNullOrEmpty(fromDate) ? DBNull.Value : DateTime.Parse(fromDate));
 
-        cmd.Parameters.AddWithValue("@ToDate",
-            string.IsNullOrEmpty(toDate) ? DBNull.Value : DateTime.Parse(toDate));
+                cmd.Parameters.AddWithValue("@ToDate",
+                    string.IsNullOrEmpty(toDate) ? DBNull.Value : DateTime.Parse(toDate));
 
-        con.Open();
-        table.Load(cmd.ExecuteReader());
+                con.Open();
+                table.Load(cmd.ExecuteReader());
 
-        return Ok(table);
+                return Ok(table);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Internal server error", detail = ex.Message });
+            }
+        }
     }
-    catch (Exception ex)
-    {
-        return StatusCode(500, new { message = "Internal server error", detail = ex.Message });
-    }
-}
-}
 }
 
 

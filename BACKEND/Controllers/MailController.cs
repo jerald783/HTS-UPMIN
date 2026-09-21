@@ -32,7 +32,7 @@ namespace Backend.Controllers
                 };
 
                 // Send to customer
-                if (!string.IsNullOrWhiteSpace(payload.To))
+                if (!string.IsNullOrWhiteSpace(payload.To) && !string.IsNullOrWhiteSpace(smtp.SenderEmail))
                 {
                     var userMsg = new MailMessage
                     {
@@ -45,9 +45,8 @@ namespace Backend.Controllers
                     userMsg.To.Add(payload.To);
                     client.Send(userMsg);
                 }
-
                 // Send to agents
-                if (payload.Agents != null && payload.Agents.Any())
+                if (payload.Agents != null && payload.Agents.Any() && !string.IsNullOrWhiteSpace(smtp.SenderEmail))
                 {
                     foreach (var agent in payload.Agents)
                     {
@@ -63,7 +62,6 @@ namespace Backend.Controllers
                         client.Send(agentMsg);
                     }
                 }
-
                 return Ok(new { message = "✅ Email sent to customer and agents." });
             }
             catch (Exception ex)
@@ -71,9 +69,5 @@ namespace Backend.Controllers
                 return StatusCode(500, new { message = "❌ Failed to send emails.", error = ex.Message });
             }
         }
-
-     
     }
-
-    
 }

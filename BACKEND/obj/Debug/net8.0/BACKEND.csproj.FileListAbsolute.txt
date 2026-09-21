@@ -34,6 +34,7 @@ C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\Mic
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\Microsoft.Bcl.Cryptography.dll
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\Microsoft.Build.Locator.dll
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\Microsoft.CodeAnalysis.dll
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\Microsoft.CodeAnalysis.CSharp.dll
@@ -66,7 +67,6 @@ C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\Mic
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\Microsoft.OpenApi.dll
-C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\MimeKit.dll
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\Mono.TextTemplating.dll
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\MySql.Data.dll
@@ -88,7 +88,8 @@ C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\Sys
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\System.Composition.TypedParts.dll
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll
-C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\System.Drawing.Common.dll
+C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\System.Diagnostics.EventLog.dll
+C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\System.Formats.Asn1.dll
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\System.IO.Pipelines.dll
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\System.Management.dll
@@ -165,19 +166,17 @@ C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\ru\
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\runtimes\win-x64\native\comerr64.dll
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\runtimes\win-x64\native\gssapi64.dll
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\runtimes\win-x64\native\k5sprt64.dll
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\runtimes\win-x64\native\krb5_64.dll
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\runtimes\win-x64\native\krbcc64.dll
-C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
-C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Diagnostics.EventLog.Messages.dll
+C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Diagnostics.EventLog.dll
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Management.dll
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll
-C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
-C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
+C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Windows.Extensions.dll
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\obj\Debug\net8.0\BACKEND.csproj.AssemblyReference.cache
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\obj\Debug\net8.0\rpswa.dswa.cache.json
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\obj\Debug\net8.0\BACKEND.GeneratedMSBuildEditorConfig.editorconfig
@@ -186,6 +185,7 @@ C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\obj\Debug\net8.0\BAC
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\obj\Debug\net8.0\BACKEND.csproj.CoreCompileInputs.cache
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\obj\Debug\net8.0\BACKEND.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\obj\Debug\net8.0\BACKEND.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\obj\Debug\net8.0\BACKEND.sourcelink.json
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\obj\Debug\net8.0\rjimswa.dswa.cache.json
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
@@ -200,4 +200,3 @@ C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\obj\Debug\net8.0\ref
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\obj\Debug\net8.0\BACKEND.pdb
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\obj\Debug\net8.0\BACKEND.genruntimeconfig.cache
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\obj\Debug\net8.0\ref\BACKEND.dll
-C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\obj\Debug\net8.0\BACKEND.sourcelink.json

@@ -24,12 +24,11 @@
               >
                 📋
               </div>
-              <h2 class="text-xl font-black text-slate-800 tracking-tight">
+              <h2 class="text-xl font-bold tracking-tight text-[#4d0000]">
                 Create Ticket
               </h2>
               <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-                Log data requests or technical infrastructure incidents
-                instantly.
+                Report technical infrastructure issues or submit data requests for prompt assistance.
               </p>
             </div>
 
@@ -107,231 +106,19 @@
             class="hidden lg:block p-3.5 bg-amber-50/40 border border-amber-200/40 rounded-xl"
           >
             <p class="text-[11px] text-amber-800 leading-relaxed font-medium">
-              💡 <span class="font-bold">Pro-tip:</span> Attaching precise error
-              console logs or diagnostic snapshots dramatically accelerates
-              system triage responses.
+              💡 <span class="font-bold">Pro-tip:</span> Attaching error logs or diagnostic screenshots helps our team resolve your issue much faster.
             </p>
           </div>
         </div>
 
-        <!-- <div class="lg:col-span-8 p-6 sm:p-8 space-y-6">
-          
-          <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
-            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest">Ticket Attributes</h3>
-            <span class="px-2.5 py-1 bg-emerald-50 rounded-full text-[10px] font-bold text-emerald-700 border border-emerald-100">Live Secure Channel</span>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            
-            <div class="space-y-1.5 relative">
-              <label class="text-xs font-bold text-slate-700 tracking-wide block">Property No. (PAR#)</label>
-              <ng-select
-                class="w-full text-sm min-h-[42px] custom-premium-select"
-                [items]="PropList"
-                bindLabel="PropNo"
-                bindValue="PropNo"
-                [addTag]="true"
-                formControlName="PropNo"
-                placeholder="Select assigned system asset..."
-                (blur)="f['PropNo'].markAsTouched()"
-              ></ng-select>
-              <div *ngIf="f['PropNo'].valid && (f['PropNo'].touched || isSubmitted)" class="absolute right-0 top-0 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500 text-[10px] text-white shadow-sm animate-fadeIn">✓</div>
-              <div class="text-rose-600 text-[11px] font-medium flex items-center gap-1 mt-1 animate-fadeIn" *ngIf="(f['PropNo'].touched || isSubmitted) && f['PropNo'].invalid">
-                ✕ Property Reference code validation required.
-              </div>
-            </div>
-
-            <div class="space-y-1.5 relative">
-              <label class="text-xs font-bold text-slate-700 tracking-wide block">Unit / Location</label>
-              <ng-select
-                class="w-full text-sm min-h-[42px] custom-premium-select"
-                [items]="Location"
-                formControlName="location"
-                placeholder="Choose node location..."
-                [searchable]="true"
-                [clearable]="true"
-                [addTag]="true"
-                (blur)="f['location'].markAsTouched()"
-              ></ng-select>
-              <div *ngIf="f['location'].valid && (f['location'].touched || isSubmitted)" class="absolute right-0 top-0 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500 text-[10px] text-white shadow-sm animate-fadeIn">✓</div>
-              <div class="text-rose-600 text-[11px] font-medium flex items-center gap-1 mt-1 animate-fadeIn" *ngIf="(f['location'].touched || isSubmitted) && f['location'].invalid">
-                ✕ Operational unit or zone required.
-              </div>
-            </div>
-
-            <div class="space-y-1.5 relative">
-              <label for="HelpTopic" class="text-xs font-bold text-slate-700 tracking-wide block">Help Topic Category</label>
-              <div *ngIf="f['HelpTopic'].valid && (f['HelpTopic'].touched || isSubmitted)" class="absolute right-0 top-0 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500 text-[10px] text-white shadow-sm animate-fadeIn">✓</div>
-              <div class="relative group">
-                <select 
-                  id="HelpTopic" 
-                  formControlName="HelpTopic" 
-                  class="w-full h-[42px] pl-3.5 pr-10 bg-white border border-slate-200 rounded-xl text-slate-700 text-sm outline-none transition-all appearance-none group-hover:border-slate-300 focus:border-red-800 focus:ring-4 focus:ring-red-800/5 [&.ng-invalid.ng-touched]:border-rose-400 [&.ng-invalid.ng-touched]:bg-rose-50/10 [&.ng-valid.ng-touched]:border-emerald-500"
-                >
-                  <option [ngValue]="null">Select equipment classification</option>
-                  <option *ngFor="let type of HelpTopic" [value]="type">
-                    {{ type }}
-                  </option>
-                </select>
-                <div class="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                </div>
-              </div>
-              <div class="text-rose-600 text-[11px] font-medium flex items-center gap-1 mt-1 animate-fadeIn" *ngIf="(f['HelpTopic'].touched || isSubmitted) && f['HelpTopic'].invalid">
-                ✕ Target category needed.
-              </div>
-            </div>
-
-            <div class="space-y-1.5 relative">
-              <label for="PriorityLevel" class="text-xs font-bold text-slate-700 tracking-wide block">Priority Level</label>
-              <div *ngIf="f['PriorityLevel'].valid && (f['PriorityLevel'].touched || isSubmitted)" class="absolute right-0 top-0 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500 text-[10px] text-white shadow-sm animate-fadeIn">✓</div>
-              <div class="relative group">
-                <select 
-                  id="PriorityLevel" 
-                  formControlName="PriorityLevel" 
-                  class="w-full h-[42px] pl-3.5 pr-10 bg-white border border-slate-200 rounded-xl text-slate-700 text-sm outline-none transition-all appearance-none group-hover:border-slate-300 focus:border-red-800 focus:ring-4 focus:ring-red-800/5 [&.ng-invalid.ng-touched]:border-rose-400 [&.ng-invalid.ng-touched]:bg-rose-50/10 [&.ng-valid.ng-touched]:border-emerald-500"
-                >
-                  <option [ngValue]="null">Select severity configuration</option>
-                  <option *ngFor="let type of PriorityLevel" [value]="type">
-                    {{ type }}
-                  </option>
-                </select>
-                <div class="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                </div>
-              </div>
-              <div class="text-rose-600 text-[11px] font-medium flex items-center gap-1 mt-1 animate-fadeIn" *ngIf="(f['PriorityLevel'].touched || isSubmitted) && f['PriorityLevel'].invalid">
-                ✕ Explicit priority assignment required.
-              </div>
-            </div>
-
-          </div>
-
-          <div *ngIf="extraFields && extraFields.length > 0" class="bg-slate-50/60 p-4 rounded-2xl border border-slate-200/50 space-y-4">
-            <div *ngFor="let field of extraFields" class="space-y-1.5 relative">
-              <label class="text-xs font-bold text-slate-700 block">{{ field.FieldLabel }}</label>
-              <div *ngIf="incidentForm.get(field.FieldName)?.valid && (incidentForm.get(field.FieldName)?.touched || isSubmitted)" class="absolute right-0 top-0 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500 text-[10px] text-white shadow-sm animate-fadeIn">✓</div>
-
-              <input
-                *ngIf="field.FieldType == 'text'"
-                type="text"
-                [formControlName]="field.FieldName"
-                class="w-full h-[42px] px-3.5 bg-white border border-slate-200 rounded-xl text-slate-700 text-sm outline-none transition-all focus:border-red-800 focus:ring-4 focus:ring-red-800/5 [&.ng-invalid.ng-touched]:border-rose-400 [&.ng-invalid.ng-touched]:bg-rose-50/10 [&.ng-valid.ng-touched]:border-emerald-500"
-              />
-
-              <textarea
-                *ngIf="field.FieldType == 'textarea'"
-                [formControlName]="field.FieldName"
-                class="w-full p-3.5 bg-white border border-slate-200 rounded-xl text-slate-700 text-sm outline-none transition-all focus:border-red-800 focus:ring-4 focus:ring-red-800/5 resize-y min-h-[90px] [&.ng-invalid.ng-touched]:border-rose-400 [&.ng-invalid.ng-touched]:bg-rose-50/10 [&.ng-valid.ng-touched]:border-emerald-500"
-              ></textarea>
-
-              <div *ngIf="field.FieldType == 'select'" class="relative">
-                <select
-                  [formControlName]="field.FieldName"
-                  class="w-full h-[42px] pl-3.5 pr-10 bg-white border border-slate-200 rounded-xl text-slate-700 text-sm outline-none transition-all appearance-none focus:border-red-800 focus:ring-4 focus:ring-red-800/5 [&.ng-invalid.ng-touched]:border-rose-400 [&.ng-invalid.ng-touched]:bg-rose-50/10 [&.ng-valid.ng-touched]:border-emerald-500"
-                >
-                  <option [ngValue]="null">Select option configuration</option>
-                  <option *ngFor="let opt of field.Options | jsonParse" [value]="opt">
-                    {{ opt }}
-                  </option>
-                </select>
-                <div class="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                </div>
-              </div>
-
-              <div class="text-rose-600 text-[11px] font-medium mt-1 block" *ngIf="(incidentForm.get(field.FieldName)?.touched || isSubmitted) && incidentForm.get(field.FieldName)?.invalid">
-                ✕ {{ field.FieldLabel }} validation context missing.
-              </div>
-            </div>
-          </div>
-
-          <div class="space-y-1.5 group relative">
-            <label class="text-xs font-bold text-slate-700 tracking-wide block">Issue Breakdown Description</label>
-            <div *ngIf="incidentForm.get('details')?.valid && (incidentForm.get('details')?.touched || isSubmitted)" class="absolute right-0 top-0 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500 text-[10px] text-white shadow-sm animate-fadeIn">✓</div>
-            <textarea
-              formControlName="details"
-              rows="4"
-              placeholder="Provide a chronological summary of system performance bugs, steps to reproduce, or anomaly behavior details..."
-              class="w-full p-4 bg-white border border-slate-200 rounded-xl text-slate-700 text-sm outline-none shadow-sm transition-all group-hover:border-slate-300 focus:border-red-800 focus:ring-4 focus:ring-red-800/5 resize-y min-h-[120px] [&.ng-invalid.ng-touched]:border-rose-400 [&.ng-invalid.ng-touched]:bg-rose-50/10 [&.ng-valid.ng-touched]:border-emerald-500"
-            ></textarea>
-            <div class="text-rose-600 text-[11px] font-medium flex items-center gap-1 mt-1 animate-fadeIn" *ngIf="incidentForm.get('details')?.invalid && (incidentForm.get('details')?.touched || isSubmitted)">
-              ✕ Description sequence must contain a comprehensive narrative (minimum 10 text characters).
-            </div>
-          </div>
-
-          <div class="space-y-2">
-            <label class="text-xs font-bold text-slate-700 tracking-wide block">Media Attachments & Logs Vault</label>
-            <div class="group relative flex items-center justify-center w-full">
-              
-              <label 
-                class="flex flex-col items-center justify-center w-full min-h-[96px] py-4 border-2 border-slate-200 border-dashed rounded-xl cursor-pointer transition-all duration-200"
-                [ngClass]="fileInput.files && fileInput.files.length > 0 ? 'bg-emerald-50/40 border-emerald-300 hover:bg-emerald-50/60' : 'bg-slate-50/30 hover:bg-slate-50/80 hover:border-slate-300'"
-                (dragover)="$event.preventDefault()"
-                (drop)="$event.preventDefault(); $event.dataTransfer && $event.dataTransfer.files && (fileInput.files = $event.dataTransfer.files) && onFileSelected({ target: { files: $event.dataTransfer.files } })"
-              >
-                <div class="flex items-center gap-3 px-4">
-                  
-                  <div 
-                    class="p-2 rounded-lg border shadow-sm transition-colors"
-                    [ngClass]="fileInput.files && fileInput.files.length > 0 ? 'bg-white border-emerald-200 text-emerald-600' : 'bg-white border-slate-200/60 text-slate-400 group-hover:text-red-800'"
-                  >
-                    <svg *ngIf="!fileInput.files || fileInput.files.length === 0" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16v-8m0 8l-4-4m4 4l4-4M4 4h16v16H4V4z"></path></svg>
-                    <svg *ngIf="fileInput.files && fileInput.files.length > 0" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
-                  </div>
-                  
-                  <div class="text-left">
-                    <ng-container *ngIf="!fileInput.files || fileInput.files.length === 0">
-                      <p class="text-xs text-slate-600 font-semibold"><span class="text-red-800 hover:underline">Upload infrastructure logs</span> or drag drop media</p>
-                      <p class="text-[10px] text-slate-400 font-normal">Supports PNG, PDF, TXT files up to 10MB sizes.</p>
-                    </ng-container>
-
-                    <ng-container *ngIf="fileInput.files && fileInput.files.length > 0">
-                      <p class="text-xs text-emerald-800 font-bold">Successfully Staged!</p>
-                      <p class="text-[10px] text-emerald-600 font-medium">
-                        📎 Prepared to upload {{ fileInput.files.length }} {{ fileInput.files.length === 1 ? 'file' : 'files' }}
-                      </p>
-                    </ng-container>
-                  </div>
-
-                </div>
-
-                <input 
-                  #fileInput
-                  type="file" 
-                  (change)="onFileSelected($event)" 
-                  multiple 
-                  class="hidden" 
-                />
-              </label>
-
-            </div>
-          </div>
-
-          <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-end gap-3">
-            <button 
-              type="submit" 
-              class="w-full sm:w-auto px-10 h-12 inline-flex items-center justify-center gap-2 text-white text-sm font-bold rounded-xl bg-slate-900 hover:bg-slate-800 shadow-lg shadow-slate-950/10 active:scale-[0.98] transition-all cursor-pointer duration-150"
-            >
-              🚀 Save Ticket
-            </button>
-          </div>
-
-        </div> -->
-
         <div class="lg:col-span-8 p-6 sm:p-8 space-y-6">
           <div
-            class="border-b border-slate-100 pb-3 flex items-center justify-between"
-          >
+            class="border-b border-slate-100 pb-3 flex items-center justify-between">
             <h3
               class="text-xs font-bold text-slate-400 uppercase tracking-widest"
             >
               Ticket Attributes
             </h3>
-            <span
-              class="px-2.5 py-1 bg-emerald-50 rounded-full text-[10px] font-bold text-emerald-700 border border-emerald-100"
-              >Live Secure Channel</span
-            >
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -625,7 +412,7 @@
             <textarea
               formControlName="details"
               rows="4"
-              placeholder="Provide a chronological summary of system performance bugs, steps to reproduce, or anomaly behavior details..."
+              placeholder="Detail on the reason(s) for opening the ticket..."
               class="w-full p-4 bg-white border border-slate-200 rounded-xl text-slate-700 text-sm outline-none shadow-sm transition-all group-hover:border-slate-300 focus:border-red-800 focus:ring-4 focus:ring-red-800/5 resize-y min-h-[120px] [&.ng-invalid.ng-touched]:border-rose-400 [&.ng-invalid.ng-touched]:bg-rose-50/10 [&.ng-valid.ng-touched]:border-emerald-500"
             ></textarea>
             <div
@@ -643,7 +430,7 @@
           <!-- Media Attachments -->
           <div class="space-y-2">
             <label class="text-xs font-bold text-slate-700 tracking-wide block"
-              >Media Attachments & Logs Vault</label
+              >Attach File (PNG /JPEG/PDF / DOCX, max 10MB)</label
             >
             <div class="group relative flex items-center justify-center w-full">
               <label
@@ -711,9 +498,9 @@
                     >
                       <p class="text-xs text-slate-600 font-semibold">
                         <span class="text-red-800 hover:underline"
-                          >Upload infrastructure logs</span
+                          >Upload file here</span
                         >
-                        or drag drop media
+                        or drag drop here
                       </p>
                       <p class="text-[10px] text-slate-400 font-normal">
                         Supports PNG, PDF, TXT files up to 10MB sizes.
@@ -759,5 +546,110 @@
         </div>
       </div>
     </form>
+  </div>
+</div>
+
+<!-- Limit Modal -->
+<div
+  *ngIf="isFeedbackModalOpen"
+  (click)="closeFeedbackModal()"
+  class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-all"
+>
+  <!-- Modal Card (stopPropagation prevents closing when clicking inside content) -->
+  <div
+    (click)="$event.stopPropagation()"
+    class="relative w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 shadow-2xl border border-slate-100 transition-all"
+  >
+    <!-- Close Icon Button -->
+    <button
+      type="button"
+      (click)="closeFeedbackModal()"
+      class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 hover:bg-slate-100 p-1.5 rounded-full transition-colors"
+      aria-label="Close modal"
+    >
+      <svg
+        class="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+
+    <!-- Header & Alert Icon -->
+    <div class="flex items-start gap-4">
+      <div
+        class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-amber-100 text-amber-600"
+      >
+        <svg
+          class="h-6 w-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+          />
+        </svg>
+      </div>
+
+      <div>
+        <h3 class="text-lg font-bold text-slate-900">Feedback Required</h3>
+        <p class="text-xs text-slate-500 mt-0.5">Ticket submission paused</p>
+      </div>
+    </div>
+
+    <!-- Body Notice -->
+    <div class="mt-4 space-y-3">
+      <p class="text-sm text-slate-600 leading-relaxed">
+        You have reached the limit of unresolved feedback forms. Please submit
+        feedback for your resolved tickets to unlock ticket creation.
+      </p>
+
+      <!-- Status Badge Container -->
+      <div
+        class="flex items-center justify-between p-3 bg-amber-50/80 rounded-xl border border-amber-200/80"
+      >
+        <span
+          class="text-xs font-semibold uppercase tracking-wider text-amber-900"
+          >Pending Submissions</span
+        >
+        <span
+          class="px-2.5 py-1 text-xs font-bold text-amber-800 bg-amber-200/80 rounded-full"
+        >
+          {{ pendingFeedbackCount }} Required
+        </span>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="mt-6 flex flex-col-reverse sm:flex-row sm:justify-end gap-2">
+      <!-- <button
+        type="button"
+        (click)="closeFeedbackModal()"
+        class="w-full sm:w-auto px-4 py-2.5 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-slate-300"
+      >
+        Dismiss
+      </button> -->
+
+      <!-- Router link to direct user to the feedback list page -->
+      <button
+        type="button"
+        routerLink="/feedback"
+        (click)="closeFeedbackModal()"
+        class="w-full sm:w-auto px-4 py-2.5 text-sm font-medium text-white bg-amber-600 hover:bg-amber-700 rounded-xl transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
+      >
+        Go to Feedback
+      </button>
+    </div>
   </div>
 </div>

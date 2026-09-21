@@ -9,6 +9,9 @@ import { TicketService } from '../../../../../services/UserServices/ticket.servi
   standalone: false,
 })
 export class TicketDetailsDialogComponent {
+  isEditingDiagnostic = false;
+  editedDiagnostic = '';
+
   constructor(
     public dialogRef: MatDialogRef<TicketDetailsDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -16,10 +19,36 @@ export class TicketDetailsDialogComponent {
     private tICKET: TicketService,
   ) {}
 
+  enableEditDiagnostic(): void {
+    this.editedDiagnostic = this.data.Diagnostic_Result || '';
+    this.isEditingDiagnostic = true;
+  }
+
+  cancelEditDiagnostic(): void {
+    this.isEditingDiagnostic = false;
+  }
+
+  saveDiagnostic(): void {
+    if (!this.editedDiagnostic.trim()) {
+      return;
+    }
+
+    this.tICKET.updateDiagnosticResult(this.data.TicketId, this.editedDiagnostic).subscribe({
+      next: () => {
+        this.data.Diagnostic_Result = this.editedDiagnostic;
+        this.isEditingDiagnostic = false;
+      },
+      error: (err) => {
+        console.error('Failed to update diagnostic result:', err);
+      }
+    });
+  }
+
   close(): void {
     this.dialogRef.close();
   }
-  viewFile(fileName: string) {
+
+  viewFile(fileName: string): void {
     const url = this.tICKET.getTicketFile(fileName);
     window.open(url, '_blank');
   }

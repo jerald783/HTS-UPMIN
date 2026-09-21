@@ -1,125 +1,4 @@
-<!-- 
-<nav class="page min-h-screen flex flex-col font-sans bg-slate-50 text-slate-800 antialiased relative overflow-x-hidden">
-  
-  <div class="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-40 pointer-events-none z-0"></div>
 
-  <main class="main flex-1 flex items-center justify-center py-6 px-4 sm:px-6 z-10 w-full">
-    <div class="w-full max-w-md mx-auto">
-        
-      <article class="card login-card bg-white p-6 sm:p-8 rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-200 flex flex-col justify-between transition-all duration-300">
-        <div class="w-full">
-          
-          <div class="text-center mb-6">
-            <div class="flex justify-center items-center gap-3 mb-3">
-              <img src="assets/img/UPM_LOGO.png" class="brand-logo h-16 w-16 object-contain" alt="UPM Logo" />
-              <img class="upm-logo h-16 object-contain filter drop-shadow-sm" src="assets/img/ost-logo.png" alt="OST Logo" />
-            </div>
-            
-            <div class="welcome">
-              <h2 class="text-xl font-extrabold text-slate-900 tracking-tight">Helpdesk Ticketing System</h2>
-              <p class="text-[#7A0000] text-xs font-bold tracking-wider uppercase mt-0.5">ITO • UP Mindanao</p>
-              <div class="w-12 h-0.5 bg-slate-200 mx-auto my-3"></div>
-              <p class="text-slate-500 text-xs max-w-xs mx-auto leading-relaxed font-normal">
-                Sign in using your official University of the Philippines institutional credentials.
-              </p>
-            </div>
-          </div>
-
-          <form class="login-form flex flex-col gap-4" (ngSubmit)="onLogin()">
-            
-            <div class="input-container relative w-full">
-              <input
-                type="text"
-                id="Email"
-                [(ngModel)]="Email"
-                name="Email"
-                required
-                placeholder=" "
-                autocomplete="username"
-                class="peer w-full h-11 px-4 border border-slate-200 rounded-xl text-sm font-medium text-slate-900 bg-slate-50/50 outline-none transition-all duration-200 focus:bg-white focus:border-[#7A0000] focus:ring-4 focus:ring-red-900/5"
-              />
-              <label for="Email" 
-                class="absolute left-4 top-1/2 -translate-y-1/2 bg-white px-1.5 text-sm font-medium text-slate-400 pointer-events-none transition-all duration-200 origin-left
-                peer-focus:top-0 peer-focus:text-xs peer-focus:font-semibold peer-focus:text-[#7A0000]
-                peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:font-semibold peer-[:not(:placeholder-shown)]:text-[#7A0000]">
-                Email Address
-              </label>
-            </div>
-
-            <div class="input-container relative w-full">
-              <input
-                [type]="showPassword ? 'text' : 'password'"
-                id="password"
-                [(ngModel)]="password"
-                name="password"
-                required
-                placeholder=" "
-                autocomplete="current-password"
-                class="peer w-full h-11 pl-4 pr-12 border border-slate-200 rounded-xl text-sm font-medium text-slate-900 bg-slate-50/50 outline-none transition-all duration-200 focus:bg-white focus:border-[#7A0000] focus:ring-4 focus:ring-red-900/5"
-              />
-              <label for="password"
-                class="absolute left-4 top-1/2 -translate-y-1/2 bg-white px-1.5 text-sm font-medium text-slate-400 pointer-events-none transition-all duration-200 origin-left
-                peer-focus:top-0 peer-focus:text-xs peer-focus:font-semibold peer-focus:text-[#7A0000]
-                peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:font-semibold peer-[:not(:placeholder-shown)]:text-[#7A0000]">
-                Password
-              </label>
-              <mat-icon
-                class="eye-icon absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer select-none text-slate-400 hover:text-slate-600 active:scale-95 transition-all text-xl"
-                (click)="togglePasswordVisibility()"
-              >
-                {{ showPassword ? "visibility" : "visibility_off" }}
-              </mat-icon>
-            </div>
-
-            <div *ngIf="loginMessage" class="login-message text-red-800 text-xs font-medium rounded-xl bg-red-50 p-3 border border-red-200/60 flex items-start gap-2.5 shadow-sm">
-              <mat-icon class="text-red-600 text-lg shrink-0 mt-0.5">error</mat-icon>
-              <span>{{ loginMessage }}</span>
-            </div>
-
-            <button
-              class="w-full h-11 rounded-xl bg-[#7A0000] hover:bg-[#600000] text-white text-sm font-semibold shadow-md shadow-red-950/10 active:scale-[0.99] transition-all duration-200 disabled:opacity-50 disabled:pointer-events-none tracking-wide"
-              [disabled]="isSubmitting"
-              type="submit"
-            >
-              Sign In
-            </button>
-
-            <div class="account-actions flex flex-col sm:flex-row gap-2 sm:gap-0 items-center justify-between w-full text-xs font-medium px-0.5">
-              <span class="text-slate-500 text-center sm:text-left">
-                New to the platform?
-                <a (click)="goToRegister()" class="text-blue-600 hover:text-blue-700 hover:underline cursor-pointer font-semibold transition-colors ml-0.5">Register</a>
-              </span>
-              <a (click)="goToForgot()" class="text-blue-600 hover:text-blue-700 hover:underline cursor-pointer font-semibold transition-colors">Forgot Password?</a>
-            </div>
-
-            <div class="divider flex items-center w-full my-1 before:content-[''] before:flex-1 before:h-[1px] before:bg-slate-200 after:content-[''] after:flex-1 after:h-[1px] after:bg-slate-200">
-              <span class="px-3 text-[10px] font-bold tracking-widest text-slate-400 uppercase whitespace-nowrap">Or Connect Instantly</span>
-            </div>
-
-            <div class="google-login flex items-center justify-center w-full">
-              <div id="googleBtn" class="w-full flex justify-center transition-all duration-200 active:scale-[0.99] hover:opacity-95"></div>
-            </div>
-
-            <p class="note text-center text-[11px] text-slate-400 font-normal mt-0.5">
-              * Please remember to use your official <span class="font-medium text-slate-500">&#64;up.edu.ph</span> inbox profile.
-            </p>
-          </form>
-          
-          <div class="mt-6 pt-4 border-t border-slate-100 text-center text-[11px] text-slate-400 font-medium">
-            <p>&copy; 2026 ITO | University of the Philippines Mindanao</p>
-            <p class="mt-0.5 flex items-center justify-center gap-1.5">
-              <span>v1.0.0</span>
-              <span class="text-slate-200">|</span>
-              <a href="#" class="text-emerald-600 font-semibold hover:text-emerald-700 hover:underline transition-colors">System Changelog</a>
-            </p>
-          </div>
-
-        </div>
-      </article>
-
-    </div>
-  </main>
-</nav> -->
 <nav class="page min-h-screen flex flex-col bg-slate-50 text-slate-800 antialiased relative overflow-x-hidden" style="font-family: 'Roboto', sans-serif;">
   
   <div class="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-40 pointer-events-none z-0"></div>
@@ -146,6 +25,7 @@
             </div>
           </div>
 
+          <!-- Traditional Email/Password Form -->
           <form class="login-form flex flex-col gap-3.5" (ngSubmit)="onLogin()">
             
             <div class="input-container relative w-full">
@@ -222,41 +102,39 @@
               </span>
               <a (click)="goToForgot()" class="text-blue-600 hover:text-blue-700 hover:underline cursor-pointer font-semibold transition-colors">Forgot Password?</a>
             </div>
-
-            <div class="divider flex items-center w-full my-0.5 before:content-[''] before:flex-1 before:h-[1px] before:bg-slate-200 after:content-[''] after:flex-1 after:h-[1px] after:bg-slate-200">
-              <span class="px-3 text-[10px] font-bold tracking-widest text-slate-400 uppercase whitespace-nowrap">Or Connect Instantly</span>
-            </div>
-
-            <!-- <div class="google-login flex items-center justify-center w-full">
-              <div id="googleBtn" class="w-full flex justify-center transition-all duration-200 active:scale-[0.99] hover:opacity-95"></div>
-            </div> -->
-<!-- Google Login Container with Offline Fallback -->
-<div class="google-login flex flex-col items-center justify-center w-full">
-  <!-- Active Google Button -->
-  <div 
-    [class.hidden]="!isOnline || googleLoadError" 
-    id="googleBtn" 
-    class="w-full flex justify-center transition-all duration-200 active:scale-[0.99] hover:opacity-95"
-  ></div>
-
-  <!-- Offline / Load Error Notice -->
-  <div 
-    *ngIf="!isOnline || googleLoadError" 
-    class="w-full text-center py-2.5 px-4 text-xs font-medium text-amber-800 bg-amber-50/80 rounded-xl border border-amber-200/80 flex items-center justify-center gap-2 shadow-sm"
-  >
-    <mat-icon class="!w-4 !h-4 !text-[16px] !leading-4 text-amber-600 flex-shrink-0">
-      {{ !isOnline ? 'wifi_off' : 'cloud_off' }}
-    </mat-icon>
-    <span>
-      {{ !isOnline ? 'Google Sign-In unavailable offline' : 'Unable to connect to Google' }}
-    </span>
-  </div>
-</div>
-            <p class="note text-center text-[11px] text-slate-400 font-normal mt-0.5">
-              * Please remember to use your official <span class="font-medium text-slate-500">&#64;up.edu.ph</span> inbox profile.
-            </p>
           </form>
-          
+
+          <!-- Divider & Google Sign-In (Moved outside the form element) -->
+          <div class="divider flex items-center w-full my-3.5 before:content-[''] before:flex-1 before:h-[1px] before:bg-slate-200 after:content-[''] after:flex-1 after:h-[1px] after:bg-slate-200">
+            <span class="px-3 text-[10px] font-bold tracking-widest text-slate-400 uppercase whitespace-nowrap">Or Connect Instantly</span>
+          </div>
+
+          <div class="google-login flex flex-col items-center justify-center w-full">
+            <!-- Active Google Button -->
+            <div 
+              [class.hidden]="!isOnline || googleLoadError" 
+              id="googleBtn" 
+              class="w-full flex justify-center transition-all duration-200 active:scale-[0.99] hover:opacity-95"
+            ></div>
+
+            <!-- Offline / Load Error Notice -->
+            <div 
+              *ngIf="!isOnline || googleLoadError" 
+              class="w-full text-center py-2.5 px-4 text-xs font-medium text-amber-800 bg-amber-50/80 rounded-xl border border-amber-200/80 flex items-center justify-center gap-2 shadow-sm"
+            >
+              <mat-icon class="!w-4 !h-4 !text-[16px] !leading-4 text-amber-600 flex-shrink-0">
+                {{ !isOnline ? 'wifi_off' : 'cloud_off' }}
+              </mat-icon>
+              <span>
+                {{ !isOnline ? 'Google Sign-In unavailable offline' : 'Unable to connect to Google' }}
+              </span>
+            </div>
+          </div>
+
+          <p class="note text-center text-[11px] text-slate-400 font-normal mt-3">
+            * Please remember to use your official <span class="font-medium text-slate-500">&#64;up.edu.ph</span> inbox profile.
+          </p>
+
           <div class="mt-4 pt-3 border-t border-slate-100 text-center text-[11px] text-slate-400 font-medium">
             <p>&copy; 2026 ITO | University of the Philippines Mindanao</p>
             <p class="mt-0.5 flex items-center justify-center gap-1.5">

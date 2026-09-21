@@ -33,7 +33,7 @@ export class UserFeedbackformComponent implements OnInit, AfterViewInit {
 
   // Form fields
   TicketNumber: string = '';
-  companyName: string = '';
+  companyName: string = 'UPMINDANAO';
   unit: string = '';
   fullName: string = '';
   email: string = '';

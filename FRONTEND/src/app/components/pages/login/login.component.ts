@@ -457,6 +457,7 @@ export class LoginComponent implements OnDestroy, OnInit {
               break;
 
             case 'COS':
+            case 'Student':
             case 'Regular':
               this.router.navigate(['/main']);
               break;

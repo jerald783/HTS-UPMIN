@@ -35,11 +35,12 @@ import { ShowRegComponent } from './components/ito_components/ito-admin-register
 import { PagesRegisterComponent } from './components/pages/pages-register/pages-register.component';
 import { ItoAdminTicketsComponent } from './components/ito_components/ito-admin-tickets/ito-admin-tickets.component';
 import { ItoWifiSupportComponent } from './components/agents_components/ito-wifi-support/ito-wifi-support.component';
+import { ItoAdminTicketAnalyzerComponent } from './components/ito_components/ito-admin-ticket-analyzer/ito-admin-ticket-analyzer.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-
+  
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'pages-register', component: PagesRegisterComponent },
@@ -162,6 +163,9 @@ const routes: Routes = [
         component: ShowRegComponent,
         outlet: 'secondary',
       },
+      {path:'analyse',
+        component: ItoAdminTicketAnalyzerComponent,
+       outlet: 'secondary' },
     ],
   },
 

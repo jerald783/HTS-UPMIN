@@ -18,8 +18,6 @@
     </div>
 
     <div class="flex items-center gap-3">
-   
-
       <button
         mat-raised-button
         color="primary"
@@ -439,19 +437,36 @@
                     View
                   </button>
 
-                  <button
-                    mat-raised-button
-                    color="primary"
-                    class="!rounded-md !px-2.5 !py-1 !text-xs"
-                    *ngIf="
-                      (dataItem.CurrentStatus === 'Pending' ||
-                        dataItem.CurrentStatus === 'Reopened') &&
-                      !revertCountdowns[dataItem.TicketId]
-                    "
-                    (click)="updateTicketStatus(dataItem, 'Resolved')"
-                  >
-                    Resolve
-                  </button>
+                  <!-- 🩺 MODAL TRIGGER: DSR Diagnostic Result (Desktop) -->
+<!-- 1. DSR Diagnostic Result Button: Shows ONLY when Diagnostic_Result is empty -->
+<button
+  mat-stroked-button
+  color="accent"
+  class="!rounded-md !px-2.5 !py-1 !text-xs"
+  *ngIf="
+    !revertCountdowns[dataItem.TicketId] &&
+    !dataItem.Diagnostic_Result &&
+    (dataItem.CurrentStatus === 'Pending' || dataItem.CurrentStatus === 'Reopened')
+  "
+  (click)="openDsrModal(dataItem)"
+>
+  DSR Diagnostic Result
+</button>
+
+<!-- 2. Resolve Button: Shows ONLY when Diagnostic_Result has been filled -->
+<button
+  mat-stroked-button
+  color="primary"
+  class="!rounded-md !px-2.5 !py-1 !text-xs"
+  *ngIf="
+    !revertCountdowns[dataItem.TicketId] &&
+    dataItem.Diagnostic_Result &&
+    (dataItem.CurrentStatus === 'Pending' || dataItem.CurrentStatus === 'Reopened')
+  "
+  (click)="updateTicketStatus(dataItem, 'Resolved')"
+>
+  Resolve
+</button>
 
                   <div
                     *ngIf="revertCountdowns[dataItem.TicketId]"
@@ -515,7 +530,8 @@
     <!-- 📱 Mobile View List -->
     <div
       class="block md:hidden space-y-4"
-      *ngIf="dataSource.data.length > 0 && !isLoading">
+      *ngIf="dataSource.data.length > 0 && !isLoading"
+    >
       <div
         *ngFor="let dataItem of dataSource.data"
         class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm hover:shadow-md transition-all"
@@ -655,19 +671,37 @@
             View
           </button>
 
-          <button
-            mat-raised-button
-            color="primary"
-            class="flex-1 !rounded-lg !text-xs"
-            *ngIf="
-              (dataItem.CurrentStatus === 'Pending' ||
-                dataItem.CurrentStatus === 'Reopened') &&
-              !revertCountdowns[dataItem.TicketId]
-            "
-            (click)="updateTicketStatus(dataItem, 'Resolved')"
-          >
-            Resolve
-          </button>
+  
+<!-- 🩺 MODAL TRIGGER: DSR Diagnostic Result (Mobile) -->
+<!-- 1. DSR Diagnostic Result Button: Shows ONLY when Diagnostic_Result is empty -->
+<button
+  mat-stroked-button
+  color="accent"
+  class="flex-1 !rounded-lg !text-xs"
+  *ngIf="
+    !revertCountdowns[dataItem.TicketId] &&
+    !dataItem.Diagnostic_Result &&
+    (dataItem.CurrentStatus === 'Pending' || dataItem.CurrentStatus === 'Reopened')
+  "
+  (click)="openDsrModal(dataItem)"
+>
+  DSR Diagnostic Result
+</button>
+
+<!-- 2. Resolve Button: Shows ONLY when Diagnostic_Result has been filled -->
+<button
+  mat-raised-button
+  color="primary"
+  class="flex-1 !rounded-lg !text-xs"
+  *ngIf="
+    !revertCountdowns[dataItem.TicketId] &&
+    dataItem.Diagnostic_Result &&
+    (dataItem.CurrentStatus === 'Pending' || dataItem.CurrentStatus === 'Reopened')
+  "
+  (click)="updateTicketStatus(dataItem, 'Resolved')"
+>
+  Resolve
+</button>
 
           <div
             *ngIf="revertCountdowns[dataItem.TicketId]"
@@ -701,21 +735,67 @@
           </button>
         </div>
       </div>
-<button 
-  *ngIf="showScrollTop"
-  (click)="scrollToTop()" 
-  class="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[1000] bg-slate-800 text-white p-3 rounded-full shadow-lg hover:bg-slate-700 active:scale-95 transition-all flex items-center justify-center border-none cursor-pointer"
-  aria-label="Scroll to top"
->
-  <mat-icon class="!w-6 !h-6 !text-[24px]">arrow_upward</mat-icon>
-</button>
+      <button 
+        *ngIf="showScrollTop"
+        (click)="scrollToTop()" 
+        class="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[1000] bg-slate-800 text-white p-3 rounded-full shadow-lg hover:bg-slate-700 active:scale-95 transition-all flex items-center justify-center border-none cursor-pointer"
+        aria-label="Scroll to top"
+      >
+        <mat-icon class="!w-6 !h-6 !text-[24px]">arrow_upward</mat-icon>
+      </button>
     </div>
   </div>
 </div>
 
 <!-- ========================================================================= -->
-<!-- 🛠️ INLINE CONFIRMATION DIALOG TEMPLATES                                  -->
+<!-- 🛠️ INLINE CONFIRMATION DIALOG TEMPLATES                                 -->
 <!-- ========================================================================= -->
+
+<!-- 🩺 DSR Diagnostic Result Modal -->
+<ng-template #dsrResultModal let-data>
+  <div class="bg-white rounded-3xl p-6 max-w-md w-full transform scale-100 transition-all">
+    <div class="flex items-start gap-4">
+      <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 flex-shrink-0 mt-0.5">
+        <mat-icon class="w-6 h-6 flex items-center justify-center text-[24px]">assignment_turned_in</mat-icon>
+      </div>
+      <div class="flex-1">
+        <h3 class="text-xl font-bold text-slate-900 m-0 tracking-tight">DSR Diagnostic Result</h3>
+        <p class="text-sm text-slate-500 m-0 mt-1 leading-relaxed">
+          Provide diagnostic results for ticket <span class="font-semibold text-slate-800">#{{ data?.TicketNumber }}</span>.
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Diagnostic Result</mat-label>
+        <textarea
+          matInput
+          rows="4"
+          placeholder="Type diagnostic findings or details here..."
+          [(ngModel)]="Diagnostic_result"
+        ></textarea>
+      </mat-form-field>
+    </div>
+    
+    <div class="flex justify-end gap-3 mt-4">
+      <button 
+        type="button" 
+        class="inline-flex items-center justify-center rounded-xl bg-white border border-gray-300 px-4 h-10 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 transition-colors cursor-pointer" 
+        [mat-dialog-close]="false"
+      >
+        Cancel
+      </button>
+      <button 
+        type="button" 
+        class="inline-flex items-center justify-center rounded-xl bg-blue-700 px-4 h-10 text-sm font-medium text-white shadow-sm hover:bg-blue-800 transition-colors cursor-pointer" 
+        [mat-dialog-close]="Diagnostic_result"
+      >
+        Save Result
+      </button>
+    </div>
+  </div>
+</ng-template>
 
 <!-- 🗑️ Delete Selected Tickets Modal -->
 <ng-template #deleteConfirmModal>

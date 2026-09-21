@@ -34,6 +34,12 @@ builder.Services.AddHttpClient<OllamaService>(client =>
 });
 
 builder.Services.AddScoped<SmtpService>();
+builder.Services.AddHttpClient<OllamaAnalyzerService>(client =>
+{
+    var ollamaUri = builder.Configuration["Ollama:BaseAddress"] ?? "http://localhost:11434/";
+    client.BaseAddress = new Uri(ollamaUri);
+    client.Timeout = TimeSpan.FromMinutes(5);
+});
 
 // =============================
 // Rate Limiting Configuration

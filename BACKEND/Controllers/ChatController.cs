@@ -121,7 +121,7 @@ namespace BACKEND.Controllers
 
                 //                 await _hubContext.Clients.All.SendAsync("MessageAdded", createdMessage);
                 //   await _hubContext.Clients.All.SendAsync("ReceiveMessage", createdMessage);
-                if (NotificationHub.Connections.TryGetValue(message.SenderEmail, out var senderConnId))
+                if (!string.IsNullOrEmpty(message.SenderEmail) && NotificationHub.Connections.TryGetValue(message.SenderEmail, out var senderConnId))
                 {
                     await _hubContext.Clients.AllExcept(senderConnId)
                                      .SendAsync("ReceiveMessage", createdMessage);
@@ -144,6 +144,7 @@ namespace BACKEND.Controllers
                 });
             }
         }
+
         [HttpGet("download")]
         public IActionResult DownloadFile([FromQuery] string fileName)
         {
@@ -398,30 +399,30 @@ namespace BACKEND.Controllers
                 return StatusCode(500, new { message = "Error marking ticket notifications as read", error = ex.Message });
             }
         }
-// GET: api/ticket/{ticketId}/number
-[HttpGet("{ticketId}/number")]
-public IActionResult GetTicketNumber(int ticketId)
-{
-    string query = "SELECT TicketNumber FROM tbl_tickets WHERE TicketId = @TicketId";
+        // GET: api/ticket/{ticketId}/number
+        [HttpGet("{ticketId}/number")]
+        public IActionResult GetTicketNumber(int ticketId)
+        {
+            string query = "SELECT TicketNumber FROM tbl_tickets WHERE TicketId = @TicketId";
 
-    try
-    {
-        using var con = GetConnection();
-        using var cmd = new MySqlCommand(query, con);
-        cmd.Parameters.AddWithValue("@TicketId", ticketId);
-        con.Open();
+            try
+            {
+                using var con = GetConnection();
+                using var cmd = new MySqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@TicketId", ticketId);
+                con.Open();
 
-        var result = cmd.ExecuteScalar();
-        if (result == null)
-            return NotFound(new { message = "Ticket not found" });
+                var result = cmd.ExecuteScalar();
+                if (result == null)
+                    return NotFound(new { message = "Ticket not found" });
 
-        return Ok(new { TicketNumber = result.ToString() });
-    }
-    catch (Exception ex)
-    {
-        return StatusCode(500, new { message = "Error retrieving ticket number", error = ex.Message });
-    }
-}
+                return Ok(new { TicketNumber = result.ToString() });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error retrieving ticket number", error = ex.Message });
+            }
+        }
 
     }
 }

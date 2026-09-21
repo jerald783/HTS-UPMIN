@@ -15,8 +15,8 @@ namespace BACKEND.Controllers
     [Route("api/[controller]")]
     public class TicketWifiController : ControllerBase
     {
-        
-             // ============================================================
+
+        // ============================================================
         // DEPENDENCIES
         // ============================================================
         private readonly IConfiguration _configuration;
@@ -38,82 +38,82 @@ namespace BACKEND.Controllers
 
 
 
-          
+
         // ============================================================
-// GET: SUPPORT REQUESTS
-// ============================================================
-[HttpGet("GetAllSupportRequests")]
-public IActionResult GetAllSupportRequests()
-{
-    string query = "SELECT * FROM tbl_support_requests ORDER BY id DESC";
-
-    DataTable table = new();
-
-    try
-    {
-        using (var con = GetConnection())
-        using (var cmd = new MySqlCommand(query, con))
+        // GET: SUPPORT REQUESTS
+        // ============================================================
+        [HttpGet("GetAllSupportRequests")]
+        public IActionResult GetAllSupportRequests()
         {
-            con.Open();
+            string query = "SELECT * FROM tbl_support_requests ORDER BY id DESC";
 
-            using (var reader = cmd.ExecuteReader())
+            DataTable table = new();
+
+            try
             {
-                table.Load(reader);
+                using (var con = GetConnection())
+                using (var cmd = new MySqlCommand(query, con))
+                {
+                    con.Open();
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        table.Load(reader);
+                    }
+                }
+
+                return Ok(table);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
             }
         }
 
-        return Ok(table);
-    }
-    catch (Exception ex)
-    {
-        return StatusCode(500, $"Internal Server Error: {ex.Message}");
-    }
-}
-
-// ============================================================
-// GET: SUPPORT REQUEST BY EMAIL
-// ============================================================
-[HttpGet("GetSupportRequestByEmail/{email}")]
-public IActionResult GetSupportRequestByEmail(string email)
-{
-    string query = @"
+        // ============================================================
+        // GET: SUPPORT REQUEST BY EMAIL
+        // ============================================================
+        [HttpGet("GetSupportRequestByEmail/{email}")]
+        public IActionResult GetSupportRequestByEmail(string email)
+        {
+            string query = @"
         SELECT * 
         FROM tbl_support_requests
         WHERE up_email = @Email
         ORDER BY id DESC";
 
-    DataTable table = new();
+            DataTable table = new();
 
-    try
-    {
-        using (var con = GetConnection())
-        using (var cmd = new MySqlCommand(query, con))
-        {
-            cmd.Parameters.AddWithValue("@Email", email);
-
-            con.Open();
-
-            using (var reader = cmd.ExecuteReader())
+            try
             {
-                table.Load(reader);
+                using (var con = GetConnection())
+                using (var cmd = new MySqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@Email", email);
+
+                    con.Open();
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        table.Load(reader);
+                    }
+                }
+
+                return Ok(table);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
             }
         }
 
-        return Ok(table);
-    }
-    catch (Exception ex)
-    {
-        return StatusCode(500, $"Internal Server Error: {ex.Message}");
-    }
-}
-
-// ============================================================
-// ADD SUPPORT REQUEST
-// ============================================================
-[HttpPost("AddSupportRequest")]
-public IActionResult AddSupportRequest([FromBody] SupportRequestModel request)
-{
-    string query = @"
+        // ============================================================
+        // ADD SUPPORT REQUEST
+        // ============================================================
+        [HttpPost("AddSupportRequest")]
+        public IActionResult AddSupportRequest([FromBody] SupportRequestModel request)
+        {
+            string query = @"
         INSERT INTO tbl_support_requests
         (
             name,
@@ -143,46 +143,46 @@ public IActionResult AddSupportRequest([FromBody] SupportRequestModel request)
             @Notes
         )";
 
-    try
-    {
-        using (var con = GetConnection())
-        using (var cmd = new MySqlCommand(query, con))
-        {
-            cmd.Parameters.AddWithValue("@Name", request.Name ?? "");
-            cmd.Parameters.AddWithValue("@UpEmail", request.UpEmail ?? "");
-            cmd.Parameters.AddWithValue("@RequestDate", request.RequestDate);
-            cmd.Parameters.AddWithValue("@Category", request.Category ?? "");
-            cmd.Parameters.AddWithValue("@CourseDept", request.CourseDept ?? "");
-            cmd.Parameters.AddWithValue("@Concern", request.Concern ?? "");
-            cmd.Parameters.AddWithValue("@Status", request.Status ?? "Pending");
-            cmd.Parameters.AddWithValue("@Username", request.Username ?? "");
-            cmd.Parameters.AddWithValue("@Password", request.Password ?? "");
-            cmd.Parameters.AddWithValue("@DateResolved",
-                request.DateResolved == null
-                ? DBNull.Value
-                : request.DateResolved);
+            try
+            {
+                using (var con = GetConnection())
+                using (var cmd = new MySqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@Name", request.Name ?? "");
+                    cmd.Parameters.AddWithValue("@UpEmail", request.UpEmail ?? "");
+                    cmd.Parameters.AddWithValue("@RequestDate", request.RequestDate);
+                    cmd.Parameters.AddWithValue("@Category", request.Category ?? "");
+                    cmd.Parameters.AddWithValue("@CourseDept", request.CourseDept ?? "");
+                    cmd.Parameters.AddWithValue("@Concern", request.Concern ?? "");
+                    cmd.Parameters.AddWithValue("@Status", request.Status ?? "Pending");
+                    cmd.Parameters.AddWithValue("@Username", request.Username ?? "");
+                    cmd.Parameters.AddWithValue("@Password", request.Password ?? "");
+                    cmd.Parameters.AddWithValue("@DateResolved",
+                        request.DateResolved == null
+                        ? DBNull.Value
+                        : request.DateResolved);
 
-            cmd.Parameters.AddWithValue("@Notes", request.Notes ?? "");
+                    cmd.Parameters.AddWithValue("@Notes", request.Notes ?? "");
 
-            con.Open();
-            cmd.ExecuteNonQuery();
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+
+                return Ok(new { message = "Support request added successfully" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
         }
 
-        return Ok(new { message = "Support request added successfully" });
-    }
-    catch (Exception ex)
-    {
-        return StatusCode(500, $"Internal Server Error: {ex.Message}");
-    }
-}
-
-// ============================================================
-// UPDATE SUPPORT REQUEST
-// ============================================================
-[HttpPut("UpdateSupportRequest/{id}")]
-public IActionResult UpdateSupportRequest(int id, [FromBody] SupportRequestModel request)
-{
-    string query = @"
+        // ============================================================
+        // UPDATE SUPPORT REQUEST
+        // ============================================================
+        [HttpPut("UpdateSupportRequest/{id}")]
+        public IActionResult UpdateSupportRequest(int id, [FromBody] SupportRequestModel request)
+        {
+            string query = @"
         UPDATE tbl_support_requests
         SET
             name = @Name,
@@ -198,75 +198,74 @@ public IActionResult UpdateSupportRequest(int id, [FromBody] SupportRequestModel
             notes = @Notes
         WHERE id = @Id";
 
-    try
-    {
-        using (var con = GetConnection())
-        using (var cmd = new MySqlCommand(query, con))
-        {
-            cmd.Parameters.AddWithValue("@Id", id);
-            cmd.Parameters.AddWithValue("@Name", request.Name ?? "");
-            cmd.Parameters.AddWithValue("@UpEmail", request.UpEmail ?? "");
-            cmd.Parameters.AddWithValue("@RequestDate", request.RequestDate);
-            cmd.Parameters.AddWithValue("@Category", request.Category ?? "");
-            cmd.Parameters.AddWithValue("@CourseDept", request.CourseDept ?? "");
-            cmd.Parameters.AddWithValue("@Concern", request.Concern ?? "");
-            cmd.Parameters.AddWithValue("@Status", request.Status ?? "Pending");
-            cmd.Parameters.AddWithValue("@Username", request.Username ?? "");
-            cmd.Parameters.AddWithValue("@Password", request.Password ?? "");
+            try
+            {
+                using (var con = GetConnection())
+                using (var cmd = new MySqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    cmd.Parameters.AddWithValue("@Name", request.Name ?? "");
+                    cmd.Parameters.AddWithValue("@UpEmail", request.UpEmail ?? "");
+                    cmd.Parameters.AddWithValue("@RequestDate", request.RequestDate);
+                    cmd.Parameters.AddWithValue("@Category", request.Category ?? "");
+                    cmd.Parameters.AddWithValue("@CourseDept", request.CourseDept ?? "");
+                    cmd.Parameters.AddWithValue("@Concern", request.Concern ?? "");
+                    cmd.Parameters.AddWithValue("@Status", request.Status ?? "Pending");
+                    cmd.Parameters.AddWithValue("@Username", request.Username ?? "");
+                    cmd.Parameters.AddWithValue("@Password", request.Password ?? "");
 
-            cmd.Parameters.AddWithValue("@DateResolved",
-                request.DateResolved == null
-                ? DBNull.Value
-                : request.DateResolved);
+                    cmd.Parameters.AddWithValue("@DateResolved",
+                        request.DateResolved == null
+                        ? DBNull.Value
+                        : request.DateResolved);
 
-            cmd.Parameters.AddWithValue("@Notes", request.Notes ?? "");
+                    cmd.Parameters.AddWithValue("@Notes", request.Notes ?? "");
 
-            con.Open();
+                    con.Open();
 
-            int rows = cmd.ExecuteNonQuery();
+                    int rows = cmd.ExecuteNonQuery();
 
-            if (rows == 0)
-                return NotFound(new { message = "Support request not found" });
+                    if (rows == 0)
+                        return NotFound(new { message = "Support request not found" });
+                }
+
+                return Ok(new { message = "Support request updated successfully" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
         }
 
-        return Ok(new { message = "Support request updated successfully" });
-    }
-    catch (Exception ex)
-    {
-        return StatusCode(500, $"Internal Server Error: {ex.Message}");
-    }
-}
-
-// ============================================================
-// DELETE SUPPORT REQUEST
-// ============================================================
-[HttpDelete("DeleteSupportRequest/{id}")]
-public IActionResult DeleteSupportRequest(int id)
-{
-    string query = "DELETE FROM tbl_support_requests WHERE id = @Id";
-
-    try
-    {
-        using (var con = GetConnection())
-        using (var cmd = new MySqlCommand(query, con))
+        // ============================================================
+        // DELETE SUPPORT REQUEST
+        // ============================================================
+        [HttpDelete("DeleteSupportRequest/{id}")]
+        public IActionResult DeleteSupportRequest(int id)
         {
-            cmd.Parameters.AddWithValue("@Id", id);
+            string query = "DELETE FROM tbl_support_requests WHERE id = @Id";
 
-            con.Open();
+            try
+            {
+                using (var con = GetConnection())
+                using (var cmd = new MySqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@Id", id);
 
-            int rows = cmd.ExecuteNonQuery();
+                    con.Open();
 
-            if (rows == 0)
-                return NotFound(new { message = "Support request not found" });
+                    int rows = cmd.ExecuteNonQuery();
+
+                    if (rows == 0)
+                        return NotFound(new { message = "Support request not found" });
+                }
+
+                return Ok(new { message = "Support request deleted successfully" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
         }
-
-        return Ok(new { message = "Support request deleted successfully" });
-    }
-    catch (Exception ex)
-    {
-        return StatusCode(500, $"Internal Server Error: {ex.Message}");
-    }
-}
-
     }
 }

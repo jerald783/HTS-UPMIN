@@ -269,7 +269,7 @@ namespace BACKEND.Controllers
                     {
                         while (reader.Read())
                         {
-                            propertyNumbers.Add(reader["PropNo"].ToString());
+                            propertyNumbers.Add(reader["PropNo"]?.ToString() ?? string.Empty);
                         }
                     }
                 }

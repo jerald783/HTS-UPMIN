@@ -23,7 +23,7 @@
         <input
           type="text"
           [(ngModel)]="companyName"
-          required
+          placeholder="Leave it blank"
           [class.border-red-500]="isSubmitted && !companyName"
           [class.bg-red-50]="isSubmitted && !companyName"
           class="w-full border border-gray-200 bg-gray-50/50 rounded-lg p-3 text-sm transition-all focus:border-[#800000] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#800000]"

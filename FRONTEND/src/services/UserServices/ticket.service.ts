@@ -150,7 +150,28 @@ getAgentClosingStats(fromDate?: string, toDate?: string, year?: number) {
 
   return this.http.get<any[]>(`${this.apiUrl}/GetAgentClosingStats`, { params });
 }
-  //  analyzeTicket(issue: string): Observable<any> {
-  //   return this.http.post(`${this.apiUrl}/AnalyzeTicket`, { issue });
-  // }
+
+updateDiagnosticResult(id: number, diagnosticResult: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/UpdateDiagnosticResult/${id}`, {
+      Diagnostic_Result: diagnosticResult
+    });
+  }
+
+// analyzeAllTickets(): Observable<{ totalAnalyzed: number; analysis: string }> {
+//   return this.http.post<{ totalAnalyzed: number; analysis: string }>(
+//     `${this.apiUrl}/analyze-all`,
+//     {}
+//   );
+// }
+analyzeAllTickets(fromDate?: string, toDate?: string): Observable<{ totalAnalyzed: number; analysis: string }> {
+  let url = `${this.apiUrl}/analyze-all`;
+  const params: string[] = [];
+
+  if (fromDate) params.push(`fromDate=${fromDate}`);
+  if (toDate) params.push(`toDate=${toDate}`);
+
+  if (params.length) url += '?' + params.join('&');
+
+  return this.http.post<{ totalAnalyzed: number; analysis: string }>(url, {});
+}
 }

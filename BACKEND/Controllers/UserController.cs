@@ -268,12 +268,18 @@ namespace BACKEND.Controllers
                 var (currentUserId, currentUserEmail) =
                     GetCurrentUser();
 
+                // await LogAudit(
+                //     currentUserId,
+                //     currentUserEmail,
+                //     "Update User",
+                //     $"Updated user #{id} | RoleId: {finalRoleId}"
+                // );
                 await LogAudit(
-                    currentUserId,
-                    currentUserEmail,
-                    "Update User",
-                    $"Updated user #{id} | RoleId: {finalRoleId}"
-                );
+    currentUserId,
+    currentUserEmail ?? "Unknown", // or string.Empty
+    "Update User",
+    $"Updated user #{id} | RoleId: {finalRoleId}"
+);
 
                 return Ok(new
                 {

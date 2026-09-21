@@ -129,56 +129,56 @@ VALUES
             }
         }
 
-//         [HttpGet("stats")]
-// public IActionResult GetFeedbackStats([FromQuery] string? fromDate, [FromQuery] string? toDate)
-// {
-//     string query = @"
-//         SELECT 
-//             YEAR(DateRequested) AS Year,
-//             MONTH(DateRequested) AS Month,
-//             SupportAgent,
-//             COUNT(*) AS TotalFeedbacks,
-//             AVG(CAST(Rating AS DECIMAL(3,2))) AS AvgRating,
-//             AVG(CASE WHEN ResponseTime = 'Excellent' THEN 5 WHEN ResponseTime = 'Good' THEN 4 WHEN ResponseTime = 'Average' THEN 3 ELSE 2 END) AS AvgResponseTime,
-//             AVG(CASE WHEN TechnicalKnowledge = 'Excellent' THEN 5 WHEN TechnicalKnowledge = 'Good' THEN 4 WHEN TechnicalKnowledge = 'Average' THEN 3 ELSE 2 END) AS AvgTechnicalKnowledge,
-//             AVG(CASE WHEN Professionalism = 'Excellent' THEN 5 WHEN Professionalism = 'Good' THEN 4 WHEN Professionalism = 'Average' THEN 3 ELSE 2 END) AS AvgProfessionalism,
-//             AVG(CASE WHEN Communication = 'Excellent' THEN 5 WHEN Communication = 'Good' THEN 4 WHEN Communication = 'Average' THEN 3 ELSE 2 END) AS AvgCommunication,
-//             AVG(CASE WHEN Resolution = 'Excellent' THEN 5 WHEN Resolution = 'Good' THEN 4 WHEN Resolution = 'Average' THEN 3 ELSE 2 END) AS AvgResolution
-//         FROM tbl_ticketfeedback
-//         WHERE DateRequested IS NOT NULL";
+        //         [HttpGet("stats")]
+        // public IActionResult GetFeedbackStats([FromQuery] string? fromDate, [FromQuery] string? toDate)
+        // {
+        //     string query = @"
+        //         SELECT 
+        //             YEAR(DateRequested) AS Year,
+        //             MONTH(DateRequested) AS Month,
+        //             SupportAgent,
+        //             COUNT(*) AS TotalFeedbacks,
+        //             AVG(CAST(Rating AS DECIMAL(3,2))) AS AvgRating,
+        //             AVG(CASE WHEN ResponseTime = 'Excellent' THEN 5 WHEN ResponseTime = 'Good' THEN 4 WHEN ResponseTime = 'Average' THEN 3 ELSE 2 END) AS AvgResponseTime,
+        //             AVG(CASE WHEN TechnicalKnowledge = 'Excellent' THEN 5 WHEN TechnicalKnowledge = 'Good' THEN 4 WHEN TechnicalKnowledge = 'Average' THEN 3 ELSE 2 END) AS AvgTechnicalKnowledge,
+        //             AVG(CASE WHEN Professionalism = 'Excellent' THEN 5 WHEN Professionalism = 'Good' THEN 4 WHEN Professionalism = 'Average' THEN 3 ELSE 2 END) AS AvgProfessionalism,
+        //             AVG(CASE WHEN Communication = 'Excellent' THEN 5 WHEN Communication = 'Good' THEN 4 WHEN Communication = 'Average' THEN 3 ELSE 2 END) AS AvgCommunication,
+        //             AVG(CASE WHEN Resolution = 'Excellent' THEN 5 WHEN Resolution = 'Good' THEN 4 WHEN Resolution = 'Average' THEN 3 ELSE 2 END) AS AvgResolution
+        //         FROM tbl_ticketfeedback
+        //         WHERE DateRequested IS NOT NULL";
 
-//     if (!string.IsNullOrEmpty(fromDate)) query += " AND DateRequested >= @FromDate";
-//     if (!string.IsNullOrEmpty(toDate)) query += " AND DateRequested <= @ToDate";
+        //     if (!string.IsNullOrEmpty(fromDate)) query += " AND DateRequested >= @FromDate";
+        //     if (!string.IsNullOrEmpty(toDate)) query += " AND DateRequested <= @ToDate";
 
-//     query += " GROUP BY YEAR(DateRequested), MONTH(DateRequested), SupportAgent ORDER BY Year DESC, Month DESC;";
+        //     query += " GROUP BY YEAR(DateRequested), MONTH(DateRequested), SupportAgent ORDER BY Year DESC, Month DESC;";
 
-//     DataTable table = new();
-//     try
-//     {
-//         using (var con = GetConnection())
-//         using (var cmd = new MySqlCommand(query, con))
-//         {
-//             if (!string.IsNullOrEmpty(fromDate)) cmd.Parameters.AddWithValue("@FromDate", fromDate);
-//             if (!string.IsNullOrEmpty(toDate)) cmd.Parameters.AddWithValue("@ToDate", toDate);
+        //     DataTable table = new();
+        //     try
+        //     {
+        //         using (var con = GetConnection())
+        //         using (var cmd = new MySqlCommand(query, con))
+        //         {
+        //             if (!string.IsNullOrEmpty(fromDate)) cmd.Parameters.AddWithValue("@FromDate", fromDate);
+        //             if (!string.IsNullOrEmpty(toDate)) cmd.Parameters.AddWithValue("@ToDate", toDate);
 
-//             con.Open();
-//             using (var reader = cmd.ExecuteReader())
-//             {
-//                 table.Load(reader);
-//             }
-//         }
-//         return Ok(table);
-//     }
-//     catch (Exception ex)
-//     {
-//         return StatusCode(500, $"Internal Server Error: {ex.Message}");
-//     }
-// }
+        //             con.Open();
+        //             using (var reader = cmd.ExecuteReader())
+        //             {
+        //                 table.Load(reader);
+        //             }
+        //         }
+        //         return Ok(table);
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         return StatusCode(500, $"Internal Server Error: {ex.Message}");
+        //     }
+        // }
 
-[HttpGet("stats")]
-public IActionResult GetFeedbackStats([FromQuery] string? fromDate, [FromQuery] string? toDate)
-{
-    string query = @"
+        [HttpGet("stats")]
+        public IActionResult GetFeedbackStats([FromQuery] string? fromDate, [FromQuery] string? toDate)
+        {
+            string query = @"
         SELECT 
             YEAR(DateRequested) AS Year,
             MONTH(DateRequested) AS Month,
@@ -201,32 +201,32 @@ public IActionResult GetFeedbackStats([FromQuery] string? fromDate, [FromQuery] 
         FROM tbl_ticketfeedback
         WHERE DateRequested IS NOT NULL";
 
-    if (!string.IsNullOrEmpty(fromDate)) query += " AND DateRequested >= @FromDate";
-    if (!string.IsNullOrEmpty(toDate)) query += " AND DateRequested <= @ToDate";
+            if (!string.IsNullOrEmpty(fromDate)) query += " AND DateRequested >= @FromDate";
+            if (!string.IsNullOrEmpty(toDate)) query += " AND DateRequested <= @ToDate";
 
-    query += " GROUP BY YEAR(DateRequested), MONTH(DateRequested), SupportAgent ORDER BY Year DESC, Month DESC;";
+            query += " GROUP BY YEAR(DateRequested), MONTH(DateRequested), SupportAgent ORDER BY Year DESC, Month DESC;";
 
-    DataTable table = new();
-    try
-    {
-        using (var con = GetConnection())
-        using (var cmd = new MySqlCommand(query, con))
-        {
-            if (!string.IsNullOrEmpty(fromDate)) cmd.Parameters.AddWithValue("@FromDate", fromDate);
-            if (!string.IsNullOrEmpty(toDate)) cmd.Parameters.AddWithValue("@ToDate", toDate);
-
-            con.Open();
-            using (var reader = cmd.ExecuteReader())
+            DataTable table = new();
+            try
             {
-                table.Load(reader);
+                using (var con = GetConnection())
+                using (var cmd = new MySqlCommand(query, con))
+                {
+                    if (!string.IsNullOrEmpty(fromDate)) cmd.Parameters.AddWithValue("@FromDate", fromDate);
+                    if (!string.IsNullOrEmpty(toDate)) cmd.Parameters.AddWithValue("@ToDate", toDate);
+
+                    con.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        table.Load(reader);
+                    }
+                }
+                return Ok(table);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
             }
         }
-        return Ok(table);
-    }
-    catch (Exception ex)
-    {
-        return StatusCode(500, $"Internal Server Error: {ex.Message}");
-    }
-}
     }
 }

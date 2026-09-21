@@ -5,7 +5,6 @@ namespace BACKEND.Hubs
 {
     public class ChatHub : Hub
     {
-        // You can add methods here if needed
         public async Task SendMessageToGroup(string ticketId, object message)
         {
             await Clients.Group(ticketId).SendAsync("ReceiveMessage", message);
@@ -14,7 +13,9 @@ namespace BACKEND.Hubs
         public override async Task OnConnectedAsync()
         {
             var httpContext = Context.GetHttpContext();
-            var ticketId = httpContext.Request.Query["ticketId"];
+            
+            // Safe null checks for HttpContext and explicit string conversion
+            string? ticketId = httpContext?.Request.Query["ticketId"].ToString();
 
             if (!string.IsNullOrEmpty(ticketId))
             {

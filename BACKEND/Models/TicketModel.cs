@@ -23,7 +23,8 @@ namespace BACKEND.Models
         public bool Overdue { get; set; }
         public string? AgentAssigned { get; set; }
         public List<IFormFile> Files { get; set; } = new();
-        public string? ExtraFields { get; set; } // JSON
+        public string? ExtraFields { get; set; } 
+        public string? Diagnostic_Result { get; set; }
     }
 
     public class TicketStatusModel

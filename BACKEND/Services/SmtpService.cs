@@ -15,8 +15,9 @@ public class SmtpService
     {
         SmtpSettingsModel smtp = new SmtpSettingsModel();
 
-        string connStr = _config.GetConnectionString("InvAppCon");
-
+        // string connStr = _config.GetConnectionString("InvAppCon");
+        string connStr = _config.GetConnectionString("InvAppCon")
+                ?? throw new InvalidOperationException("Connection string 'InvAppCon' is missing.");
         using (MySqlConnection conn = new MySqlConnection(connStr))
         {
             conn.Open();
@@ -40,4 +41,5 @@ public class SmtpService
 
         return smtp;
     }
+
 }

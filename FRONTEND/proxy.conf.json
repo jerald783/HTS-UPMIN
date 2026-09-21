@@ -1,6 +1,6 @@
 {
   "/hubs/notification": {
-    "target": "https://j8327hfp-5000.asse.devtunnels.ms",
+    "target": "http://localhost:5000",
     "secure": false,
     "changeOrigin": true,
     "ws": true,

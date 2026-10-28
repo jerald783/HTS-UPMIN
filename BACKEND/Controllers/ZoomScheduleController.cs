@@ -153,94 +153,184 @@ namespace BACKEND.Controllers
         // =====================================================
         // POST (INSERT)
         // =====================================================
-        [HttpPost]
-        [RequestSizeLimit(10 * 1024 * 1024)] // 10MB
-        public async Task<IActionResult> Post([FromForm] ZoomScheduleModel z, IFormFile? file)
+        // [HttpPost]
+        // [RequestSizeLimit(10 * 1024 * 1024)] // 10MB
+        // public async Task<IActionResult> Post([FromForm] ZoomScheduleModel z, IFormFile? file)
+        // {
+        //     try
+        //     {
+        //         string? savedFileName = null;
+
+        //         if (file != null && file.Length > 0)
+        //         {
+        //             var allowedExt = new[] { ".pdf", ".doc", ".docx" };
+        //             var ext = Path.GetExtension(file.FileName).ToLower();
+
+        //             if (!allowedExt.Contains(ext))
+        //                 return BadRequest("Invalid file type");
+
+        //             if (file.Length > 10 * 1024 * 1024)
+        //                 return BadRequest("File exceeds 10MB");
+
+        //             var uploads = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "webinar-uploads");
+        //             Directory.CreateDirectory(uploads);
+
+        //             savedFileName = $"{Guid.NewGuid()}{ext}";
+        //             var filePath = Path.Combine(uploads, savedFileName);
+
+        //             using var stream = new FileStream(filePath, FileMode.Create);
+        //             await file.CopyToAsync(stream);
+        //         }
+
+        //         string query = @"
+        //             INSERT INTO tbl_zoom_schedule
+        //             (
+        //                 ActivityName, SetupType, ZoomDescription,
+        //                 EventDate, StartDate, EndDate,
+        //                 TimeStart, TimeEnd,
+        //                 AlternateHosts, RequireRegistration,
+        //                 DesiredPasscode, RequesterName, RequesterEmail,
+        //                 OfficeUnitProject, AdditionalDetails,
+        //                 ConfigFile, Status
+        //             )
+        //             VALUES
+        //             (
+        //                 @ActivityName, @SetupType, @ZoomDescription,
+        //                 @EventDate, @StartDate, @EndDate,
+        //                 @TimeStart, @TimeEnd,
+        //                 @AlternateHosts, @RequireRegistration,
+        //                 @DesiredPasscode, @RequesterName, @RequesterEmail,
+        //                 @OfficeUnitProject, @AdditionalDetails,
+        //                 @ConfigFile, @Status
+        //             )";
+
+        //         using var con = GetConnection();
+        //         using var cmd = new MySqlCommand(query, con);
+
+        //         var start = z.StartDate == default ? z.EventDate : z.StartDate;
+        //         var end = z.EndDate == default ? z.EventDate : z.EndDate;
+
+        //         cmd.Parameters.AddWithValue("@ActivityName", z.ActivityName);
+        //         cmd.Parameters.AddWithValue("@SetupType", z.SetupType);
+        //         cmd.Parameters.AddWithValue("@ZoomDescription", z.ZoomDescription);
+        //         cmd.Parameters.AddWithValue("@EventDate", z.EventDate ?? start);
+        //         cmd.Parameters.AddWithValue("@StartDate", start);
+        //         cmd.Parameters.AddWithValue("@EndDate", end);
+        //         cmd.Parameters.AddWithValue("@TimeStart", z.TimeStart);
+        //         cmd.Parameters.AddWithValue("@TimeEnd", z.TimeEnd);
+        //         cmd.Parameters.AddWithValue("@AlternateHosts", z.AlternateHosts);
+        //         cmd.Parameters.AddWithValue("@RequireRegistration", z.RequireRegistration);
+        //         cmd.Parameters.AddWithValue("@DesiredPasscode", z.DesiredPasscode);
+        //         cmd.Parameters.AddWithValue("@RequesterName", z.RequesterName);
+        //         cmd.Parameters.AddWithValue("@RequesterEmail", z.RequesterEmail);
+        //         cmd.Parameters.AddWithValue("@OfficeUnitProject", z.OfficeUnitProject);
+        //         cmd.Parameters.AddWithValue("@AdditionalDetails", z.AdditionalDetails);
+        //         cmd.Parameters.AddWithValue("@ConfigFile", savedFileName);
+        //         cmd.Parameters.AddWithValue("@Status", z.Status ?? "Pending");
+
+        //         con.Open();
+        //         cmd.ExecuteNonQuery();
+
+        //         await _hubContext.Clients.All.SendAsync("ZoomScheduleAdded", z);
+
+        //         return Ok(new { message = "Zoom schedule added successfully" });
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         return StatusCode(500, new { message = "Internal server error", detail = ex.Message });
+        //     }
+[HttpPost]
+[RequestSizeLimit(10 * 1024 * 1024)] // 10MB HTTP Request Limit
+[RequestFormLimits(MultipartBodyLengthLimit = 10 * 1024 * 1024)] // 10MB Multipart Body Limit
+public async Task<IActionResult> Post([FromForm] ZoomScheduleModel z, IFormFile? file)
+{
+    try
+    {
+        string? savedFileName = null;
+
+        if (file != null && file.Length > 0)
         {
-            try
-            {
-                string? savedFileName = null;
+            var allowedExt = new[] { ".pdf", ".doc", ".docx" };
+            var ext = Path.GetExtension(file.FileName).ToLower();
 
-                if (file != null && file.Length > 0)
-                {
-                    var allowedExt = new[] { ".pdf", ".doc", ".docx" };
-                    var ext = Path.GetExtension(file.FileName).ToLower();
+            if (!allowedExt.Contains(ext))
+                return BadRequest(new { message = "Invalid file type. Only PDF, DOC, and DOCX are allowed." });
 
-                    if (!allowedExt.Contains(ext))
-                        return BadRequest("Invalid file type");
+            if (file.Length > 10 * 1024 * 1024)
+                return BadRequest(new { message = "File exceeds 10MB size limit." });
 
-                    if (file.Length > 10 * 1024 * 1024)
-                        return BadRequest("File exceeds 10MB");
+            var uploads = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "webinar-uploads");
+            Directory.CreateDirectory(uploads);
 
-                    var uploads = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "webinar-uploads");
-                    Directory.CreateDirectory(uploads);
+            savedFileName = $"{Guid.NewGuid()}{ext}";
+            var filePath = Path.Combine(uploads, savedFileName);
 
-                    savedFileName = $"{Guid.NewGuid()}{ext}";
-                    var filePath = Path.Combine(uploads, savedFileName);
-
-                    using var stream = new FileStream(filePath, FileMode.Create);
-                    await file.CopyToAsync(stream);
-                }
-
-                string query = @"
-                    INSERT INTO tbl_zoom_schedule
-                    (
-                        ActivityName, SetupType, ZoomDescription,
-                        EventDate, StartDate, EndDate,
-                        TimeStart, TimeEnd,
-                        AlternateHosts, RequireRegistration,
-                        DesiredPasscode, RequesterName, RequesterEmail,
-                        OfficeUnitProject, AdditionalDetails,
-                        ConfigFile, Status
-                    )
-                    VALUES
-                    (
-                        @ActivityName, @SetupType, @ZoomDescription,
-                        @EventDate, @StartDate, @EndDate,
-                        @TimeStart, @TimeEnd,
-                        @AlternateHosts, @RequireRegistration,
-                        @DesiredPasscode, @RequesterName, @RequesterEmail,
-                        @OfficeUnitProject, @AdditionalDetails,
-                        @ConfigFile, @Status
-                    )";
-
-                using var con = GetConnection();
-                using var cmd = new MySqlCommand(query, con);
-
-                var start = z.StartDate == default ? z.EventDate : z.StartDate;
-                var end = z.EndDate == default ? z.EventDate : z.EndDate;
-
-                cmd.Parameters.AddWithValue("@ActivityName", z.ActivityName);
-                cmd.Parameters.AddWithValue("@SetupType", z.SetupType);
-                cmd.Parameters.AddWithValue("@ZoomDescription", z.ZoomDescription);
-                cmd.Parameters.AddWithValue("@EventDate", z.EventDate ?? start);
-                cmd.Parameters.AddWithValue("@StartDate", start);
-                cmd.Parameters.AddWithValue("@EndDate", end);
-                cmd.Parameters.AddWithValue("@TimeStart", z.TimeStart);
-                cmd.Parameters.AddWithValue("@TimeEnd", z.TimeEnd);
-                cmd.Parameters.AddWithValue("@AlternateHosts", z.AlternateHosts);
-                cmd.Parameters.AddWithValue("@RequireRegistration", z.RequireRegistration);
-                cmd.Parameters.AddWithValue("@DesiredPasscode", z.DesiredPasscode);
-                cmd.Parameters.AddWithValue("@RequesterName", z.RequesterName);
-                cmd.Parameters.AddWithValue("@RequesterEmail", z.RequesterEmail);
-                cmd.Parameters.AddWithValue("@OfficeUnitProject", z.OfficeUnitProject);
-                cmd.Parameters.AddWithValue("@AdditionalDetails", z.AdditionalDetails);
-                cmd.Parameters.AddWithValue("@ConfigFile", savedFileName);
-                cmd.Parameters.AddWithValue("@Status", z.Status ?? "Pending");
-
-                con.Open();
-                cmd.ExecuteNonQuery();
-
-                await _hubContext.Clients.All.SendAsync("ZoomScheduleAdded", z);
-
-                return Ok(new { message = "Zoom schedule added successfully" });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Internal server error", detail = ex.Message });
-            }
+            using var stream = new FileStream(filePath, FileMode.Create);
+            await file.CopyToAsync(stream);
         }
 
+        string query = @"
+            INSERT INTO tbl_zoom_schedule
+            (
+                ActivityName, SetupType, ZoomDescription,
+                EventDate, StartDate, EndDate,
+                TimeStart, TimeEnd,
+                AlternateHosts, RequireRegistration,
+                DesiredPasscode, RequesterName, RequesterEmail,
+                OfficeUnitProject, AdditionalDetails,
+                ConfigFile, Status
+            )
+            VALUES
+            (
+                @ActivityName, @SetupType, @ZoomDescription,
+                @EventDate, @StartDate, @EndDate,
+                @TimeStart, @TimeEnd,
+                @AlternateHosts, @RequireRegistration,
+                @DesiredPasscode, @RequesterName, @RequesterEmail,
+                @OfficeUnitProject, @AdditionalDetails,
+                @ConfigFile, @Status
+            )";
+
+        using var con = GetConnection();
+        using var cmd = new MySqlCommand(query, con);
+
+        var start = z.StartDate == default ? z.EventDate : z.StartDate;
+        var end = z.EndDate == default ? z.EventDate : z.EndDate;
+
+        cmd.Parameters.AddWithValue("@ActivityName", z.ActivityName ?? "");
+        cmd.Parameters.AddWithValue("@SetupType", z.SetupType ?? "");
+        cmd.Parameters.AddWithValue("@ZoomDescription", z.ZoomDescription ?? "");
+        cmd.Parameters.AddWithValue("@EventDate", z.EventDate ?? start);
+        cmd.Parameters.AddWithValue("@StartDate", start);
+        cmd.Parameters.AddWithValue("@EndDate", end);
+
+        // Fixed TimeSpan parameters:
+        cmd.Parameters.AddWithValue("@TimeStart", (object?)z.TimeStart ?? DBNull.Value);
+        cmd.Parameters.AddWithValue("@TimeEnd", (object?)z.TimeEnd ?? DBNull.Value);
+
+        cmd.Parameters.AddWithValue("@AlternateHosts", z.AlternateHosts ?? "");
+        cmd.Parameters.AddWithValue("@RequireRegistration", z.RequireRegistration ?? "");
+        cmd.Parameters.AddWithValue("@DesiredPasscode", z.DesiredPasscode ?? "");
+        cmd.Parameters.AddWithValue("@RequesterName", z.RequesterName ?? "");
+        cmd.Parameters.AddWithValue("@RequesterEmail", z.RequesterEmail ?? "");
+        cmd.Parameters.AddWithValue("@OfficeUnitProject", z.OfficeUnitProject ?? "");
+        cmd.Parameters.AddWithValue("@AdditionalDetails", z.AdditionalDetails ?? "");
+        cmd.Parameters.AddWithValue("@ConfigFile", savedFileName ?? "");
+        cmd.Parameters.AddWithValue("@Status", z.Status ?? "Pending");
+
+        con.Open();
+        cmd.ExecuteNonQuery();
+
+        await _hubContext.Clients.All.SendAsync("ZoomScheduleAdded", z);
+
+        return Ok(new { message = "Zoom schedule added successfully" });
+    }
+    catch (Exception ex)
+    {
+        return StatusCode(500, new { message = "Internal server error", detail = ex.Message });
+    }
+}
+     
         // =====================================================
         // GET BY USER
         // =====================================================

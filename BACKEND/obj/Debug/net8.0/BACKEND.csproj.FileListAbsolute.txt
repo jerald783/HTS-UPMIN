@@ -200,3 +200,4 @@ C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\obj\Debug\net8.0\ref
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\obj\Debug\net8.0\BACKEND.pdb
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\obj\Debug\net8.0\BACKEND.genruntimeconfig.cache
 C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\obj\Debug\net8.0\ref\BACKEND.dll
+C:\Users\Lenovo\OneDrive\Desktop\SUPPORT SYSTEM\HTS\backend\obj\Debug\net8.0\swae.build.ex.cache

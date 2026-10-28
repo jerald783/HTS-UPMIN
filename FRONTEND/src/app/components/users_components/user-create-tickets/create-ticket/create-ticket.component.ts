@@ -1,3 +1,334 @@
+// import { Component, Input, OnInit } from '@angular/core';
+// import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+// import { ToastrService } from 'ngx-toastr';
+// import { AdmAssetsService } from '../../../../../services/adminServices/adm-assets.service';
+// import { TicketEmailService } from '../../../../../services/notification-services/ticket-email.service';
+// import { ExtraFieldService } from '../../../../../services/UserServices/extra-field.service';
+// import { TicketService } from '../../../../../services/UserServices/ticket.service';
+// import { FeedbackService } from '../../../../../services/UserServices/feedback.service';
+// import { UserService } from '../../../../../services/UserServices/user.service';
+
+// @Component({
+//   selector: 'app-create-ticket',
+//   standalone: false,
+//   templateUrl: './create-ticket.component.html',
+//   styleUrl: './create-ticket.component.scss',
+// })
+// export class CreateTicketComponent implements OnInit {
+//   selectedFiles: File[] = [];
+//   @Input() inv: any;
+//   Id: string | undefined;
+//   PropNo: string | undefined;
+//   PropList: any = [];
+//   Email: string | null = '';
+//   fullName: string | null = '';
+//   isSubmitted = false;
+//   extraFields: any[] = [];
+//   incidentForm: FormGroup;
+//   email: string | null = null;
+
+//   pendingFeedbackCount = 0;
+//   canCreateTicket = true;
+//   isFeedbackModalOpen = false;
+
+//   // Track whether current user is a student
+//   isStudent = false;
+
+//   // Program options list for students
+//   ProgramList: string[] = ['CHSS', 'SOMED', 'SOM', 'CSM'];
+
+//   constructor(
+//     private fb: FormBuilder,
+//     private service: AdmAssetsService,
+//     private TicketSer: TicketService,
+//     private toastr: ToastrService,
+//     private ticketEmailService: TicketEmailService,
+//     private extraFieldService: ExtraFieldService,
+//     private feedbackService: FeedbackService,
+//     private userService: UserService,
+//   ) {
+//     const today = new Date().toISOString().split('T')[0];
+
+//     this.incidentForm = this.fb.group({
+//       fullName: [{ value: '', disabled: false }, Validators.required],
+//       email: ['', [Validators.required, Validators.email]],
+//       incidentDate: [today, Validators.required],
+//       details: ['', [Validators.required, Validators.minLength(10)]],
+//       ticketNumber: ['', Validators.required],
+//       PropNo: [null, Validators.required],
+//       location: [null, Validators.required],
+//       HelpTopic: [null, Validators.required],
+//       PriorityLevel: [null, Validators.required],
+//     });
+//   }
+//   ngOnInit(): void {
+//     // Determine user role
+//     const userRole = this.userService.getUserRole();
+//     this.isStudent = userRole?.toLowerCase() === 'student';
+
+//     this.applyRoleValidators();
+
+//     if (!this.isStudent) {
+//       this.loadPropList();
+//       this.loadExtraFields(); // Load extra fields ONLY for non-students
+//     }
+
+//     this.generateTicketNumber();
+//     this.checkFeedbackLimit();
+
+//     this.Email = this.userService.getUserEmail();
+//     if (this.Email) {
+//       this.incidentForm.get('email')?.setValue(this.Email);
+//     }
+
+//     this.fullName = localStorage.getItem('fullName');
+//     if (this.fullName) {
+//       this.incidentForm.get('fullName')?.setValue(this.fullName);
+//     }
+//   }
+//   applyRoleValidators(): void {
+//     const locationControl = this.incidentForm.get('location');
+
+//     if (this.isStudent) {
+//       // If location/unit is only for non-students, clear its required validator
+//       locationControl?.clearValidators();
+//     } else {
+//       // Keep it required for non-students
+//       locationControl?.setValidators([Validators.required]);
+//     }
+
+//     // Update validation status after altering rules
+//     locationControl?.updateValueAndValidity();
+//   }
+
+//   HelpTopic = [
+//     'Information System',
+//     'PPO Technical Supprot',
+//     'Technical Support',
+//     'Technical Support / Access Issue',
+//     'Hardware Issue',
+//     'Software Issue',
+//     'Internet/ WIFI',
+//     'Printing and Coppying',
+//   ];
+
+//   CSRSList = [
+//     'CSRS - Computerized System for Research and Services',
+//     'CSRS - Computerized System for Research and Services / Access Issue',
+//   ];
+
+//   PriorityLevel = ['High', 'Medium', 'Low'];
+
+//   Location: string[] = [
+//     'OC',
+//     'GAD',
+//     'HRMO',
+//     'PPO',
+//     'OVCAD',
+//     'OVCAA',
+//     'OSA',
+//     'Accounting',
+//     'HRDO',
+//     'COA',
+//     'CPDO',
+//     'OAEX',
+//     'LEGAL OFFICE',
+//     'SOM',
+//     'OUR',
+//   ];
+
+//   CourseList: string[] = ['BSIT', 'BSCS'];
+
+//   get f() {
+//     return this.incidentForm.controls;
+//   }
+
+//   addTickets() {
+//     const form = this.incidentForm.value;
+//     const extraData: any = {};
+
+//     this.extraFields.forEach((field: any) => {
+//       extraData[field.FieldName] = form[field.FieldName];
+//     });
+
+//     const formData = new FormData();
+//     formData.append('TicketNumber', form.ticketNumber);
+//     formData.append('PropNo', form.PropNo);
+//     formData.append('FullName', form.fullName);
+//     formData.append('Email', form.email);
+//     formData.append('HelpTopic', form.HelpTopic);
+//     formData.append('IssueDesc', form.details);
+//     formData.append('Location', form.location);
+//     formData.append('PriorityLevel', form.PriorityLevel);
+//     formData.append('CurrentStatus', 'Pending');
+//     formData.append('AgentAssigned', '');
+//     formData.append('ExtraFields', JSON.stringify(extraData));
+
+//     this.selectedFiles.forEach((file) =>
+//       formData.append('Files', file, file.name),
+//     );
+
+//     this.TicketSer.addTicketWithFiles(formData).subscribe({
+//       next: () => {
+//         this.toastr.success('Ticket submitted successfully!', 'Success');
+
+//         this.ticketEmailService.sendTicketNotification(form).subscribe();
+
+//         this.incidentForm.reset();
+//         this.selectedFiles = [];
+//         this.generateTicketNumber();
+//       },
+//       error: (err) => {
+//         console.error('❌ Error submitting ticket:', err);
+//         this.toastr.error('Failed to submit ticket.', 'Error');
+//       },
+//     });
+//   }
+
+//   selectedLocation: string = '';
+//   ticketNumber: string = '';
+
+//   generateTicketNumber(): void {
+//     const prefix = 'TICKET';
+//     const random = Math.floor(100000 + Math.random() * 900000);
+//     const datePart = new Date().toISOString().slice(2, 10).replace(/-/g, '');
+//     this.ticketNumber = `${prefix}-${datePart}-${random}`;
+//     this.incidentForm.get('ticketNumber')?.setValue(this.ticketNumber);
+//   }
+
+//   submitForm() {
+//     // if (!this.canCreateTicket) {
+//     //   this.toastr.error(
+//     //     'You must complete your pending feedback forms before creating another ticket.',
+//     //     'Ticket Creation Blocked'
+//     //   );
+//     //   return;
+//     // }
+//   if (!this.canCreateTicket) {
+//   this.checkFeedbackLimit();
+//   return;
+//   }
+//     this.isSubmitted = true;
+
+//     if (this.incidentForm.invalid) {
+//       this.incidentForm.markAllAsTouched();
+//       this.toastr.error(
+//         'Please complete all required fields.',
+//         'Form Incomplete',
+//       );
+//       return;
+//     }
+
+//     this.addTickets();
+//   }
+
+//   loadPropList() {
+//     const loggedInEmail = this.userService.getUserEmail();
+
+//     if (!loggedInEmail) {
+//       console.error('❌ No user email found.');
+//       return;
+//     }
+
+//     this.service.getAssetsByUser(loggedInEmail).subscribe((data: any) => {
+//       this.PropList = data;
+
+//       if (this.inv) {
+//         this.PropNo = this.inv.PropNo;
+//       } else {
+//         console.warn('⚠️ this.inv is undefined.');
+//       }
+//     });
+//   }
+
+//   onFileSelected(event: any) {
+//     if (event.target.files && event.target.files.length > 0) {
+//       this.selectedFiles = Array.from(event.target.files);
+//     } else {
+//       this.selectedFiles = [];
+//     }
+//   }
+
+//   loadExtraFields() {
+//     this.extraFieldService.getFields().subscribe((res: any) => {
+//       this.extraFields = res;
+
+//       res.forEach((field: any) => {
+//         this.incidentForm.addControl(
+//           field.FieldName,
+//           field.IsRequired
+//             ? this.fb.control('', Validators.required)
+//             : this.fb.control(''),
+//         );
+//       });
+//     });
+//   }
+
+//   // checkFeedbackLimit() {
+//   //   const email = this.userService.getUserEmail();
+
+//   //   if (!email) return;
+
+//   //   this.TicketSer.getTicketByUser(email).subscribe((tickets: any[]) => {
+//   //     this.feedbackService
+//   //       .getFeedbackByUser(email)
+//   //       .subscribe((feedbacks: any[]) => {
+//   //         const feedbackTicketNumbers = feedbacks.map((f) => f.TicketNumber);
+
+//   //         const resolvedWithoutFeedback = tickets.filter(
+//   //           (t) =>
+//   //             t.CurrentStatus?.toLowerCase() === 'resolved' &&
+//   //             !feedbackTicketNumbers.includes(t.TicketNumber)
+//   //         );
+
+//   //         this.pendingFeedbackCount = resolvedWithoutFeedback.length;
+//   //         this.canCreateTicket = this.pendingFeedbackCount < 3;
+
+//   //         if (!this.canCreateTicket) {
+//   //           this.toastr.warning(
+//   //             'You have 3 unresolved feedback forms. Please submit feedback before creating a new ticket.',
+//   //             'Feedback Required'
+//   //           );
+//   //         }
+//   //       });
+//   //   });
+//   // }
+
+//   checkFeedbackLimit() {
+//     const email = this.userService.getUserEmail();
+
+//     if (!email) return;
+
+//     this.TicketSer.getTicketByUser(email).subscribe((tickets: any[]) => {
+//       this.feedbackService
+//         .getFeedbackByUser(email)
+//         .subscribe((feedbacks: any[]) => {
+//           const feedbackTicketNumbers = feedbacks.map((f) => f.TicketNumber);
+
+//           const resolvedWithoutFeedback = tickets.filter(
+//             (t) =>
+//               t.CurrentStatus?.toLowerCase() === 'resolved' &&
+//               !feedbackTicketNumbers.includes(t.TicketNumber),
+//           );
+
+//           this.pendingFeedbackCount = resolvedWithoutFeedback.length;
+//           this.canCreateTicket = this.pendingFeedbackCount < 3;
+
+//           if (!this.canCreateTicket) {
+//             this.isFeedbackModalOpen = true;
+//             this.incidentForm.disable(); // Disables all form fields
+//           } else {
+//             this.incidentForm.enable(); // Ensures form stays enabled if limit not exceeded
+//           }
+//         });
+//     });
+//   }
+
+//   closeFeedbackModal() {
+//     this.isFeedbackModalOpen = false;
+//   }
+// }
+
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -37,6 +368,9 @@ export class CreateTicketComponent implements OnInit {
   // Program options list for students
   ProgramList: string[] = ['CHSS', 'SOMED', 'SOM', 'CSM'];
 
+  // Maximum file size limit: 10MB
+  readonly MAX_FILE_SIZE = 10 * 1024 * 1024;
+
   constructor(
     private fb: FormBuilder,
     private service: AdmAssetsService,
@@ -61,6 +395,7 @@ export class CreateTicketComponent implements OnInit {
       PriorityLevel: [null, Validators.required],
     });
   }
+
   ngOnInit(): void {
     // Determine user role
     const userRole = this.userService.getUserRole();
@@ -86,6 +421,7 @@ export class CreateTicketComponent implements OnInit {
       this.incidentForm.get('fullName')?.setValue(this.fullName);
     }
   }
+
   applyRoleValidators(): void {
     const locationControl = this.incidentForm.get('location');
 
@@ -197,17 +533,10 @@ export class CreateTicketComponent implements OnInit {
   }
 
   submitForm() {
-    // if (!this.canCreateTicket) {
-    //   this.toastr.error(
-    //     'You must complete your pending feedback forms before creating another ticket.',
-    //     'Ticket Creation Blocked'
-    //   );
-    //   return;
-    // }
-  if (!this.canCreateTicket) {
-  this.checkFeedbackLimit();
-  return;
-  }
+    if (!this.canCreateTicket) {
+      this.checkFeedbackLimit();
+      return;
+    }
     this.isSubmitted = true;
 
     if (this.incidentForm.invalid) {
@@ -242,11 +571,32 @@ export class CreateTicketComponent implements OnInit {
   }
 
   onFileSelected(event: any) {
-    if (event.target.files && event.target.files.length > 0) {
-      this.selectedFiles = Array.from(event.target.files);
-    } else {
+    const input = event.target as HTMLInputElement;
+
+    if (!input.files || input.files.length === 0) {
       this.selectedFiles = [];
+      return;
     }
+
+    const files: File[] = Array.from(input.files);
+    const oversizedFiles = files.filter(
+      (file) => file.size > this.MAX_FILE_SIZE,
+    );
+
+    if (oversizedFiles.length > 0) {
+      const fileNames = oversizedFiles.map((f) => f.name).join(', ');
+      this.toastr.error(
+        `File size cannot exceed 10MB. Oversized file(s): ${fileNames}`,
+        'File Size Exceeded',
+      );
+
+      // Clear the selection input
+      input.value = '';
+      this.selectedFiles = [];
+      return;
+    }
+
+    this.selectedFiles = files;
   }
 
   loadExtraFields() {
@@ -263,36 +613,6 @@ export class CreateTicketComponent implements OnInit {
       });
     });
   }
-
-  // checkFeedbackLimit() {
-  //   const email = this.userService.getUserEmail();
-
-  //   if (!email) return;
-
-  //   this.TicketSer.getTicketByUser(email).subscribe((tickets: any[]) => {
-  //     this.feedbackService
-  //       .getFeedbackByUser(email)
-  //       .subscribe((feedbacks: any[]) => {
-  //         const feedbackTicketNumbers = feedbacks.map((f) => f.TicketNumber);
-
-  //         const resolvedWithoutFeedback = tickets.filter(
-  //           (t) =>
-  //             t.CurrentStatus?.toLowerCase() === 'resolved' &&
-  //             !feedbackTicketNumbers.includes(t.TicketNumber)
-  //         );
-
-  //         this.pendingFeedbackCount = resolvedWithoutFeedback.length;
-  //         this.canCreateTicket = this.pendingFeedbackCount < 3;
-
-  //         if (!this.canCreateTicket) {
-  //           this.toastr.warning(
-  //             'You have 3 unresolved feedback forms. Please submit feedback before creating a new ticket.',
-  //             'Feedback Required'
-  //           );
-  //         }
-  //       });
-  //   });
-  // }
 
   checkFeedbackLimit() {
     const email = this.userService.getUserEmail();

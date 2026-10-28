@@ -179,7 +179,7 @@ app.Use(async (context, next) =>
 
     context.Response.Headers.Append("Content-Security-Policy",
         "default-src 'self'; " +
-        "connect-src 'self' https://hts-upmin.vercel.app http://localhost:5000 https://localhost:5001 ws://localhost:5000 wss://localhost:5001 wss://*.devtunnels.ms ws://*.devtunnels.ms; " +
+        "connect-src 'self' https://hts-upmin.vercel.app https://hts-upmin.3utilities.com http://localhost:5000 https://localhost:5001 ws://localhost:5000 wss://localhost:5001 wss://*.devtunnels.ms ws://*.devtunnels.ms; " +
         "script-src 'self' 'unsafe-inline' https://code.jquery.com https://cdn.jsdelivr.net; " +
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
         "font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:;");

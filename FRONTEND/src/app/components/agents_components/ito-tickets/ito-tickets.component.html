@@ -9,11 +9,10 @@
   >
     <div>
       <h1 class="text-base sm:text-xl text-[#7b1113] font-bold tracking-tight truncate">
-        Support Management Console
+        Support Management
       </h1>
       <p class="text-sm text-slate-500 m-0 mt-1">
-        Review operational incoming traffic metrics, SLA intervals, and
-        communication threads
+        See incoming messages, response times, and chat threads.
       </p>
     </div>
 
@@ -450,7 +449,7 @@
   "
   (click)="openDsrModal(dataItem)"
 >
-  DSR Diagnostic Result
+  DSR
 </button>
 
 <!-- 2. Resolve Button: Shows ONLY when Diagnostic_Result has been filled -->
@@ -685,7 +684,7 @@
   "
   (click)="openDsrModal(dataItem)"
 >
-  DSR Diagnostic Result
+  DSR
 </button>
 
 <!-- 2. Resolve Button: Shows ONLY when Diagnostic_Result has been filled -->
@@ -759,7 +758,7 @@
         <mat-icon class="w-6 h-6 flex items-center justify-center text-[24px]">assignment_turned_in</mat-icon>
       </div>
       <div class="flex-1">
-        <h3 class="text-xl font-bold text-slate-900 m-0 tracking-tight">DSR Diagnostic Result</h3>
+        <h3 class="text-xl font-bold text-slate-900 m-0 tracking-tight">DSR</h3>
         <p class="text-sm text-slate-500 m-0 mt-1 leading-relaxed">
           Provide diagnostic results for ticket <span class="font-semibold text-slate-800">#{{ data?.TicketNumber }}</span>.
         </p>

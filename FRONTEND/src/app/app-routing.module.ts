@@ -34,7 +34,6 @@ import { ForgotPasswordComponent } from './components/pages/forgot-password/forg
 import { ShowRegComponent } from './components/ito_components/ito-admin-register/show-reg/show-reg.component';
 import { PagesRegisterComponent } from './components/pages/pages-register/pages-register.component';
 import { ItoAdminTicketsComponent } from './components/ito_components/ito-admin-tickets/ito-admin-tickets.component';
-import { ItoWifiSupportComponent } from './components/agents_components/ito-wifi-support/ito-wifi-support.component';
 import { ItoAdminTicketAnalyzerComponent } from './components/ito_components/ito-admin-ticket-analyzer/ito-admin-ticket-analyzer.component';
 
 const routes: Routes = [
@@ -114,17 +113,17 @@ const routes: Routes = [
     component: ItoAssetsComponent,
     canActivate: [AuthGuard,RoleGuard],
   },
-  {
-    path: 'itowifireq',
-    data: { expectedRole: 'Agent' },
-    component: ItoWifiSupportComponent,
-    canActivate: [AuthGuard,RoleGuard],
-  },
+
   {
     path: 'chat-room/:ticketId',
      data: { expectedRole: ['COS', 'Regular','Agent'] },
     component: ChatComponent,
     canActivate: [AuthGuard,RoleGuard],
+  },
+  {path:'analyze-ticket',
+  data: { expectedRole: 'Agent' },
+  component: ItoAdminTicketAnalyzerComponent,
+  canActivate: [AuthGuard,RoleGuard],
   },
 
   //Admin routes

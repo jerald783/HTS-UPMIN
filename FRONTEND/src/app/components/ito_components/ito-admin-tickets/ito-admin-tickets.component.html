@@ -22,7 +22,7 @@
 
   <!-- Actions Button & Dropdown Menu -->
   <div class="flex items-center sm:justify-end shrink-0">
-    <button
+    <!-- <button
       mat-raised-button
       color="primary"
       [matMenuTriggerFor]="menu"
@@ -30,7 +30,16 @@
     >
       <mat-icon class="!w-4 !h-4 !text-base mr-1">settings</mat-icon>
       <span>Actions</span>
-    </button>
+    </button> -->
+          <button 
+        mat-raised-button 
+        color="primary" 
+        [matMenuTriggerFor]="menu" 
+        class="!rounded-lg !px-4 !h-10 font-['Roboto',_sans-serif]"
+      >
+        <mat-icon class="mr-1.5 text-[20px] w-5 h-5 flex items-center justify-center">settings</mat-icon>
+        <span class="font-medium">Actions</span>
+      </button>
 
     <mat-menu #menu="matMenu" xPosition="before" class="!rounded-2xl">
       <!-- Stop propagation prevents input clicks from prematurely closing the menu -->

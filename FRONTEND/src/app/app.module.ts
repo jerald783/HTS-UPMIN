@@ -78,7 +78,6 @@ import { ForgotPasswordComponent } from './components/pages/forgot-password/forg
 import { ResetPasswordComponent } from './components/pages/reset-password/reset-password.component';
 import { PagesRegisterComponent } from './components/pages/pages-register/pages-register.component';
 import { ItoAdminTicketsComponent } from './components/ito_components/ito-admin-tickets/ito-admin-tickets.component';
-import { ItoWifiSupportComponent } from './components/agents_components/ito-wifi-support/ito-wifi-support.component';
 import { ItoAdminTicketAnalyzerComponent } from './components/ito_components/ito-admin-ticket-analyzer/ito-admin-ticket-analyzer.component';
 
 export function initializeApp(
@@ -128,7 +127,6 @@ export function initializeApp(
     ResetPasswordComponent,
     PagesRegisterComponent,
     ItoAdminTicketsComponent,
-    ItoWifiSupportComponent,
     ItoAdminTicketAnalyzerComponent,
     
 

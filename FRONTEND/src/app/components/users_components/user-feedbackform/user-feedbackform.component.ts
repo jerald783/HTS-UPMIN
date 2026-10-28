@@ -33,7 +33,7 @@ export class UserFeedbackformComponent implements OnInit, AfterViewInit {
 
   // Form fields
   TicketNumber: string = '';
-  companyName: string = 'UPMINDANAO';
+  companyName: string = '';
   unit: string = '';
   fullName: string = '';
   email: string = '';
@@ -131,7 +131,7 @@ export class UserFeedbackformComponent implements OnInit, AfterViewInit {
 
   isFormValid(): boolean {
     return (
-      !!this.companyName.trim() &&
+      // !!this.companyName.trim() &&
       !!this.TicketNumber &&
       this.isIssueTypeValid() &&
       this.isSupportChannelValid() &&
@@ -198,6 +198,7 @@ export class UserFeedbackformComponent implements OnInit, AfterViewInit {
       next: () => {
         alert('✅ Feedback submitted successfully!');
         this.clearForm();
+        window.location.reload(); 
       },
       error: (err) => console.error('❌ Error submitting feedback:', err),
     });

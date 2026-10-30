@@ -1,202 +1,11 @@
-<!-- <div
-  class="flex justify-center items-center h-screen p-3 md:p-0 bg-[radial-gradient(circle_at_top,#eef2ff,#f3f4f6)] font-['Roboto',_sans-serif]"
->
-  <div
-    class="w-full max-w-[900px] h-[100vh] md:h-[92vh] flex flex-col md:rounded-[18px] overflow-hidden bg-white border border-[#e5e7eb] shadow-[0_16px_40px_rgba(0,0,0,0.08)]"
-  >
-    <div
-      class="h-16 px-4.5 py-3.5 flex items-center justify-between bg-white border-b border-[#e5e7eb]"
-    >
-      <div>
-        <div class="font-bold text-[1.05rem] text-[#111827]">Ticket Chat</div>
-        <div class="text-[0.85rem] text-[#6b7280] mt-0.5">
-          Ticket #{{ ticketNumber }}
-        </div>
-      </div>
 
-      <div class="flex items-center gap-2 text-[0.9rem] text-[#374151]">
-        <span
-          class="w-2.5 h-2.5 rounded-full bg-[#22c55e] shadow-[0_0_0_3px_rgba(34,197,94,0.18)]"
-        ></span>
-        <span class="font-semibold">Live</span>
-      </div>
-    </div>
-
-    <div
-      class="flex-1 overflow-y-auto px-3 md:px-4.5 pt-4.5 pb-2.5 md:pb-3.5 bg-gradient-to-b from-[#f9fafb] to-[#f3f4f6] flex flex-col gap-3.5 scroll-smooth scrollbar-thin scrollbar-thumb-black/15 scrollbar-track-transparent"
-      #messagesContainer
-    >
-      <div
-        *ngIf="messages.length === 0"
-        class="m-auto text-center py-10 px-5 max-w-[420px] text-[#6b7280]"
-      >
-        <div
-          class="w-16 h-16 mx-auto mb-3.5 rounded-[18px] bg-[#eef2ff] grid place-items-center"
-        >
-          <i class="material-icons text-[34px] text-[#4338ca]"
-            >chat_bubble_outline</i
-          >
-        </div>
-        <div class="font-bold text-[1.1rem] text-[#111827]">
-          No messages yet
-        </div>
-        <div class="mt-1.5 text-[0.9rem]">
-          Start the conversation by sending a message below.
-        </div>
-      </div>
-
-      <div
-        *ngFor="let msg of messages"
-        class="flex items-end gap-2.5 max-w-full"
-        [ngClass]="{
-          'justify-end': msg.SenderEmail === currentUserEmail,
-          'justify-start': msg.SenderEmail !== currentUserEmail,
-        }"
-      >
-        <div
-          class="w-[38px] h-[38px] rounded-full bg-[#e0e7ff] grid place-items-center font-bold text-[#3730a3] shrink-0"
-          *ngIf="msg.SenderEmail !== currentUserEmail"
-        >
-          {{ (msg.SenderEmail || "?")[0] | uppercase }}
-        </div>
-
-        <div
-          class="max-w-[85%] md:max-w-[min(72%,620px)] flex flex-col gap-1.5"
-          [ngClass]="{ 'items-end': msg.SenderEmail === currentUserEmail }"
-        >
-          <div
-            class="text-[0.8rem] font-semibold text-[#6b7280] ml-1.5"
-            *ngIf="msg.SenderEmail !== currentUserEmail"
-          >
-            {{ msg.SenderEmail }}
-          </div>
-
-          <div
-            class="relative px-3.5 pt-3 pb-2.5 rounded-[18px] shadow-[0_1px_4px_rgba(0,0,0,0.05)] break-all overflow-wrap-anywhere after:content-[''] after:absolute after:bottom-2.5 after:w-3.5 after:h-3.5 after:rotate-45 after:rounded-[2px]"
-            [ngClass]="{
-              'bg-[#2563eb] text-white rounded-br-[6px] after:-right-1.5 after:bg-[#2563eb]':
-                msg.SenderEmail === currentUserEmail,
-              'bg-white text-[#111827] border border-[#e5e7eb] rounded-bl-[6px] after:-left-1.5 after:bg-white after:border-l after:border-b after:border-[#e5e7eb]':
-                msg.SenderEmail !== currentUserEmail,
-            }"
-          >
-            <div
-              class="text-[0.95rem] line-tight mb-1.5"
-              *ngIf="msg.Message && msg.Message.trim()"
-            >
-              {{ msg.Message }}
-            </div>
-
-            <div class="file-attachment" *ngIf="msg.FilePath">
-              <a
-                class="inline-flex gap-1.5 items-center mt-2 p-2.5 rounded-xl no-underline font-semibold text-[0.9rem]"
-                [ngClass]="{
-                  'bg-white/20 text-white':
-                    msg.SenderEmail === currentUserEmail,
-                  'bg-[#f3f4f6] text-[#111827]':
-                    msg.SenderEmail !== currentUserEmail,
-                }"
-                [href]="
-                  appInit.apiURL +
-                  '/api/chat/download?fileName=' +
-                  msg.FilePath.split('/').pop()
-                "
-                download
-              >
-                <i class="material-icons">download</i>
-                {{ msg.FileName }}
-              </a>
-            </div>
-
-            <div
-              class="text-[0.72rem] opacity-80 text-right"
-              [ngClass]="{
-                'text-white/85': msg.SenderEmail === currentUserEmail,
-                'text-[#6b7280]': msg.SenderEmail !== currentUserEmail,
-              }"
-            >
-              {{ msg.Timestamp | date: "MMM d, h:mm a" }}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <form
-      (submit)="sendMessage()"
-      class="p-3 bg-white border-t border-[#e5e7eb]"
-    >
-      <div class="flex gap-2.5 items-center">
-        <button
-          type="button"
-          class="w-12 h-12 rounded-full border border-[#d1d5db] bg-white grid place-items-center cursor-pointer transition-all duration-200 ease-in-out shrink-0 hover:bg-[#f3f4f6] hover:-translate-y-px"
-          (click)="fileInput.click()"
-          title="Attach file"
-        >
-          <i class="material-icons text-[22px] text-[#374151]">attach_file</i>
-        </button>
-
-        <input
-          #fileInput
-          type="file"
-          hidden
-          (change)="onFileSelected($event)"
-        />
-
-        <textarea
-          [(ngModel)]="newMessage"
-          name="message"
-          class="flex-1 py-3 px-4 rounded-full border border-[#d1d5db] outline-none text-base transition-all duration-200 ease-in-out resize-none overflow-hidden min-h-[40px] max-h-[120px] focus:border-[#2563eb] focus:shadow-[0_0_0_4px_rgba(37,99,235,0.18)]"
-          placeholder="Type a message..."
-          rows="1"
-          (keydown.enter)="onEnter($event)"
-        ></textarea>
-
-        <button
-          type="submit"
-          class="w-12 h-12 rounded-full border-none bg-[#2563eb] text-white grid place-items-center cursor-pointer transition-all duration-200 ease-in-out hover:-translate-y-px hover:bg-[#1d4ed8] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none"
-          [disabled]="(!newMessage || !newMessage.trim()) && !selectedFile"
-        >
-          <i class="material-icons">send</i>
-        </button>
-      </div>
-
-      <div
-        class="mt-2.5 p-2.5 rounded-[14px] border border-[#e5e7eb] bg-[#f9fafb] flex items-center justify-between gap-2.5"
-        *ngIf="selectedFile"
-      >
-        <div class="flex items-center gap-2.5">
-          <i class="material-icons text-[#2563eb]">description</i>
-          <div class="flex flex-col gap-0.5">
-            <div
-              class="font-bold text-[0.9rem] text-[#111827] max-w-[520px] whitespace-nowrap overflow-hidden text-ellipsis"
-            >
-              {{ selectedFile.name }}
-            </div>
-            <div class="text-[0.8rem] text-[#6b7280]">
-              {{ formatFileSize(selectedFile.size) }}
-            </div>
-          </div>
-        </div>
-
-        <button
-          type="button"
-          class="w-9 h-9 rounded-full border-none bg-white cursor-pointer grid place-items-center transition-all duration-200 ease-in-out hover:bg-[#fee2e2] group"
-          (click)="removeSelectedFile()"
-        >
-          <i class="material-icons textxl text-[#ef4444]">close</i>
-        </button>
-      </div>
-    </form>
-  </div>
-</div> -->
 <div class="flex justify-center items-center min-h-screen h-dvh p-0 sm:p-4 md:p-6 bg-slate-100 sm:bg-[radial-gradient(circle_at_top,#eef2ff,#f3f4f6)] font-sans antialiased text-slate-800">
   
   <!-- Main Container: Fullscreen on mobile, rounded card on desktop -->
-  <div class="w-full max-w-4xl h-dvh sm:h-[90vh] sm:max-h-[850px] flex flex-col sm:rounded-2xl overflow-hidden bg-white sm:border sm:border-slate-200/80 sm:shadow-2xl">
+  <div class="w-full max-w-4xl h-dvh sm:h-[90vh] sm:max-h-[850px] flex flex-col sm:rounded-2xl overflow-hidden bg-white sm:border sm:border-slate-400 sm:shadow-2xl">
     
     <!-- Header -->
-    <header class="h-16 px-4 sm:px-6 flex items-center justify-between bg-white/95 backdrop-blur-md border-b border-slate-100 shrink-0 z-10">
+    <header class="h-16 px-4 sm:px-6 flex items-center justify-between bg-white/95 backdrop-blur-md border-b border-slate-400 shrink-0 z-10">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-full bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 shrink-0">
           <i class="material-icons text-[22px]">confirmation_number</i>
@@ -221,7 +30,7 @@
       
       <!-- Empty State -->
       <div *ngIf="messages.length === 0" class="m-auto text-center py-12 px-6 max-w-sm flex flex-col items-center">
-        <div class="w-16 h-16 mb-4 rounded-2xl bg-indigo-50 border border-indigo-100 grid place-items-center text-indigo-600 shadow-sm">
+        <div class="w-16 h-16 mb-4 rounded-2xl bg-indigo-50 border-1 border-indigo-300 grid place-items-center text-indigo-600 shadow-sm">
           <i class="material-icons text-3xl">chat_bubble_outline</i>
         </div>
         <h3 class="font-bold text-lg text-slate-900">No messages yet</h3>
@@ -303,7 +112,7 @@
     </main>
 
     <!-- Footer Input Bar -->
-    <footer class="p-3 sm:p-4 bg-white border-t border-slate-100 shrink-0">
+    <footer class="p-3 sm:p-4 bg-white border-t border-slate-300 shrink-0">
       
       <!-- Selected File Preview Badge -->
       <div 
@@ -338,7 +147,7 @@
         <!-- Attachment Button -->
         <button 
           type="button" 
-          class="w-11 h-11 rounded-full border border-slate-200 text-slate-600 hover:text-indigo-600 hover:bg-slate-50 hover:border-slate-300 flex items-center justify-center transition-all cursor-pointer shrink-0"
+          class="w-11 h-11 rounded-full border-1 border-slate-300 text-slate-600 hover:text-indigo-600 hover:bg-slate-50 hover:border-slate-300 flex items-center justify-center transition-all cursor-pointer shrink-0"
           (click)="fileInput.click()"
           title="Attach file"
         >
@@ -349,7 +158,7 @@
         <textarea 
           [(ngModel)]="newMessage" 
           name="message" 
-          class="flex-1 py-2.5 px-4 rounded-2xl border border-slate-200 outline-none text-sm text-slate-800 placeholder:text-slate-400 bg-slate-50/50 focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all resize-none min-h-[44px] max-h-[100px] leading-relaxed"
+          class="flex-1 py-2.5 px-4 rounded-2xl border-1 border-slate-400 outline-none text-sm text-slate-800 placeholder:text-slate-400 bg-slate-50/50 focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all resize-none min-h-[44px] max-h-[100px] leading-relaxed"
           placeholder="Type a message..." 
           rows="1" 
           (keydown.enter)="onEnter($event)"

@@ -4,7 +4,7 @@
   class="min-h-screen bg-slate-50/70 pt-[110px] pb-16 px-4 sm:px-6 lg:px-8 flex justify-center items-start font-['Roboto',_sans-serif] antialiased selection:bg-red-800/10 selection:text-red-800"
 >
   <div
-    class="w-full max-w-5xl bg-white rounded-3xl border border-slate-200/70 shadow-[0_32px_64px_-16px_rgba(15,23,42,0.06)] overflow-hidden transition-all duration-300"
+    class="w-full max-w-5xl bg-white rounded-3xl border-1 border-slate-300 overflow-hidden transition-all duration-300"
   >
     <div
       class="h-2 w-full bg-gradient-to-r from-red-800 via-rose-600 to-amber-500"
@@ -15,7 +15,7 @@
         class="grid grid-cols-1 lg:grid-cols-12 gap-0 division-x divide-slate-100"
       >
         <div
-          class="lg:col-span-4 bg-slate-50/50 p-6 sm:p-8 border-b lg:border-b-0 lg:border-r border-slate-100 space-y-6 flex flex-col justify-between"
+          class="lg:col-span-4 bg-slate-50/50 p-6 sm:p-8 border-b lg:border-b-0 lg:border-r border-slate-300 space-y-6 flex flex-col justify-between"
         >
           <div class="space-y-6">
             <div>
@@ -28,13 +28,14 @@
                 Create Ticket
               </h2>
               <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-                Report technical infrastructure issues or submit data requests for prompt assistance.
+                Report technical infrastructure issues or submit data requests
+                for prompt assistance.
               </p>
             </div>
 
             <div class="space-y-3.5 pt-2">
               <div
-                class="p-3 bg-white rounded-xl border border-slate-200/50 shadow-sm flex items-center justify-between cursor-not-allowed"
+                class="p-3 bg-white rounded-xl border-1 border-slate-300 shadow-sm flex items-center justify-between cursor-not-allowed"
               >
                 <div>
                   <p
@@ -52,11 +53,11 @@
                     readonly
                   />
                 </div>
-                <span class="text-sm opacity-40">🎫</span>
+                <span class="text-sm">🎫</span>
               </div>
 
               <div
-                class="p-3 bg-white rounded-xl border border-slate-200/50 shadow-sm flex items-center justify-between cursor-not-allowed"
+                class="p-3 bg-white rounded-xl border-1 border-slate-300 shadow-sm flex items-center justify-between cursor-not-allowed"
               >
                 <div>
                   <p
@@ -65,8 +66,8 @@
                     Date Opened
                   </p>
                   <p class="text-xs font-semibold text-slate-700 mt-0.5">
-                    July 3, 2026
-                  </p>
+  {{ currentDate | date:'MMMM d, y' }}
+</p>
                   <input
                     type="hidden"
                     formControlName="incidentDate"
@@ -77,10 +78,10 @@
               </div>
 
               <div
-                class="p-3 bg-white rounded-xl border border-slate-200/50 shadow-sm flex items-center gap-3 cursor-not-allowed"
+                class="p-3 bg-white rounded-xl border-1 border-slate-300 shadow-sm flex items-center gap-3 cursor-not-allowed"
               >
                 <div
-                  class="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600 border border-slate-200"
+                  class="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600 border border-slate-300"
                 >
                   U
                 </div>
@@ -103,17 +104,20 @@
           </div>
 
           <div
-            class="hidden lg:block p-3.5 bg-amber-50/40 border border-amber-200/40 rounded-xl"
+            class="hidden lg:block p-3.5 bg-amber-100 border border-amber-300 rounded-xl"
           >
             <p class="text-[11px] text-amber-800 leading-relaxed font-medium">
-              💡 <span class="font-bold">Pro-tip:</span> Attaching error logs or diagnostic screenshots helps our team resolve your issue much faster.
+              💡 <span class="font-bold">Pro-tip:</span> Attaching error logs or
+              diagnostic screenshots helps our team resolve your issue much
+              faster.
             </p>
           </div>
         </div>
 
         <div class="lg:col-span-8 p-6 sm:p-8 space-y-6">
           <div
-            class="border-b border-slate-100 pb-3 flex items-center justify-between">
+            class="border-b border-slate-100 pb-3 flex items-center justify-between"
+          >
             <h3
               class="text-xs font-bold text-slate-400 uppercase tracking-widest"
             >
@@ -143,7 +147,7 @@
               </div>
 
               <ng-select
-                class="w-full text-sm [&_.ng-select-container]:!min-h-[42px] [&_.ng-select-container]:!h-auto [&_.ng-select-container]:!bg-white [&_.ng-select-container]:!border [&_.ng-select-container]:!border-slate-200 [&_.ng-select-container]:!rounded-xl [&_.ng-select-container]:!px-3.5 [&_.ng-select-container]:!py-1 [&_.ng-select-container]:!shadow-none [&_.ng-select-container]:!flex [&_.ng-select-container]:!items-center hover:[&_.ng-select-container]:!border-slate-300 [&.ng-select-focused_.ng-select-container]:!border-red-800 [&.ng-select-focused_.ng-select-container]:!ring-4 [&.ng-select-focused_.ng-select-container]:!ring-red-800/5 [&.ng-invalid.ng-touched_.ng-select-container]:!border-rose-400 [&.ng-invalid.ng-touched_.ng-select-container]:!bg-rose-50/10 [&.ng-valid.ng-touched_.ng-select-container]:!border-emerald-500 [&_.ng-value-container]:!p-0 [&_.ng-value-container]:!flex [&_.ng-value-container]:!items-center [&_.ng-placeholder]:!text-slate-400 [&_.ng-placeholder]:!top-auto [&_.ng-input]:!top-auto [&_.ng-input]:!pl-0 [&_.ng-dropdown-panel]:!mt-1.5 [&_.ng-dropdown-panel]:!bg-white [&_.ng-dropdown-panel]:!border [&_.ng-dropdown-panel]:!border-slate-200 [&_.ng-dropdown-panel]:!rounded-xl [&_.ng-dropdown-panel]:!shadow-xl [&_.ng-dropdown-panel]:!overflow-hidden [&_.ng-dropdown-panel-items]:!p-1.5 [&_.ng-option]:!px-3 [&_.ng-option]:!py-2.5 [&_.ng-option]:!rounded-lg [&_.ng-option]:!text-slate-700 [&_.ng-option]:!text-xs [&_.ng-option]:!whitespace-normal [&_.ng-option]:!break-words [&_.ng-option-marked]:!bg-slate-100"
+                class="border-1 border-slate-300 rounded-xl w-full text-sm [&_.ng-select-container]:!min-h-[42px] [&_.ng-select-container]:!h-auto [&_.ng-select-container]:!bg-white [&_.ng-select-container]:!border [&_.ng-select-container]:!border-slate-200 [&_.ng-select-container]:!rounded-xl [&_.ng-select-container]:!px-3.5 [&_.ng-select-container]:!py-1 [&_.ng-select-container]:!shadow-none [&_.ng-select-container]:!flex [&_.ng-select-container]:!items-center hover:[&_.ng-select-container]:!border-slate-300 [&.ng-select-focused_.ng-select-container]:!border-red-800 [&.ng-select-focused_.ng-select-container]:!ring-4 [&.ng-select-focused_.ng-select-container]:!ring-red-800/5 [&.ng-invalid.ng-touched_.ng-select-container]:!border-rose-400 [&.ng-invalid.ng-touched_.ng-select-container]:!bg-rose-50/10 [&.ng-valid.ng-touched_.ng-select-container]:!border-emerald-500 [&_.ng-value-container]:!p-0 [&_.ng-value-container]:!flex [&_.ng-value-container]:!items-center [&_.ng-placeholder]:!text-slate-400 [&_.ng-placeholder]:!top-auto [&_.ng-input]:!top-auto [&_.ng-input]:!pl-0 [&_.ng-dropdown-panel]:!mt-1.5 [&_.ng-dropdown-panel]:!bg-white [&_.ng-dropdown-panel]:!border [&_.ng-dropdown-panel]:!border-slate-200 [&_.ng-dropdown-panel]:!rounded-xl [&_.ng-dropdown-panel]:!shadow-xl [&_.ng-dropdown-panel]:!overflow-hidden [&_.ng-dropdown-panel-items]:!p-1.5 [&_.ng-option]:!px-3 [&_.ng-option]:!py-2.5 [&_.ng-option]:!rounded-lg [&_.ng-option]:!text-slate-700 [&_.ng-option]:!text-xs [&_.ng-option]:!whitespace-normal [&_.ng-option]:!break-words [&_.ng-option-marked]:!bg-slate-100"
                 [items]="isStudent ? ProgramList : PropList"
                 [bindLabel]="isStudent ? '' : 'PropNo'"
                 [bindValue]="isStudent ? '' : 'PropNo'"
@@ -197,7 +201,7 @@
               </div>
 
               <ng-select
-                class="w-full text-sm [&_.ng-select-container]:!min-h-[42px] [&_.ng-select-container]:!h-auto [&_.ng-select-container]:!bg-white [&_.ng-select-container]:!border [&_.ng-select-container]:!border-slate-200 [&_.ng-select-container]:!rounded-xl [&_.ng-select-container]:!px-3.5 [&_.ng-select-container]:!py-1 [&_.ng-select-container]:!shadow-none [&_.ng-select-container]:!flex [&_.ng-select-container]:!items-center hover:[&_.ng-select-container]:!border-slate-300 [&.ng-select-focused_.ng-select-container]:!border-red-800 [&.ng-select-focused_.ng-select-container]:!ring-4 [&.ng-select-focused_.ng-select-container]:!ring-red-800/5 [&.ng-invalid.ng-touched_.ng-select-container]:!border-rose-400 [&.ng-invalid.ng-touched_.ng-select-container]:!bg-rose-50/10 [&.ng-valid.ng-touched_.ng-select-container]:!border-emerald-500 [&_.ng-value-container]:!p-0 [&_.ng-value-container]:!flex [&_.ng-value-container]:!items-center [&_.ng-placeholder]:!text-slate-400 [&_.ng-placeholder]:!top-auto [&_.ng-input]:!top-auto [&_.ng-input]:!pl-0 [&_.ng-dropdown-panel]:!mt-1.5 [&_.ng-dropdown-panel]:!bg-white [&_.ng-dropdown-panel]:!border [&_.ng-dropdown-panel]:!border-slate-200 [&_.ng-dropdown-panel]:!rounded-xl [&_.ng-dropdown-panel]:!shadow-xl [&_.ng-dropdown-panel]:!overflow-hidden [&_.ng-dropdown-panel-items]:!p-1.5 [&_.ng-option]:!px-3 [&_.ng-option]:!py-2.5 [&_.ng-option]:!rounded-lg [&_.ng-option]:!text-slate-700 [&_.ng-option]:!text-xs [&_.ng-option]:!whitespace-normal [&_.ng-option]:!break-words [&_.ng-option-marked]:!bg-slate-100"
+                class="border-1 border-slate-300 rounded-xl w-full text-sm [&_.ng-select-container]:!min-h-[42px] [&_.ng-select-container]:!h-auto [&_.ng-select-container]:!bg-white [&_.ng-select-container]:!border [&_.ng-select-container]:!border-slate-200 [&_.ng-select-container]:!rounded-xl [&_.ng-select-container]:!px-3.5 [&_.ng-select-container]:!py-1 [&_.ng-select-container]:!shadow-none [&_.ng-select-container]:!flex [&_.ng-select-container]:!items-center hover:[&_.ng-select-container]:!border-slate-300 [&.ng-select-focused_.ng-select-container]:!border-red-800 [&.ng-select-focused_.ng-select-container]:!ring-4 [&.ng-select-focused_.ng-select-container]:!ring-red-800/5 [&.ng-invalid.ng-touched_.ng-select-container]:!border-rose-400 [&.ng-invalid.ng-touched_.ng-select-container]:!bg-rose-50/10 [&.ng-valid.ng-touched_.ng-select-container]:!border-emerald-500 [&_.ng-value-container]:!p-0 [&_.ng-value-container]:!flex [&_.ng-value-container]:!items-center [&_.ng-placeholder]:!text-slate-400 [&_.ng-placeholder]:!top-auto [&_.ng-input]:!top-auto [&_.ng-input]:!pl-0 [&_.ng-dropdown-panel]:!mt-1.5 [&_.ng-dropdown-panel]:!bg-white [&_.ng-dropdown-panel]:!border [&_.ng-dropdown-panel]:!border-slate-200 [&_.ng-dropdown-panel]:!rounded-xl [&_.ng-dropdown-panel]:!shadow-xl [&_.ng-dropdown-panel]:!overflow-hidden [&_.ng-dropdown-panel-items]:!p-1.5 [&_.ng-option]:!px-3 [&_.ng-option]:!py-2.5 [&_.ng-option]:!rounded-lg [&_.ng-option]:!text-slate-700 [&_.ng-option]:!text-xs [&_.ng-option]:!whitespace-normal [&_.ng-option]:!break-words [&_.ng-option-marked]:!bg-slate-100"
                 [items]="isStudent ? CourseList : Location"
                 formControlName="location"
                 placeholder="Choose node location..."
@@ -247,7 +251,7 @@
 
               <!-- Searchable ng-select -->
               <ng-select
-                class="w-full text-sm [&_.ng-select-container]:!min-h-[42px] [&_.ng-select-container]:!h-[42px] [&_.ng-select-container]:!bg-white [&_.ng-select-container]:!border [&_.ng-select-container]:!border-slate-200 [&_.ng-select-container]:!rounded-xl [&_.ng-select-container]:!px-3.5 [&_.ng-select-container]:!shadow-none [&_.ng-select-container]:!flex [&_.ng-select-container]:!items-center hover:[&_.ng-select-container]:!border-slate-300 [&.ng-select-focused_.ng-select-container]:!border-red-800 [&.ng-select-focused_.ng-select-container]:!ring-4 [&.ng-select-focused_.ng-select-container]:!ring-red-800/5 [&.ng-invalid.ng-touched_.ng-select-container]:!border-rose-400 [&.ng-invalid.ng-touched_.ng-select-container]:!bg-rose-50/10 [&.ng-valid.ng-touched_.ng-select-container]:!border-emerald-500 [&_.ng-value-container]:!p-0 [&_.ng-value-container]:!flex [&_.ng-value-container]:!items-center [&_.ng-placeholder]:!text-slate-400 [&_.ng-placeholder]:!top-auto [&_.ng-input]:!top-auto [&_.ng-input]:!pl-0 [&_.ng-dropdown-panel]:!mt-1.5 [&_.ng-dropdown-panel]:!bg-white [&_.ng-dropdown-panel]:!border [&_.ng-dropdown-panel]:!border-slate-200 [&_.ng-dropdown-panel]:!rounded-xl [&_.ng-dropdown-panel]:!shadow-xl [&_.ng-dropdown-panel]:!overflow-hidden [&_.ng-dropdown-panel-items]:!p-1.5 [&_.ng-option]:!px-3 [&_.ng-option]:!py-2.5 [&_.ng-option]:!rounded-lg [&_.ng-option]:!text-slate-700 [&_.ng-option]:!text-xs [&_.ng-option-marked]:!bg-slate-100"
+                class="border-1 border-slate-300 rounded-xl w-full text-sm [&_.ng-select-container]:!min-h-[42px] [&_.ng-select-container]:!h-[42px] [&_.ng-select-container]:!bg-white [&_.ng-select-container]:!border [&_.ng-select-container]:!border-slate-200 [&_.ng-select-container]:!rounded-xl [&_.ng-select-container]:!px-3.5 [&_.ng-select-container]:!shadow-none [&_.ng-select-container]:!flex [&_.ng-select-container]:!items-center hover:[&_.ng-select-container]:!border-slate-300 [&.ng-select-focused_.ng-select-container]:!border-red-800 [&.ng-select-focused_.ng-select-container]:!ring-4 [&.ng-select-focused_.ng-select-container]:!ring-red-800/5 [&.ng-invalid.ng-touched_.ng-select-container]:!border-rose-400 [&.ng-invalid.ng-touched_.ng-select-container]:!bg-rose-50/10 [&.ng-valid.ng-touched_.ng-select-container]:!border-emerald-500 [&_.ng-value-container]:!p-0 [&_.ng-value-container]:!flex [&_.ng-value-container]:!items-center [&_.ng-placeholder]:!text-slate-400 [&_.ng-placeholder]:!top-auto [&_.ng-input]:!top-auto [&_.ng-input]:!pl-0 [&_.ng-dropdown-panel]:!mt-1.5 [&_.ng-dropdown-panel]:!bg-white [&_.ng-dropdown-panel]:!border [&_.ng-dropdown-panel]:!border-slate-200 [&_.ng-dropdown-panel]:!rounded-xl [&_.ng-dropdown-panel]:!shadow-xl [&_.ng-dropdown-panel]:!overflow-hidden [&_.ng-dropdown-panel-items]:!p-1.5 [&_.ng-option]:!px-3 [&_.ng-option]:!py-2.5 [&_.ng-option]:!rounded-lg [&_.ng-option]:!text-slate-700 [&_.ng-option]:!text-xs [&_.ng-option-marked]:!bg-slate-100"
                 [items]="isStudent ? CSRSList : HelpTopic"
                 formControlName="HelpTopic"
                 [placeholder]="
@@ -296,7 +300,7 @@
               <!-- Searchable ng-select -->
               <ng-select
                 id="PriorityLevel"
-                class="w-full text-sm [&_.ng-select-container]:!min-h-[42px] [&_.ng-select-container]:!h-auto [&_.ng-select-container]:!bg-white [&_.ng-select-container]:!border [&_.ng-select-container]:!border-slate-200 [&_.ng-select-container]:!rounded-xl [&_.ng-select-container]:!px-3.5 [&_.ng-select-container]:!py-1 [&_.ng-select-container]:!shadow-none [&_.ng-select-container]:!flex [&_.ng-select-container]:!items-center hover:[&_.ng-select-container]:!border-slate-300 [&.ng-select-focused_.ng-select-container]:!border-red-800 [&.ng-select-focused_.ng-select-container]:!ring-4 [&.ng-select-focused_.ng-select-container]:!ring-red-800/5 [&.ng-invalid.ng-touched_.ng-select-container]:!border-rose-400 [&.ng-invalid.ng-touched_.ng-select-container]:!bg-rose-50/10 [&.ng-valid.ng-touched_.ng-select-container]:!border-emerald-500 [&_.ng-value-container]:!p-0 [&_.ng-value-container]:!flex [&_.ng-value-container]:!items-center [&_.ng-placeholder]:!text-slate-400 [&_.ng-placeholder]:!top-auto [&_.ng-input]:!top-auto [&_.ng-input]:!pl-0 [&_.ng-dropdown-panel]:!mt-1.5 [&_.ng-dropdown-panel]:!bg-white [&_.ng-dropdown-panel]:!border [&_.ng-dropdown-panel]:!border-slate-200 [&_.ng-dropdown-panel]:!rounded-xl [&_.ng-dropdown-panel]:!shadow-xl [&_.ng-dropdown-panel]:!overflow-hidden [&_.ng-dropdown-panel-items]:!p-1.5 [&_.ng-option]:!px-3 [&_.ng-option]:!py-2.5 [&_.ng-option]:!rounded-lg [&_.ng-option]:!text-slate-700 [&_.ng-option]:!text-xs [&_.ng-option]:!whitespace-normal [&_.ng-option]:!break-words [&_.ng-option-marked]:!bg-slate-100"
+                class="border-1 border-slate-300 rounded-xl w-full text-sm [&_.ng-select-container]:!min-h-[42px] [&_.ng-select-container]:!h-auto [&_.ng-select-container]:!bg-white [&_.ng-select-container]:!border [&_.ng-select-container]:!border-slate-200 [&_.ng-select-container]:!rounded-xl [&_.ng-select-container]:!px-3.5 [&_.ng-select-container]:!py-1 [&_.ng-select-container]:!shadow-none [&_.ng-select-container]:!flex [&_.ng-select-container]:!items-center hover:[&_.ng-select-container]:!border-slate-300 [&.ng-select-focused_.ng-select-container]:!border-red-800 [&.ng-select-focused_.ng-select-container]:!ring-4 [&.ng-select-focused_.ng-select-container]:!ring-red-800/5 [&.ng-invalid.ng-touched_.ng-select-container]:!border-rose-400 [&.ng-invalid.ng-touched_.ng-select-container]:!bg-rose-50/10 [&.ng-valid.ng-touched_.ng-select-container]:!border-emerald-500 [&_.ng-value-container]:!p-0 [&_.ng-value-container]:!flex [&_.ng-value-container]:!items-center [&_.ng-placeholder]:!text-slate-400 [&_.ng-placeholder]:!top-auto [&_.ng-input]:!top-auto [&_.ng-input]:!pl-0 [&_.ng-dropdown-panel]:!mt-1.5 [&_.ng-dropdown-panel]:!bg-white [&_.ng-dropdown-panel]:!border [&_.ng-dropdown-panel]:!border-slate-200 [&_.ng-dropdown-panel]:!rounded-xl [&_.ng-dropdown-panel]:!shadow-xl [&_.ng-dropdown-panel]:!overflow-hidden [&_.ng-dropdown-panel-items]:!p-1.5 [&_.ng-option]:!px-3 [&_.ng-option]:!py-2.5 [&_.ng-option]:!rounded-lg [&_.ng-option]:!text-slate-700 [&_.ng-option]:!text-xs [&_.ng-option]:!whitespace-normal [&_.ng-option]:!break-words [&_.ng-option-marked]:!bg-slate-100"
                 [items]="PriorityLevel"
                 formControlName="PriorityLevel"
                 placeholder="Select severity configuration"
@@ -341,7 +345,7 @@
                 *ngIf="field.FieldType == 'text'"
                 type="text"
                 [formControlName]="field.FieldName"
-                class="w-full h-[42px] px-3.5 bg-white border border-slate-200 rounded-xl text-slate-700 text-sm outline-none transition-all focus:border-red-800 focus:ring-4 focus:ring-red-800/5 [&.ng-invalid.ng-touched]:border-rose-400 [&.ng-invalid.ng-touched]:bg-rose-50/10 [&.ng-valid.ng-touched]:border-emerald-500"
+                class="border-1 border-slate-300 rounded-xl w-full h-[42px] px-3.5 bg-white border border-slate-200 rounded-xl text-slate-700 text-sm outline-none transition-all focus:border-red-800 focus:ring-4 focus:ring-red-800/5 [&.ng-invalid.ng-touched]:border-rose-400 [&.ng-invalid.ng-touched]:bg-rose-50/10 [&.ng-valid.ng-touched]:border-emerald-500"
               />
 
               <textarea
@@ -413,7 +417,7 @@
               formControlName="details"
               rows="4"
               placeholder="Detail on the reason(s) for opening the ticket..."
-              class="w-full p-4 bg-white border border-slate-200 rounded-xl text-slate-700 text-sm outline-none shadow-sm transition-all group-hover:border-slate-300 focus:border-red-800 focus:ring-4 focus:ring-red-800/5 resize-y min-h-[120px] [&.ng-invalid.ng-touched]:border-rose-400 [&.ng-invalid.ng-touched]:bg-rose-50/10 [&.ng-valid.ng-touched]:border-emerald-500"
+              class="w-full p-4 bg-white border-1 border-slate-300 rounded-xl text-slate-700 text-sm outline-none shadow-sm transition-all group-hover:border-slate-300 focus:border-red-800 focus:ring-4 focus:ring-red-800/5 resize-y min-h-[120px] [&.ng-invalid.ng-touched]:border-rose-400 [&.ng-invalid.ng-touched]:bg-rose-50/10 [&.ng-valid.ng-touched]:border-emerald-500"
             ></textarea>
             <div
               class="text-rose-600 text-[11px] font-medium flex items-center gap-1 mt-1 animate-fadeIn"
@@ -534,7 +538,7 @@
 
           <!-- Submit Button -->
           <div
-            class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-end gap-3"
+            class="pt-4 border-t border-slate-300 flex flex-col sm:flex-row sm:items-center sm:justify-end gap-3"
           >
             <button
               type="submit"

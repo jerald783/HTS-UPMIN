@@ -1,5 +1,5 @@
 <nav
-  class="fixed top-0 left-0 w-full h-16 bg-white shadow-sm border-b border-slate-100 flex items-center z-[1050]"
+  class="fixed top-0 left-0 w-full h-16 bg-white shadow-sm border-b border-slate-300 flex items-center z-[1050]"
 >
   <div
     class="container-fluid w-full flex items-center justify-between px-4 lg:px-6"
@@ -15,13 +15,13 @@
         class="w-10 h-10 rounded-full object-cover shadow-sm ring-2 ring-slate-100"
       />
       <span
-        class="hidden md:inline font-extrabold text-sm text-[#4d0000] tracking-tight uppercase"
+        class="hidden md:inline font-extrabold text-sm text-[#7b1113] tracking-tight uppercase"
         >Helpdesk System</span
       >
     </a>
 
     <button
-      class="lg:hidden border-0 bg-transparent p-2 text-slate-500 hover:text-slate-800 transition-colors outline-none cursor-pointer flex items-center justify-center rounded-xl hover:bg-slate-50"
+      class="lg:hidden border-0 bg-transparent p-2 text-slate-600 hover:text-[#7b1113] hover:bg-red-50 transition-colors outline-none cursor-pointer flex items-center justify-center rounded-xl"
       type="button"
       (click)="toggleMenu()"
       [attr.aria-expanded]="isMenuOpen"
@@ -40,10 +40,11 @@
       [class.max-lg:visible]="isMenuOpen"
       [class.max-lg:shadow-[8px_0_32px_rgba(15,23,42,0.15)]]="isMenuOpen"
     >
+      <!-- Mobile Drawer Header: UP Crimson to UP Forest Green Gradient -->
       <div
-        class="lg:hidden pt-8 px-5 pb-6 bg-gradient-to-br from-[#7b1113] to-[#500000] relative text-white text-center shadow-inner overflow-hidden"
+        class="lg:hidden pt-8 px-5 pb-6 bg-gradient-to-br from-[#7b1113] via-[#610c0e] to-[#005b36] relative text-white text-center shadow-inner overflow-hidden"
       >
-        <div class="absolute inset-0 bg-white/5 backdrop-blur-sm z-0"></div>
+        <div class="absolute inset-0 bg-black/10 backdrop-blur-xs z-0"></div>
         <div class="relative z-10">
           <div
             class="w-20 h-20 mx-auto mb-3 rounded-full p-1 bg-white/20 shadow-md backdrop-blur-sm"
@@ -54,11 +55,11 @@
               class="w-full h-full rounded-full object-cover bg-white"
             />
           </div>
-          <h5 class="font-extrabold text-base m-0 tracking-tight">
+          <h5 class="font-extrabold text-base m-0 tracking-tight text-white">
             Helpdesk Ticketing
           </h5>
           <span
-            class="text-[11px] font-medium opacity-75 block mt-0.5 tracking-wider uppercase"
+            class="text-[11px] font-bold text-[#fdb913] block mt-0.5 tracking-wider uppercase"
             >Agent Dashboard</span
           >
         </div>
@@ -69,33 +70,32 @@
       >
         <li
           class="relative group"
-          routerLinkActive="active [&>a]:text-[#7b1113] [&>a]:bg-red-50/60"
+          routerLinkActive="active [&>a]:text-white [&>a]:bg-[#7b1113] [&>a]:shadow-sm"
           [routerLinkActiveOptions]="{ exact: true }"
         >
           <a
-            class="text-slate-600 font-semibold text-sm px-4 py-2 rounded-xl transition-all duration-150 block hover:bg-slate-50 hover:text-[#7b1113] no-underline hover:no-underline"
+            class="text-slate-700 font-semibold text-sm px-4 py-2 rounded-xl transition-all duration-150 block hover:bg-red-50 hover:text-[#7b1113] no-underline hover:no-underline"
             routerLink="/ito"
             (click)="closeAllDropdowns(); isMenuOpen = false"
           >
             <mat-icon class="!w-4 !h-4 !text-base opacity-70"
               >dashboard</mat-icon
             >
-
             Dashboard
           </a>
         </li>
         <li
           class="relative group"
-          routerLinkActive="active [&>a]:text-[#7b1113] [&>a]:bg-red-50/60"
+          routerLinkActive="active [&>a]:text-white [&>a]:bg-[#7b1113] [&>a]:shadow-sm"
           [routerLinkActiveOptions]="{ exact: true }"
         >
           <a
-            class="text-slate-600 font-semibold text-sm px-4 py-2 rounded-xl transition-all duration-150 block hover:bg-slate-50 hover:text-[#7b1113] no-underline hover:no-underline"
+            class="text-slate-700 font-semibold text-sm px-4 py-2 rounded-xl transition-all duration-150 block hover:bg-red-50 hover:text-[#7b1113] no-underline hover:no-underline"
             routerLink="/ticketview"
             (click)="closeAllDropdowns(); isMenuOpen = false"
           >
             <mat-icon
-              class="!w-4 !h-4 !text-base text-slate-400 group-hover:text-[#7b1113] transition-colors"
+              class="!w-4 !h-4 !text-base text-slate-500 group-hover:text-[#7b1113] transition-colors"
               >confirmation_number</mat-icon
             >
             Open Tickets
@@ -103,31 +103,31 @@
         </li>
         <li
           class="relative group"
-          routerLinkActive="active [&>a]:text-[#7b1113] [&>a]:bg-red-50/60"
+          routerLinkActive="active [&>a]:text-white [&>a]:bg-[#7b1113] [&>a]:shadow-sm"
           [routerLinkActiveOptions]="{ exact: true }"
         >
           <a
-            class="text-slate-600 font-semibold text-sm px-4 py-2 rounded-xl transition-all duration-150 block hover:bg-slate-50 hover:text-[#7b1113] no-underline hover:no-underline"
+            class="text-slate-700 font-semibold text-sm px-4 py-2 rounded-xl transition-all duration-150 block hover:bg-red-50 hover:text-[#7b1113] no-underline hover:no-underline"
             routerLink="/agent-zoomview"
             (click)="closeAllDropdowns(); isMenuOpen = false"
           >
             <mat-icon
-              class="!w-4 !h-4 !text-base text-slate-400 group-hover:text-[#7b1113] transition-colors"
+              class="!w-4 !h-4 !text-base text-slate-500 group-hover:text-[#7b1113] transition-colors"
               >videocam</mat-icon
             >
             Zoom Request
           </a>
         </li>
-       
       </ul>
 
       <ul
-        class="flex max-lg:flex-col lg:items-center list-none m-0 max-lg:p-6 lg:p-0 lg:ms-4 gap-4 max-lg:mt-auto border-t border-slate-100 lg:border-t-0 max-lg:pt-6"
+        class="flex max-lg:flex-col lg:items-center list-none m-0 max-lg:p-6 lg:p-0 lg:ms-4 gap-4 max-lg:mt-auto border-t border-slate-200 lg:border-t-0 max-lg:pt-6"
       >
+        <!-- Search Input -->
         <li class="hidden lg:block relative">
           <input
             type="text"
-            class="w-[180px] h-9 pl-9 pr-4 text-xs bg-slate-50 border border-slate-200 rounded-xl outline-none transition-all duration-200 focus:w-[220px] focus:bg-white focus:border-[#7b1113] text-slate-800 font-medium placeholder-slate-400"
+            class="w-[180px] h-9 pl-9 pr-4 text-xs bg-slate-100/80 border-1 border-slate-300 rounded-xl outline-none transition-all duration-200 focus:w-[220px] focus:bg-white focus:border-[#7b1113] focus:ring-1 focus:ring-[#7b1113] text-slate-800 font-medium placeholder-slate-400"
             placeholder="Search tickets..."
             (keyup)="onFilterChange($event)"
           />
@@ -137,23 +137,25 @@
           >
         </li>
 
+        <!-- Notification Bell -->
         <li class="relative w-full lg:w-auto">
           <a
-            class="relative flex items-center justify-center w-9 h-9 rounded-xl text-slate-500 hover:text-slate-800 hover:bg-slate-50 transition-all duration-150 cursor-pointer no-underline border border-slate-200/40 lg:border-0 max-lg:p-2"
+            class="relative flex items-center justify-center w-9 h-9 rounded-xl text-slate-600 hover:text-[#7b1113] hover:bg-red-50 transition-all duration-150 cursor-pointer no-underline border border-slate-200 lg:border-0 max-lg:p-2"
             role="button"
             (click)="toggleNotifDropdown($event)"
           >
             <mat-icon class="!w-5 !h-5 !text-xl">notifications</mat-icon>
             <span
               *ngIf="notifCount > 0"
-              class="absolute top-1.5 right-1.5 bg-red-600 text-white text-[10px] font-black rounded-full px-1.5 py-0.5 leading-none shadow-sm"
+              class="absolute top-1.5 right-1.5 bg-[#7b1113] text-white text-[10px] font-black rounded-full px-1.5 py-0.5 leading-none shadow-sm"
               >{{ notifCount }}</span
             >
           </a>
 
+          <!-- Notification Dropdown -->
           <div
             *ngIf="isNotifOpen"
-            class="absolute right-0 max-lg:left-0 max-lg:right-auto bg-white rounded-xl p-1.5 mt-2 shadow-xl shadow-slate-200/80 z-50 w-[280px] max-h-[320px] overflow-y-auto border border-slate-100 max-lg:static max-lg:shadow-none max-lg:w-full max-lg:bg-slate-50/50 max-lg:mt-1"
+            class="absolute right-0 max-lg:left-0 max-lg:right-auto bg-white rounded-xl p-1.5 mt-2 shadow-xl shadow-slate-300/60 z-50 w-[280px] max-h-[320px] overflow-y-auto border border-slate-200 max-lg:static max-lg:shadow-none max-lg:w-full max-lg:bg-slate-50 max-lg:mt-1"
           >
             <div
               *ngIf="notifications.length === 0"
@@ -164,10 +166,10 @@
 
             <div
               *ngFor="let notif of notifications"
-              class="cursor-pointer rounded-lg p-3 mb-1 transition-all duration-150 border border-transparent relative hover:bg-slate-50"
+              class="cursor-pointer rounded-lg p-3 mb-1 transition-all duration-150 border border-transparent relative hover:bg-red-50/30"
               [ngClass]="{
-                'bg-red-50/40 border-l-4 border-l-[#7b1113]': !notif.read,
-                'bg-white opacity-75': notif.read,
+                'bg-red-50/50 border-l-4 border-l-[#7b1113]': !notif.read,
+                'bg-white opacity-75': notif.read
               }"
               (click)="openTicket(notif.TicketId, notif.NotificationId)"
             >
@@ -197,16 +199,17 @@
           </div>
         </li>
 
-        <li class="relative w-full lg:w-auto">
+        <!-- User Profile Pill: UP Forest Green Accent -->
+        <li class="relative w-full lg:w-auto max-lg:mt-2">
           <a
-            class="flex items-center gap-3 p-1.5 lg:px-3 lg:py-1.5 rounded-xl transition-all duration-150 hover:bg-slate-50 cursor-pointer w-full no-underline hover:no-underline border border-slate-200/60 shadow-sm bg-white"
+            class="flex items-center gap-3 p-1.5 lg:px-3 lg:py-1.5 rounded-xl transition-all duration-150 bg-[#005b36] hover:bg-[#00472a] text-white shadow-sm cursor-pointer w-full no-underline hover:no-underline border border-[#00472a]"
             id="navbarDropdown"
             role="button"
             (click)="toggleUserDropdown($event)"
           >
             <span
               *ngIf="fullName"
-              class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-white font-black text-xs shrink-0 shadow-sm transition-transform duration-150 active:scale-95"
+              class="inline-flex items-center justify-center w-8 h-8 rounded-xl text-white font-black text-xs shrink-0 shadow-sm transition-transform duration-150 active:scale-95"
               [style.background-color]="getAvatarColor(fullName)"
             >
               {{ getInitials(fullName) }}
@@ -214,19 +217,19 @@
 
             <div class="flex flex-col text-left leading-tight">
               <div
-                class="text-xs font-bold text-slate-900 truncate max-w-[130px]"
+                class="text-xs font-bold text-white truncate max-w-[130px]"
               >
                 {{ fullName }}
               </div>
               <div
-                class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5"
+                class="text-[10px] font-extrabold text-[#fdb913] uppercase tracking-wider mt-0.5"
               >
                 Agent
               </div>
             </div>
 
             <mat-icon
-              class="hidden lg:block !w-4 !h-4 !text-base text-slate-400 transition-transform duration-200"
+              class="hidden lg:block !w-4 !h-4 !text-base text-emerald-100/70 transition-transform duration-200"
               [class.rotate-180]="isUserDropdownOpen"
               >keyboard_arrow_down</mat-icon
             >
@@ -234,15 +237,15 @@
 
           <ul
             *ngIf="isUserDropdownOpen"
-            class="absolute right-0 max-lg:left-0 max-lg:right-auto bg-white rounded-xl p-1.5 mt-2 shadow-xl shadow-slate-200/80 z-50 list-none border border-slate-100 min-w-[160px] max-lg:static max-lg:shadow-none max-lg:w-full max-lg:border-0 max-lg:bg-slate-50/50 max-lg:mt-1"
+            class="absolute right-0 max-lg:left-0 max-lg:right-auto bg-white rounded-xl p-1.5 mt-2 shadow-xl shadow-slate-300/60 z-50 list-none border border-slate-200 min-w-[160px] max-lg:static max-lg:shadow-none max-lg:w-full max-lg:border-0 max-lg:bg-slate-50 max-lg:mt-1"
           >
             <li>
               <button
-                class="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg font-bold text-red-600 hover:bg-red-50 transition-all duration-150 cursor-pointer border-0 bg-transparent text-left text-xs"
+                class="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg font-bold text-[#7b1113] hover:bg-red-50 transition-all duration-150 cursor-pointer border-0 bg-transparent text-left text-xs"
                 type="button"
                 (click)="logOut(); closeAllDropdowns(); isMenuOpen = false"
               >
-                <mat-icon class="!text-lg !w-[18px] !h-[18px] text-red-600 !inline-flex !items-center !justify-center"
+                <mat-icon class="!text-lg !w-[18px] !h-[18px] text-[#7b1113] !inline-flex !items-center !justify-center"
                   >exit_to_app</mat-icon
                 >
                 <span>Sign Out</span>
@@ -254,7 +257,7 @@
     </div>
 
     <div
-      class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[1090] transition-all duration-300 lg:hidden"
+      class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-[1090] transition-all duration-300 lg:hidden"
       [class.opacity-100]="isMenuOpen"
       [class.visible]="isMenuOpen"
       [class.opacity-0]="!isMenuOpen"

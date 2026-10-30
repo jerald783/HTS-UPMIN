@@ -1,7 +1,7 @@
 <div class="bg-slate-50/60 min-h-screen w-full flex flex-col p-4 sm:p-3 font-sans antialiased text-slate-900">
   
   <!-- Header Section (Fixed at Top) -->
-  <header class="bg-white/90 backdrop-blur-md rounded-2xl p-4 sm:px-6 sm:py-4 border border-slate-200/80 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-4 shrink-0">
+  <header class="bg-white/90 backdrop-blur-md rounded-2xl p-4 sm:px-6 sm:py-4 border-1 border-slate-300/80 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-4 shrink-0">
     <div>
       <h2 class="text-xl text-[#7b1113] font-bold tracking-tight flex items-center justify-start gap-2">
         <mat-icon class="!w-6 !h-6 !text-[24px]">settings</mat-icon>
@@ -16,7 +16,7 @@
 <br>
   <!-- Main Configuration Container (Scrollable Flex Item) -->
 <main class="flex-1 w-full min-h-0">
-    <mat-card class="!h-full !rounded-2xl !border !border-slate-200/80 !shadow-sm !bg-white flex flex-col overflow-hidden">
+    <mat-card class="!h-full !rounded-2xl !border !border-slate-300/80 !shadow-sm !bg-white flex flex-col overflow-hidden">
       
       <mat-tab-group 
         class="up-pro-tabs h-full flex flex-col overflow-hidden"
@@ -39,7 +39,7 @@
           <!-- Tab Content Inner Scroll -->
           <div class="h-full overflow-y-auto p-4 sm:p-6 lg:p-8">
             <!-- Form Header -->
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 pb-4 border-b border-slate-100">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 pb-4 border-b border-slate-300">
               <div>
                 <h2 class="text-sm sm:text-base font-semibold text-slate-900">Add New Ticket Field</h2>
                 <p class="text-xs text-slate-500 mt-0.5">Define dynamically injected inputs for user support forms.</p>
@@ -123,10 +123,10 @@
               </div>
 
               <!-- Data Grid Table -->
-              <div class="overflow-x-auto rounded-xl border border-slate-200/80 shadow-xs">
+              <div class="overflow-x-auto rounded-xl border border-slate-300/80 shadow-xs">
                 <table class="w-full text-left border-collapse text-xs min-w-[500px]">
                   <thead>
-                    <tr class="bg-slate-50/80 border-b border-slate-200/80 text-slate-500 font-semibold tracking-wider uppercase text-[10px]">
+                    <tr class="bg-slate-50/80 border-b border-slate-300/80 text-slate-500 font-semibold tracking-wider uppercase text-[10px]">
                       <th class="py-3 px-4">Label</th>
                       <th class="py-3 px-4">Variable Key</th>
                       <th class="py-3 px-4">Type</th>
@@ -194,7 +194,7 @@
 
           <div class="h-full overflow-y-auto p-4 sm:p-6 lg:p-8">
             <form [formGroup]="smtpForm" (ngSubmit)="updateSmtp()" class="w-full">
-              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 pb-4 border-b border-slate-100">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 pb-4 border-b border-slate-300">
                 <div>
                   <h2 class="text-sm sm:text-base font-semibold text-slate-900">Email Dispatch Server</h2>
                   <p class="text-xs text-slate-500 mt-0.5">Configure transactional mail server credentials for notifications.</p>
@@ -241,7 +241,7 @@
               </div>
 
               <!-- Footer Controls -->
-              <div class="mt-6 pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <div class="mt-6 pt-4 border-t border-slate-300 flex flex-col sm:flex-row items-center justify-between gap-3">
                 <button 
                   mat-button 
                   type="button" 
@@ -274,7 +274,7 @@
 
           <div class="h-full overflow-y-auto p-4 sm:p-6 lg:p-8">
             <form [formGroup]="googleForm" (ngSubmit)="updateGoogle()" class="w-full">
-              <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
+              <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-300">
                 <div>
                   <h2 class="text-sm sm:text-base font-semibold text-slate-900">Google OAuth 2.0 Credentials</h2>
                   <p class="text-xs text-slate-500 mt-0.5">Authorize institutional &#64;up.edu.ph accounts for single sign-on.</p>
@@ -290,7 +290,7 @@
                 </mat-form-field>
               </div>
 
-              <div class="mt-8 pt-4 border-t border-slate-100 flex justify-end">
+              <div class="mt-8 pt-4 border-t border-slate-300 flex justify-end">
                 <button 
                   mat-flat-button 
                   type="submit"

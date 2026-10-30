@@ -3,7 +3,7 @@
   class="flex flex-col h-[calc(100vh-64px)] overflow-hidden bg-slate-50/50 p-4 sm:p-6"
 >
   <!-- Header & Action Bar -->
-<header class="bg-white/90 backdrop-blur-md rounded-2xl p-4 sm:px-6 sm:py-4 border border-slate-200/80 shadow-xs flex flex-col xl:flex-row xl:items-center xl:justify-between gap-3.5 shrink-0 max-w-full overflow-hidden">
+<header class="bg-white/90 backdrop-blur-md rounded-2xl p-4 sm:px-6 sm:py-4 border-1 border-slate-300 shadow-xs flex flex-col xl:flex-row xl:items-center xl:justify-between gap-3.5 shrink-0 max-w-full overflow-hidden">
   <!-- Title Section -->
   <div class="shrink-0">
     <h1 class="text-lg sm:text-xl font-bold tracking-tight text-[#7b1113] flex items-center gap-2 m-0 whitespace-nowrap">
@@ -26,7 +26,7 @@
         type="text"
         (keyup)="applyFilter($event)"
         placeholder="Search name or email..."
-        class="w-full h-9 pl-9 pr-3.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-800 transition-all placeholder:text-slate-400 focus:bg-white focus:border-[#7b1113] focus:outline-none focus:ring-4 focus:ring-[#7b1113]/10 truncate"
+        class="w-full h-9 pl-9 pr-3.5 bg-slate-50 border-1 border-slate-300 rounded-xl text-xs sm:text-sm text-slate-800 transition-all placeholder:text-slate-400 focus:bg-white focus:border-[#7b1113] focus:outline-none focus:ring-4 focus:ring-[#7b1113]/10 truncate"
       />
     </div>
 
@@ -45,7 +45,7 @@
 
   <!-- Content Area (Scrollable Table Body) -->
   <div
-    class="flex-1 overflow-hidden bg-white rounded-t-2xl border-x border-t border-slate-200/80 shadow-xs mt-4 flex flex-col"
+    class="flex-1 overflow-hidden bg-white rounded-t-2xl border-x border-t border-slate-300/80 shadow-xs mt-4 flex flex-col"
   >
     <div class="flex-1 overflow-y-auto min-h-0">
       <!-- Desktop View -->
@@ -56,14 +56,14 @@
             <th
               mat-header-cell
               *matHeaderCellDef
-              class="!bg-slate-50/80 !text-slate-600 !font-semibold !text-xs !uppercase !tracking-wider !py-3.5 !px-6 !border-b !border-slate-200"
+              class="!bg-slate-50/80 !text-slate-600 !font-semibold !text-xs !uppercase !tracking-wider !py-3.5 !px-6 !border-b !border-slate-300"
             >
               Full Name
             </th>
             <td
               mat-cell
               *matCellDef="let element"
-              class="!py-3 !px-6 !border-b !border-slate-100"
+              class="!py-3 !px-6 !border-b !border-slate-300"
             >
               <div class="flex items-center gap-3">
                 <div
@@ -83,14 +83,14 @@
             <th
               mat-header-cell
               *matHeaderCellDef
-              class="!bg-slate-50/80 !text-slate-600 !font-semibold !text-xs !uppercase !tracking-wider !py-3.5 !px-6 !border-b !border-slate-200"
+              class="!bg-slate-50/80 !text-slate-600 !font-semibold !text-xs !uppercase !tracking-wider !py-3.5 !px-6 !border-b !border-slate-300"
             >
               Email Address
             </th>
             <td
               mat-cell
               *matCellDef="let element"
-              class="!py-3 !px-6 !border-b !border-slate-100"
+              class="!py-3 !px-6 !border-b !border-slate-300"
             >
               <span class="text-slate-600 text-sm">{{ element.Email }}</span>
             </td>
@@ -101,14 +101,14 @@
             <th
               mat-header-cell
               *matHeaderCellDef
-              class="!bg-slate-50/80 !text-slate-600 !font-semibold !text-xs !uppercase !tracking-wider !py-3.5 !px-6 !border-b !border-slate-200 text-right"
+              class="!bg-slate-50/80 !text-slate-600 !font-semibold !text-xs !uppercase !tracking-wider !py-3.5 !px-6 !border-b !border-slate-300 text-right"
             >
               Actions
             </th>
             <td
               mat-cell
               *matCellDef="let element"
-              class="!py-3 !px-6 !border-b !border-slate-100 text-right"
+              class="!py-3 !px-6 !border-b !border-slate-300 text-right"
             >
               <div class="flex items-center justify-end gap-1">
                 <button
@@ -191,7 +191,7 @@
 
   <!-- Table Paginator -->
   <div
-    class="bg-white rounded-b-2xl border-x border-b border-slate-200/80 shadow-xs shrink-0 z-20 overflow-hidden"
+    class="bg-white rounded-b-2xl border-x border-b border-slate-300/80 shadow-xs shrink-0 z-20 overflow-hidden"
   >
     <mat-paginator
       [pageSizeOptions]="[5, 10, 25]"
@@ -213,7 +213,7 @@
 
     <!-- Modal Card -->
     <div
-      class="relative z-10 w-full max-w-lg bg-white rounded-2xl overflow-hidden shadow-2xl border border-slate-100 flex flex-col max-h-[90vh]"
+      class="relative z-10 w-full max-w-lg bg-white rounded-2xl overflow-hidden shadow-2xl border border-slate-300 flex flex-col max-h-[90vh]"
     >
       <!-- Modal Header -->
       <div
@@ -292,11 +292,11 @@
     </div>
 
     <!-- Footer Buttons -->
-    <div class="px-6 py-4 bg-slate-50/50 border-t border-slate-100 flex items-center justify-end gap-3">
+    <div class="px-6 py-4 bg-slate-50/50 border-t border-slate-300 flex items-center justify-end gap-3">
       <button
         (click)="closeDeleteModal()"
         type="button"
-        class="px-4 py-2 border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 rounded-lg text-sm font-medium transition-colors cursor-pointer"
+        class="px-4 py-2 border-1 border-slate-300 bg-white text-slate-700 hover:bg-slate-50 rounded-lg text-sm font-medium transition-colors cursor-pointer"
 
       >
         Keep User

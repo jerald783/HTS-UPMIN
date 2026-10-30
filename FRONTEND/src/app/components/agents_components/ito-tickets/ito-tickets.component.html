@@ -3,9 +3,9 @@
   (filterChanged)="applyFilter($event)"
 ></app-ito-headers>
 
-<div class="container mx-auto px-4 md:px-6 pt-24 pb-8 space-y-6">
+<div class="container mx-auto px-4 md:px-6 pt-24 pb-8 space-y-6 ">
   <div
-    class="flex flex-wrap items-center justify-between gap-4 bg-slate-50/70 p-4 rounded-xl border border-slate-200/60"
+    class="flex flex-wrap items-center justify-between gap-4 bg-slate-50/70 p-4 rounded-xl border-1 border-slate-300"
   >
     <div>
       <h1 class="text-base sm:text-xl text-[#7b1113] font-bold tracking-tight truncate">
@@ -19,9 +19,9 @@
     <div class="flex items-center gap-3">
       <button
         mat-raised-button
-        color="primary"
+   
         [matMenuTriggerFor]="menu"
-        class="!rounded-lg !px-4 !h-10"
+        class="!bg-[#751011] !text-white !rounded-lg !px-4 !h-10 font-['Roboto',_sans-serif]"
       >
         <mat-icon
           class="mr-1.5 text-[20px] w-5 h-5 flex items-center justify-center"
@@ -84,8 +84,8 @@
             </button>
             <button
               mat-flat-button
-              color="primary"
-              class="!text-xs !rounded-md"
+              
+              class="!bg-[#1E4D2B] !text-white !bg-[#1E4D2B] !text-white !text-xs !rounded-md"
               (click)="applyDateFilter()"
             >
               Apply
@@ -113,10 +113,10 @@
           mat-menu-item
           (click)="downloadCSV()"
           [disabled]="dataSource.data.length === 0"
-          class="!flex items-center text-slate-700 disabled:text-slate-400"
+          class="!flex items-center text-slate-700 disabled:text-slate-800"
         >
           <mat-icon class="text-slate-600 mr-2">download</mat-icon>
-          <span class="font-medium">Download CSV Report</span>
+          <span class="font-medium ">Download CSV Report</span>
         </button>
 
         <mat-divider class="my-1"></mat-divider>
@@ -126,7 +126,7 @@
           mat-menu-item
           (click)="confirmDeleteSelected()"
           [disabled]="selection.selected.length === 0"
-          class="!flex items-center text-red-600 disabled:text-slate-400"
+          class="!flex items-center text-red-600 disabled:text-slate-800"
         >
           <mat-icon
             class="mr-2"
@@ -147,7 +147,7 @@
     <!-- 📭 Empty State View -->
     <div
       *ngIf="dataSource.data.length === 0 && !isLoading"
-      class="flex flex-col items-center justify-center py-16 px-4 text-center bg-white border border-slate-200 rounded-xl mat-elevation-z1"
+      class="flex flex-col items-center justify-center py-16 px-4 text-center bg-white border-1 border-slate-300 rounded-xl mat-elevation-z1"
     >
       <div
         class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4 border border-slate-100 text-slate-400"
@@ -186,7 +186,7 @@
       *ngIf="dataSource.data.length > 0 && !isLoading"
     >
       <div
-        class="mat-elevation-z1 border border-slate-200 rounded-xl bg-white flex flex-col max-h-[calc(100vh-250px)] overflow-hidden"
+        class="mat-elevation-z1 border-1 border-slate-300 rounded-xl bg-white flex flex-col max-h-[calc(100vh-250px)] overflow-hidden"
       >
         <div class="overflow-auto flex-grow">
           <table

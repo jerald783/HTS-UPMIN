@@ -390,7 +390,7 @@ export class ItoDashboardComponent implements OnInit, OnDestroy {
               pointStyle: 'circle',
               boxWidth: 10,
               boxHeight: 10,
-              color: '#6b7280',
+              color: '#334155',
               font: { size: 12 },
               padding: 16
             },
@@ -401,18 +401,28 @@ export class ItoDashboardComponent implements OnInit, OnDestroy {
             font: { size: 15, weight: 'bold' },
           },
           tooltip: { backgroundColor: '#111827' },
+             datalabels: {
+            color: '#ffffff',
+            font: {size: 8 },
+          },
         },
         scales: {
-          x: {
-            grid: { color: '#e2e8f0' },
-            ticks: { color: '#475569', font: { size: 11 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 10 },
-          },
-          y: {
-            beginAtZero: true,
-            grid: { color: '#e2e8f0' },
-            ticks: { color: '#475569', font: { size: 11 }, precision: 0 },
-          },
-        },
+    x: {
+      grid: { 
+        color: '#cbd5e1', // Darker grid color (was #e2e8f0)
+        lineWidth: 1 
+      },
+      ticks: { color: '#1e293b', font: { size: 11 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 10 },
+    },
+    y: {
+      beginAtZero: true,
+      grid: { 
+        color: '#cbd5e1', // Darker grid color (was #e2e8f0)
+        lineWidth: 1 
+      },
+      ticks: { color: '#1e293b', font: { size: 11 }, precision: 0 },
+    },
+  },
       },
     });
   }
@@ -483,7 +493,7 @@ export class ItoDashboardComponent implements OnInit, OnDestroy {
               pointStyle: 'circle',
               boxWidth: 10,
               boxHeight: 10,
-              color: '#6b7280',
+              color: '#334155',
               font: { size: 12 },
               padding: 16
             },
@@ -494,17 +504,27 @@ export class ItoDashboardComponent implements OnInit, OnDestroy {
             font: { size: 15, weight: 'bold' },
           },
           tooltip: { backgroundColor: '#111827' },
+             datalabels: {
+            color: '#ffffff',
+            font: {size: 8 },
+          },
         },
         scales: {
-          x: {
-            grid: { color: '#e2e8f0' },
-            ticks: { color: '#475569', font: { size: 11 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 10 },
-          },
-          y: {
-            beginAtZero: true,
-            grid: { color: '#e2e8f0' },
-            ticks: { color: '#475569', font: { size: 11 }, precision: 0 },
-          },
+      x: {
+      grid: { 
+        color: '#cbd5e1', // Darker grid color (was #e2e8f0)
+        lineWidth: 1 
+      },
+      ticks: { color: '#1e293b', font: { size: 11 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 10 },
+    },
+    y: {
+      beginAtZero: true,
+      grid: { 
+        color: '#cbd5e1', // Darker grid color (was #e2e8f0)
+        lineWidth: 1 
+      },
+      ticks: { color: '#1e293b', font: { size: 11 }, precision: 0 },
+    },
         },
       },
     });

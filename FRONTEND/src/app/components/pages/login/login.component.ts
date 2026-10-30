@@ -300,6 +300,8 @@ export class LoginComponent implements OnDestroy, OnInit {
   isOnline: boolean = navigator.onLine;
   googleLoadError: boolean = false;
 
+
+    isRegistrationOpen: boolean = false;
   constructor(
     private userService: UserService,
     private router: Router,
@@ -310,7 +312,7 @@ export class LoginComponent implements OnDestroy, OnInit {
   get now(): number {
     return Date.now();
   }
-
+  readonly currentYear: number = new Date().getFullYear();
   ngOnInit(): void {
     window.addEventListener('online', this.updateOnlineStatus);
     window.addEventListener('offline', this.updateOnlineStatus);

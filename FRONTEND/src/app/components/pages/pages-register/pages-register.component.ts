@@ -41,6 +41,7 @@ export class PagesRegisterComponent implements OnInit {
   roles: { id: number; name: string }[] = [];
   otpDigits: string[] = ['', '', '', '', '', ''];
 
+
   constructor(
     private userService: UserService,
     private toastr: ToastrService,

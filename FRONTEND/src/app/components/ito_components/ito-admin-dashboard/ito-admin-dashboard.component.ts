@@ -583,7 +583,7 @@ export class ItoAdminDashboardComponent implements OnInit, OnDestroy {
           tooltip: { backgroundColor: '#111827' },
           datalabels: {
             color: '#ffffff',
-            font: {size: 9 },
+            font: {size: 8 },
           },
         },
         scales: {
@@ -690,7 +690,7 @@ export class ItoAdminDashboardComponent implements OnInit, OnDestroy {
           tooltip: { backgroundColor: '#111827' },
           datalabels: {
             color: '#ffffff',
-            font: {  size: 9 },
+            font: {  size: 8 },
           },
         },
         scales: {
@@ -788,7 +788,7 @@ export class ItoAdminDashboardComponent implements OnInit, OnDestroy {
           {
             label: 'Overall Rating (Out of 5)',
             data: scores,
-            backgroundColor: '#2563eb',
+            backgroundColor: '#005b36',
             borderRadius: 6,
           },
         ],

@@ -9,10 +9,10 @@
     <div
       class="mx-auto w-full max-w-7xl flex flex-col h-full min-h-0 space-y-4"
     >
-   <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 border-b border-slate-200 pb-4 shrink-0">
+   <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 border-b border-slate-300 pb-4 shrink-0">
   <!-- Title Section -->
   <div class="flex items-center gap-3">
-    <div class="p-2.5 rounded-xl bg-slate-100 text-slate-700 border border-slate-200/80 flex items-center justify-center shrink-0">
+    <div class="p-2.5 rounded-xl bg-slate-100 text-slate-700 border border-slate-300 flex items-center justify-center shrink-0">
       <svg class="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
       </svg>
@@ -30,14 +30,14 @@
   <!-- Right Side Wrapper: Legend & Actions -->
   <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 w-full lg:w-auto lg:justify-end">
     <!-- Legend for Holidays -->
-    <div class="flex items-center gap-1.5 bg-slate-50 p-1 rounded-xl border border-slate-200/80">
-      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-purple-50 text-purple-700 border border-purple-200/60 text-[11px] font-semibold">
+    <div class="flex items-center gap-1.5 bg-slate-50 p-1 rounded-xl border-1 border-slate-300">
+      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-purple-50 text-purple-700 border-0 border-purple-300/60 text-[11px] font-semibold">
         <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span> Regular
       </span>
-      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-50 text-amber-700 border border-amber-200/60 text-[11px] font-semibold">
+      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-50 text-amber-700 border-0 border-amber-300/60 text-[11px] font-semibold">
         <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Special
       </span>
-      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 border border-dashed border-slate-300 text-[11px] font-semibold">
+      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 border-0 border-slate-300 text-[11px] font-semibold">
         <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> Tentative
       </span>
     </div>
@@ -49,7 +49,7 @@
         <input
           type="date"
           aria-label="Filter schedule date"
-          class="w-full h-9 px-3 bg-white border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 shadow-xs hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all cursor-pointer"
+          class="w-full h-9 px-3 bg-white border-1 border-slate-300 rounded-xl text-xs font-semibold text-slate-700 shadow-xs hover:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all cursor-pointer"
           [ngModel]="getPickerDateString()"
           (ngModelChange)="onDatePickerChange($event)"
         />
@@ -76,7 +76,7 @@
       >
         <!-- Calendar Grid -->
         <div
-          class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 p-3 sm:p-5 flex flex-col lg:h-full lg:overflow-hidden"
+          class="lg:col-span-2 bg-white rounded-xl shadow-sm border-1 border-gray-300 p-3 sm:p-5 flex flex-col lg:h-full lg:overflow-hidden"
         >
           <div
             class="grid grid-cols-7 gap-1 sm:gap-2 text-center text-[10px] sm:text-xs font-bold uppercase tracking-wider text-amber-900/80 mb-2 sm:mb-4 shrink-0"
@@ -97,7 +97,7 @@
                 day && selectedDate === getDateForDay(day)
               "
               [class.text-white]="day && selectedDate === getDateForDay(day)"
-              class="group relative flex flex-col justify-between p-1 sm:p-2 aspect-square lg:aspect-auto rounded-lg sm:rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-emerald-50/50 hover:border-emerald-200 hover:shadow-sm transition-all cursor-pointer overflow-hidden lg:h-full lg:min-h-0"
+              class="group relative flex flex-col justify-between p-1 sm:p-2 aspect-square lg:aspect-auto rounded-lg sm:rounded-xl border-1 border-gray-300 bg-gray-50/50 hover:bg-emerald-50/50 hover:border-emerald-800 hover:shadow-sm transition-all cursor-pointer overflow-hidden lg:h-full lg:min-h-0"
             >
               <div
                 *ngIf="day"
@@ -152,7 +152,7 @@
 
                 <span
                   class="hidden sm:block text-[9px] sm:text-[10px] font-bold text-emerald-800"
-                  [class.text-emerald-200]="selectedDate === getDateForDay(day)"
+                  [class.text-emerald-300]="selectedDate === getDateForDay(day)"
                 >
                   <ng-container *ngIf="getEvents(day).length === 1">
                     1 Item
@@ -168,10 +168,10 @@
 
         <!-- Right Side Panel -->
         <div
-          class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5 flex flex-col max-h-[500px] lg:max-h-none lg:h-full lg:overflow-hidden"
+          class="bg-white rounded-xl shadow-sm border-1 border-gray-300 p-4 sm:p-5 flex flex-col max-h-[500px] lg:max-h-none lg:h-full lg:overflow-hidden"
         >
           <div
-            class="border-b border-gray-100 pb-3 mb-3 sm:mb-4 shrink-0 flex items-center justify-between"
+            class="border-b border-gray-300 pb-3 mb-3 sm:mb-4 shrink-0 flex items-center justify-between"
           >
             <div>
               <h3
@@ -199,7 +199,7 @@
               selectedDate &&
               holidaysMap[selectedDate]?.length
             "
-            class="mb-3 p-3 bg-purple-50 border border-purple-200 rounded-xl space-y-1"
+            class="mb-3 p-3 bg-purple-50 border border-purple-300 rounded-xl space-y-1"
           >
             <div
               *ngFor="let h of holidaysMap[selectedDate]"
@@ -208,7 +208,7 @@
               <span>{{ h.type === "Tentative Holiday" ? "⏳" : "🎉" }}</span>
               <span>{{ h.name }}</span>
               <span
-                class="text-[10px] px-1.5 py-0.2 rounded bg-purple-200 text-purple-800 font-semibold"
+                class="text-[10px] px-1.5 py-0.2 rounded bg-purple-300 text-purple-800 font-semibold"
                 >{{ h.type }}</span
               >
             </div>
@@ -229,7 +229,7 @@
           >
             <div
               *ngFor="let s of userSchedules"
-              class="p-3 sm:p-4 rounded-xl border border-gray-100 bg-white hover:border-emerald-200 hover:shadow-sm transition-all flex flex-col gap-2 sm:gap-3"
+              class="p-3 sm:p-4 rounded-xl border-1 border-gray-300 bg-white hover:border-emerald-800 hover:shadow-sm transition-all flex flex-col gap-2 sm:gap-3"
             >
               <div class="flex items-start justify-between gap-2">
                 <div

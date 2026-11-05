@@ -1,0 +1,50 @@
+/* Custom Utility for Form Inputs */
+.form-input {
+  @apply w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-normal text-slate-800 placeholder-slate-400 transition-all duration-200 ease-in-out outline-none shadow-sm;
+}
+
+.form-input:focus {
+  @apply border-slate-800 ring-4 ring-slate-800/10;
+}
+
+/* Angular State Validations (Standard Flow) */
+input.form-input.ng-invalid.ng-touched,
+select.form-input.ng-invalid.ng-touched,
+textarea.form-input.ng-invalid.ng-touched {
+  @apply border-rose-300 bg-rose-50/30 text-rose-900 ring-rose-500/10;
+}
+
+input.form-input.ng-valid.ng-touched,
+select.form-input.ng-valid.ng-touched,
+textarea.form-input.ng-valid.ng-touched {
+  @apply border-emerald-200 bg-emerald-50/10 focus:border-emerald-500 focus:ring-emerald-500/10;
+}
+
+/* Angular State Validations (Post-Submission Enforcement) */
+.is-submitted input.form-input.ng-invalid,
+.is-submitted select.form-input.ng-invalid,
+.is-submitted textarea.form-input.ng-invalid {
+  @apply border-rose-400 bg-rose-50/50 ring-4 ring-rose-500/10;
+}
+
+.is-submitted input.form-input.ng-valid,
+.is-submitted select.form-input.ng-valid,
+.is-submitted textarea.form-input.ng-valid {
+  @apply border-emerald-300 bg-white;
+}
+
+/* Error Message Subtexts */
+.error-msg {
+  @apply mt-1.5 ml-1 text-xs font-medium text-rose-500 tracking-wide;
+}
+
+/* Flawless Haptic Shake Animation */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-4px); }
+  40%, 80% { transform: translateX(4px); }
+}
+
+.animate-shake {
+  animation: shake 0.3cs cubic-bezier(.36,.07,.19,.97) both;
+}

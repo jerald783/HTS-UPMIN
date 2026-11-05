@@ -1,0 +1,355 @@
+<div class="chat-wrapper">
+  <div class="chat-container">
+
+    <!-- HEADER -->
+    <div class="chat-header">
+      <div class="chat-header-left">
+        <div class="chat-title">Ticket Chat</div>
+        <div class="chat-subtitle">Ticket #{{ ticketId }}</div>
+      </div>
+
+      <div class="chat-header-right">
+        <span class="online-dot"></span>
+        <span class="online-text">Live</span>
+      </div>
+    </div>
+
+    <!-- START CALL BUTTON -->
+    <div class="call-launch">
+      <button class="start-call-btn" type="button" (click)="startCall()">
+        <i class="material-icons">videocam</i>
+        Start Video Call
+      </button>
+    </div>
+
+    <!-- VIDEO CALL FLOATING PANEL -->
+    <div
+      class="call-shell"
+      *ngIf="callUIVisible"
+      [class.is-minimized]="minimized"
+    >
+      <!-- Top Bar -->
+      <div class="call-topbar">
+        <div class="call-info">
+          <div class="call-title">Ticket Video Call</div>
+          <div class="call-sub">
+            Ticket #{{ ticketId }} • {{ callStatusText }}
+          </div>
+        </div>
+
+        <button class="icon-btn" type="button" (click)="toggleMinimize()">
+          <i class="material-icons">
+            {{ minimized ? 'open_in_full' : 'minimize' }}
+          </i>
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div class="call-body">
+        <!-- Remote Video -->
+        <div class="remote-wrap">
+          <video #remoteVideo autoplay playsinline></video>
+
+          <!-- Remote fallback -->
+          <div class="remote-fallback" *ngIf="!remoteStreamActive">
+            <div class="fallback-avatar">
+              <i class="material-icons">person</i>
+            </div>
+            <div class="fallback-text">Waiting for other user…</div>
+          </div>
+
+          <!-- Local preview -->
+          <div class="local-preview">
+            <video #localVideo autoplay muted playsinline></video>
+            <div class="local-label">You</div>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="call-controls">
+          <button
+            class="control-btn"
+            type="button"
+            [class.active]="micEnabled"
+            (click)="toggleMic()"
+            title="Mute / Unmute"
+          >
+            <i class="material-icons">
+              {{ micEnabled ? 'mic' : 'mic_off' }}
+            </i>
+          </button>
+
+          <button
+            class="control-btn"
+            type="button"
+            [class.active]="camEnabled"
+            (click)="toggleCamera()"
+            title="Camera On / Off"
+          >
+            <i class="material-icons">
+              {{ camEnabled ? 'videocam' : 'videocam_off' }}
+            </i>
+          </button>
+
+          <button
+            class="control-btn"
+            type="button"
+            (click)="toggleFullscreen()"
+            title="Fullscreen"
+          >
+            <i class="material-icons">fullscreen</i>
+          </button>
+
+          <button
+            class="control-btn danger"
+            type="button"
+            (click)="endCall()"
+            title="End Call"
+          >
+            <i class="material-icons">call_end</i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MESSAGES -->
+    <div class="messages" #messagesContainer>
+      <div *ngIf="messages.length === 0" class="no-messages">
+        <div class="empty-icon">
+          <i class="material-icons">chat_bubble_outline</i>
+        </div>
+        <div class="empty-title">No messages yet</div>
+        <div class="empty-sub">
+          Start the conversation by sending a message below.
+        </div>
+      </div>
+
+      <div
+        *ngFor="let msg of messages"
+        class="message-row"
+        [ngClass]="{
+          sent: msg.SenderEmail === currentUserEmail,
+          received: msg.SenderEmail !== currentUserEmail
+        }"
+      >
+        <div class="avatar" *ngIf="msg.SenderEmail !== currentUserEmail">
+          {{ (msg.SenderEmail || '?')[0] | uppercase }}
+        </div>
+
+        <div class="bubble-wrap">
+          <div class="meta" *ngIf="msg.SenderEmail !== currentUserEmail">
+            {{ msg.SenderEmail }}
+          </div>
+
+          <div class="bubble">
+            <div class="text" *ngIf="msg.Message && msg.Message.trim()">
+              {{ msg.Message }}
+            </div>
+
+            <div class="file-attachment" *ngIf="msg.FilePath">
+              <a [href]="msg.FilePath" target="_blank">
+                <i class="material-icons">attach_file</i>
+                {{ msg.FileName }}
+              </a>
+            </div>
+
+            <div class="time">
+              {{ msg.Timestamp | date: 'MMM d, h:mm a' }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INPUT -->
+    <form (submit)="sendMessage()" class="chat-form">
+      <div class="input-wrap">
+        <button
+          type="button"
+          class="attach-button"
+          (click)="fileInput.click()"
+          title="Attach file"
+        >
+          <i class="material-icons">attach_file</i>
+        </button>
+
+        <input
+          #fileInput
+          type="file"
+          hidden
+          (change)="onFileSelected($event)"
+        />
+
+        <input
+          [(ngModel)]="newMessage"
+          name="message"
+          class="message-input"
+          placeholder="Type a message..."
+          autocomplete="off"
+        />
+
+        <button
+          type="submit"
+          class="send-button"
+          [disabled]="(!newMessage || !newMessage.trim()) && !selectedFile"
+        >
+          <i class="material-icons">send</i>
+        </button>
+      </div>
+
+      <div class="file-preview" *ngIf="selectedFile">
+        <div class="file-left">
+          <i class="material-icons">description</i>
+
+          <div class="file-info">
+            <div class="file-name">{{ selectedFile.name }}</div>
+            <div class="file-size">{{ formatFileSize(selectedFile.size) }}</div>
+          </div>
+        </div>
+
+        <button type="button" class="remove-file" (click)="removeSelectedFile()">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="chat-wrapper">
+  <div class="chat-container">
+
+    <!-- HEADER -->
+    <div class="chat-header">
+      <div class="chat-header-left">
+        <div class="chat-title">Ticket Chat</div>
+        <div class="chat-subtitle">Ticket #{{ ticketId }}</div>
+      </div>
+
+      <div class="chat-header-right">
+        <span class="online-dot"></span>
+        <span class="online-text">Live</span>
+      </div>
+    </div>
+
+    <!-- MESSAGES -->
+    <div class="messages" #messagesContainer>
+      <div *ngIf="messages.length === 0" class="no-messages">
+        <div class="empty-icon">
+          <i class="material-icons">chat_bubble_outline</i>
+        </div>
+        <div class="empty-title">No messages yet</div>
+        <div class="empty-sub">
+          Start the conversation by sending a message below.
+        </div>
+      </div>
+
+      <div
+        *ngFor="let msg of messages"
+        class="message-row"
+        [ngClass]="{
+          sent: msg.SenderEmail === currentUserEmail,
+          received: msg.SenderEmail !== currentUserEmail
+        }"
+      >
+        <!-- Avatar (only for received) -->
+        <div class="avatar" *ngIf="msg.SenderEmail !== currentUserEmail">
+          {{ (msg.SenderEmail || '?')[0] | uppercase }}
+        </div>
+
+        <!-- Bubble -->
+        <div class="bubble-wrap">
+          <div class="meta" *ngIf="msg.SenderEmail !== currentUserEmail">
+            {{ msg.SenderEmail }}
+          </div>
+
+          <div class="bubble">
+            <!-- MESSAGE TEXT -->
+            <div class="text" *ngIf="msg.Message && msg.Message.trim()">
+              {{ msg.Message }}
+            </div>
+
+            <!-- FILE ATTACHMENT -->
+            <div class="file-attachment" *ngIf="msg.FilePath">
+              <a [href]="msg.FilePath" target="_blank">
+                <i class="material-icons">attach_file</i>
+                {{ msg.FileName }}
+              </a>
+            </div>
+
+            <!-- TIME -->
+            <div class="time">
+              {{ msg.Timestamp | date: 'MMM d, h:mm a' }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INPUT -->
+    <form (submit)="sendMessage()" class="chat-form">
+      <div class="input-wrap">
+
+        <!-- ATTACH -->
+        <button
+          type="button"
+          class="attach-button"
+          (click)="fileInput.click()"
+          title="Attach file"
+        >
+          <i class="material-icons">attach_file</i>
+        </button>
+
+        <input
+          #fileInput
+          type="file"
+          hidden
+          (change)="onFileSelected($event)"
+        />
+
+        <!-- MESSAGE INPUT -->
+        <input
+          [(ngModel)]="newMessage"
+          name="message"
+          class="message-input"
+          placeholder="Type a message..."
+          autocomplete="off"
+        />
+
+        <!-- SEND -->
+        <button
+          type="submit"
+          class="send-button"
+          [disabled]="(!newMessage || !newMessage.trim()) && !selectedFile"
+        >
+          <i class="material-icons">send</i>
+        </button>
+      </div>
+
+      <!-- FILE PREVIEW -->
+      <div class="file-preview" *ngIf="selectedFile">
+        <div class="file-left">
+          <i class="material-icons">description</i>
+
+          <div class="file-info">
+            <div class="file-name">{{ selectedFile.name }}</div>
+            <div class="file-size">{{ formatFileSize(selectedFile.size) }}</div>
+          </div>
+        </div>
+
+        <button type="button" class="remove-file" (click)="removeSelectedFile()">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+    </form>
+
+  </div>
+</div>

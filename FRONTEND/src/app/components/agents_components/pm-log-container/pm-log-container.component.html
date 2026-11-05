@@ -1,0 +1,13 @@
+<!-- 1. List View of Saved Forms -->
+<app-ito-pms-list 
+  *ngIf="currentView === 'list'" 
+  (selectLog)="openLogForm($event)" 
+  (createNew)="openNewForm()">
+</app-ito-pms-list>
+
+<!-- 2. Detail Form View (Create / View / Edit) -->
+<app-ito-pms-log 
+  *ngIf="currentView === 'form'" 
+  [recordId]="activeLogId" 
+  (backToList)="showSavedList()">
+</app-ito-pms-log>

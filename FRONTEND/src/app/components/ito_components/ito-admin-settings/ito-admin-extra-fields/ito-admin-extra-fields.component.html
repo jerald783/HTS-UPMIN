@@ -1,0 +1,98 @@
+<div class="max-w-4xl mx-auto p-6 bg-white rounded-xl shadow-sm border border-gray-100 my-8">
+  <h2 class="text-2xl font-bold text-gray-800 mb-6">Admin - Additional Ticket Inputs</h2>
+
+  <form [formGroup]="fieldForm" class="space-y-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="flex flex-col gap-1.5">
+        <label class="text-sm font-medium text-gray-700">Field Name</label>
+        <input 
+          type="text" 
+          formControlName="FieldName" 
+          class="px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
+          placeholder="e.g., serial_number"
+        />
+      </div>
+
+      <div class="flex flex-col gap-1.5">
+        <label class="text-sm font-medium text-gray-700">Field Label</label>
+        <input 
+          type="text" 
+          formControlName="FieldLabel" 
+          class="px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
+          placeholder="e.g., Serial Number"
+        />
+      </div>
+
+      <div class="flex flex-col gap-1.5">
+        <label class="text-sm font-medium text-gray-700">Field Type</label>
+        <select 
+          formControlName="FieldType" 
+          class="px-3 py-2 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
+        >
+          <option value="text">Text</option>
+          <option value="textarea">Textarea</option>
+          <option value="select">Dropdown</option>
+        </select>
+      </div>
+
+      <div class="flex flex-col gap-1.5">
+        <label class="text-sm font-medium text-gray-700">Options (comma separated if dropdown)</label>
+        <input 
+          type="text" 
+          formControlName="Options" 
+          class="px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
+          placeholder="Option 1, Option 2, Option 3"
+        />
+      </div>
+    </div>
+
+    <div class="flex justify-end pt-2">
+      <button 
+        type="button" 
+        (click)="addField()" 
+        class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm rounded-lg shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+      >
+        <span>➕</span> Add Input
+      </button>
+    </div>
+  </form>
+
+  <hr class="my-8 border-gray-200" />
+
+  <h3 class="text-lg font-semibold text-gray-800 mb-4">Existing Extra Fields</h3>
+
+  <div class="overflow-x-auto border border-gray-200 rounded-lg shadow-sm">
+    <table class="min-w-full divide-y divide-gray-200 text-sm text-left">
+      <thead class="bg-gray-50 text-gray-700 uppercase text-xs font-semibold tracking-wider">
+        <tr>
+          <th class="px-6 py-3">Label</th>
+          <th class="px-6 py-3">Type</th>
+          <th class="px-6 py-3 text-right">Action</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200 bg-white text-gray-600">
+        <tr *ngFor="let field of fields" class="hover:bg-gray-50 transition-colors">
+          <td class="px-6 py-4 font-medium text-gray-900">{{ field.FieldLabel }}</td>
+          <td class="px-6 py-4">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 capitalize">
+              {{ field.FieldType }}
+            </span>
+          </td>
+          <td class="px-6 py-4 text-right">
+            <button 
+              (click)="deleteField(field.Id)" 
+              class="text-sm font-medium text-red-600 hover:text-red-800 transition-colors focus:outline-none focus:underline"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="fields?.length === 0">
+          <td colspan="3" class="px-6 py-8 text-center text-gray-400 italic">
+            No extra fields created yet.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

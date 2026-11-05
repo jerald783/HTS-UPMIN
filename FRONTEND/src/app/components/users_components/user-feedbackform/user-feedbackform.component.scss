@@ -1,0 +1,27 @@
+/* Keeps the ng-select layout clean and matches input shapes */
+.ng-select .ng-select-container {
+  min-height: 48px !important;
+  border-radius: 12px !important;
+  border-color: #dce3ec !important;
+  background-color: #f9fbfd !important;
+}
+.ng-select.ng-select-focused .ng-select-container {
+  border-color: #800000 !important;
+  box-shadow: 0 0 0 4px rgba(128, 0, 0, 0.1) !important;
+  background-color: #fff !important;
+}
+.ng-dropdown-panel {
+  border-radius: 12px !important;
+  overflow: hidden;
+  border: 1px solid #e5e7eb !important;
+}
+
+/* Beautiful custom Webkit scrollbars matching your original code */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #b0b7c3;
+  border-radius: 20px;
+}

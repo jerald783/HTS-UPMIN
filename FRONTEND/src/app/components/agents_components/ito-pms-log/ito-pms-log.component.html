@@ -1,0 +1,309 @@
+<app-ito-headers
+  class="fixed top-0 left-0 right-0 z-[1000] bg-white border-b border-slate-200 block"
+
+></app-ito-headers>
+<div class="min-h-screen bg-slate-100 py-8 px-4 sm:px-6 font-sans text-slate-800 print:bg-white print:p-0">
+  <div class="max-w-6xl mx-auto space-y-6">
+<br>
+
+    <!-- Sticky Action Bar (Hidden on Print) -->
+     <button (click)="goBack()" class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-slate-200 hover:bg-slate-300 active:scale-95 text-slate-700 rounded-lg font-medium text-xs transition-all cursor-pointer">
+  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+  Back to List
+</button>
+    <div class="sticky top-4 z-20 bg-white/90 backdrop-blur-md p-3.5 rounded-2xl border-1 border-slate-300/80 shadow-lg shadow-slate-200/50 flex flex-wrap items-center justify-between gap-3 print:hidden">
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-[#7B1113]/10 text-[#7B1113] font-bold text-sm">
+          IT
+        </span>
+        <span class="font-semibold text-slate-700 text-sm hidden sm:inline">Preventive Maintenance Portal</span>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <!-- Save Log Button -->
+        <button (click)="saveLog()" class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white rounded-lg font-medium text-xs transition-all shadow-sm cursor-pointer">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
+          Save Log
+        </button>
+        <button (click)="addRow()" class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#005A36] hover:bg-[#00472b] active:scale-95 text-white rounded-lg font-medium text-xs transition-all shadow-sm cursor-pointer">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+          Add Row
+        </button>
+        <button (click)="autoPassAll()" class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white rounded-lg font-medium text-xs transition-all shadow-sm cursor-pointer">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+          Auto-Pass Active
+        </button>
+        <button (click)="exportCSV()" class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-700 rounded-lg font-medium text-xs transition-all border-1 border-slate-300 cursor-pointer">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          Export CSV
+        </button>
+        <button (click)="printForm()" class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#7B1113] hover:bg-[#630e0f] active:scale-95 text-white rounded-lg font-medium text-xs transition-all shadow-sm cursor-pointer">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+          Print Form
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="bg-white rounded-2xl border-1 border-slate-300/90 shadow-xl p-6 sm:p-8 space-y-6 print:border-none print:shadow-none print:p-0 print:space-y-4">
+      
+      <!-- Top Decorative Accent Bar (Hidden on Print) -->
+      <div class="h-2 w-full bg-gradient-to-r from-[#7B1113] via-[#a3191c] to-[#005A36] rounded-t-xl -mt-6 -mx-6 sm:-mt-8 sm:-mx-8 mb-6 print:hidden"></div>
+
+      <!-- Document Header -->
+      <header class="text-center pb-5 border-b-2 border-slate-300 print:border-black print:pb-3">
+        <div class="space-y-1">
+          <h1 class="text-xl sm:text-2xl font-black text-[#7B1113] tracking-wide uppercase">
+            University of the Philippines Mindanao
+          </h1>
+          <h2 class="text-sm sm:text-base font-bold text-[#005A36] tracking-wider uppercase">
+            Information Technology Office — Batch ICT Preventive Maintenance Log
+          </h2>
+        </div>
+        <div class="mt-3 inline-flex items-center gap-2 px-3 py-1 bg-slate-100 rounded-full text-xs font-mono font-semibold text-slate-700 borde-1 border-slate-300 print:bg-transparent print:border-none">
+          <span>Document Code:</span>
+          <span class="text-[#7B1113] font-bold">{{ documentCode }}</span>
+        </div>
+      </header>
+
+      <!-- Batch / Session Details Section -->
+      <section class="space-y-4">
+        <div class="flex items-center gap-2 text-xs font-bold text-[#7B1113] uppercase tracking-wider">
+          <span class="w-2 h-2 rounded-full bg-[#7B1113]"></span>
+          [Batch / Session Details]
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-slate-50/80 focus-within:bg-white focus-within:ring-2 focus-within:ring-[#7B1113]/20 focus-within:border-[#7B1113] border-1 border-slate-300 rounded-xl p-2.5 transition-all">
+            <label class="block text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1">Department / Unit / Lab Name</label>
+            <input type="text" [(ngModel)]="session.department" placeholder="e.g. Interactive Media Lab" class="w-full bg-transparent border-none text-sm font-medium text-slate-800 focus:outline-none placeholder:text-slate-400" />
+          </div>
+
+          <div class="bg-slate-50/80 focus-within:bg-white focus-within:ring-2 focus-within:ring-[#7B1113]/20 focus-within:border-[#7B1113] border-1 border-slate-300 rounded-xl p-2.5 transition-all">
+            <label class="block text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1">Building / Room</label>
+            <input type="text" [(ngModel)]="session.buildingRoom" placeholder="e.g. EBL Hall Room 204" class="w-full bg-transparent border-none text-sm font-medium text-slate-800 focus:outline-none placeholder:text-slate-400" />
+          </div>
+
+          <div class="bg-slate-50/80 focus-within:bg-white focus-within:ring-2 focus-within:ring-[#7B1113]/20 focus-within:border-[#7B1113] border-1 border-slate-300 rounded-xl p-2.5 transition-all">
+            <label class="block text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1">Primary Custodian / Lab Tech</label>
+            <input type="text" [(ngModel)]="session.custodian" placeholder="e.g. Juan Dela Cruz" class="w-full bg-transparent border-none text-sm font-medium text-slate-800 focus:outline-none placeholder:text-slate-400" />
+          </div>
+
+          <div class="bg-slate-50/80 focus-within:bg-white focus-within:ring-2 focus-within:ring-[#7B1113]/20 focus-within:border-[#7B1113] border-1 border-slate-300 rounded-xl p-2.5 transition-all">
+            <label class="block text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1">Servicing Date</label>
+            <input type="date" [(ngModel)]="session.servicingDate" class="w-full bg-transparent border-none text-sm font-medium text-slate-800 focus:outline-none" />
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3 bg-slate-50/80 border border-slate-300 rounded-xl p-3">
+          <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">Maintenance Class:</span>
+          <div class="flex flex-wrap gap-2">
+            <label *ngFor="let mClass of maintenanceClasses" class="inline-flex items-center gap-2 px-3 py-1.5 bg-white border border-slate-300 rounded-lg cursor-pointer hover:border-slate-400 transition-all text-xs font-medium text-slate-700 has-[:checked]:bg-[#7B1113]/5 has-[:checked]:border-[#7B1113] has-[:checked]:text-[#7B1113]">
+              <input 
+                type="radio" 
+                name="mClass" 
+                [value]="mClass" 
+                [(ngModel)]="session.maintenanceClass" 
+                class="accent-[#7B1113] w-3.5 h-3.5" />
+              <span>{{ mClass }}</span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- Legend Box -->
+      <section class="bg-slate-50 border-1 border-slate-300 rounded-xl p-4 text-xs space-y-2">
+        <div class="font-bold text-slate-700 uppercase tracking-wider text-[11px]">[Checklist Key]</div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-slate-600">
+          <div class="flex items-start gap-1.5"><span class="font-bold text-slate-900 bg-slate-200 px-1.5 py-0.5 rounded text-[10px]">HW</span> Physical inspection & dust removal.</div>
+          <div class="flex items-start gap-1.5"><span class="font-bold text-slate-900 bg-slate-200 px-1.5 py-0.5 rounded text-[10px]">OS</span> Patches, endpoint security & TRIM.</div>
+          <div class="flex items-start gap-1.5"><span class="font-bold text-slate-900 bg-slate-200 px-1.5 py-0.5 rounded text-[10px]">SEC</span> Software audit & malware scan.</div>
+          <div class="flex items-start gap-1.5"><span class="font-bold text-slate-900 bg-slate-200 px-1.5 py-0.5 rounded text-[10px]">STATUS</span> [P] Pass | [W] Warranty | [J] Job Order | [U] Unserviceable</div>
+        </div>
+      </section>
+
+      <!-- Data Table -->
+      <section class="space-y-2">
+        <div class="overflow-x-auto rounded-xl border-1 border-slate-300 shadow-sm print:border-black print:rounded-none">
+          <table class="w-full border-collapse text-xs text-left">
+            <thead>
+              <tr class="bg-slate-100/90 text-slate-700 font-bold border-b border-slate-300 uppercase tracking-wider text-[11px] print:bg-slate-200">
+                <th class="p-2.5 text-center w-10 border-r border-slate-300 print:border-black">#</th>
+                <th class="p-2.5 border-r border-slate-300 print:border-black">Property Tag</th>
+                <th class="p-2.5 border-r border-slate-300 print:border-black">Serial Number</th>
+                <th class="p-2.5 border-r border-slate-300 print:border-black">Device Model / Hostname</th>
+                <th class="p-2.5 text-center w-12 border-r border-slate-300 print:border-black">HW</th>
+                <th class="p-2.5 text-center w-12 border-r border-slate-300 print:border-black">OS</th>
+                <th class="p-2.5 text-center w-12 border-r border-slate-300 print:border-black">SEC</th>
+                <th class="p-2.5 w-36 border-r border-slate-300 print:border-black">Status</th>
+                <th class="p-2.5 border-r border-slate-300 print:border-black">Specific Issues / Remarks</th>
+                <th class="p-2.5 text-center w-10 print:hidden"></th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 print:divide-black">
+              <tr *ngFor="let item of items; let i = index" class="hover:bg-slate-50/80 transition-colors">
+                <td class="p-2 text-center font-mono font-semibold text-slate-500 bg-slate-50/50 border-r border-slate-300 print:border-black print:bg-transparent">
+                  {{ (i + 1 < 10 ? '0' : '') + (i + 1) }}
+                </td>
+                <td class="p-1.5 border-r border-slate-300 print:border-black">
+                  <input type="text" [(ngModel)]="item.propertyTag" placeholder="Tag Sticker" class="w-full bg-transparent px-2 py-1 focus:bg-white focus:ring-1 focus:ring-[#7B1113] rounded outline-none font-mono" />
+                </td>
+                <td class="p-1.5 border-r border-slate-300 print:border-black">
+                  <input type="text" [(ngModel)]="item.serialNumber" placeholder="Serial No." class="w-full bg-transparent px-2 py-1 focus:bg-white focus:ring-1 focus:ring-[#7B1113] rounded outline-none font-mono" />
+                </td>
+                <td class="p-1.5 border-r border-slate-300 print:border-black">
+                  <input type="text" [(ngModel)]="item.deviceModel" placeholder="Model / Hostname" class="w-full bg-transparent px-2 py-1 focus:bg-white focus:ring-1 focus:ring-[#7B1113] rounded outline-none" />
+                </td>
+                <td class="p-1.5 text-center border-r border-slate-300 print:border-black">
+                  <input type="checkbox" [(ngModel)]="item.hw" class="w-4 h-4 accent-[#7B1113] rounded cursor-pointer" />
+                </td>
+                <td class="p-1.5 text-center border-r border-slate-300 print:border-black">
+                  <input type="checkbox" [(ngModel)]="item.os" class="w-4 h-4 accent-[#7B1113] rounded cursor-pointer" />
+                </td>
+                <td class="p-1.5 text-center border-r border-slate-300 print:border-black">
+                  <input type="checkbox" [(ngModel)]="item.sec" class="w-4 h-4 accent-[#7B1113] rounded cursor-pointer" />
+                </td>
+                <td class="p-1.5 border-r border-slate-300 print:border-black">
+                  <select 
+                    [(ngModel)]="item.status" 
+                    [ngClass]="{
+                      'bg-emerald-50 text-emerald-700 border-emerald-200': item.status === 'P',
+                      'bg-amber-50 text-amber-700 border-amber-200': item.status === 'W',
+                      'bg-rose-50 text-rose-700 border-rose-200': item.status === 'J',
+                      'bg-red-100 text-red-800 border-red-300 font-extrabold': item.status === 'U'
+                    }"
+                    class="w-full font-bold px-2 py-1 border rounded-lg outline-none cursor-pointer text-xs transition-colors">
+                    <option value="" class="bg-white text-slate-700">-- Select --</option>
+                    <option value="P" class="bg-white text-emerald-700 font-semibold">P (Passed)</option>
+                    <option value="W" class="bg-white text-amber-700 font-semibold">W (Warranty)</option>
+                    <option value="J" class="bg-white text-rose-700 font-semibold">J (Job Order)</option>
+                    <option value="U" class="bg-white text-red-700 font-semibold">U (Unserviceable)</option>
+                  </select>
+                </td>
+                <td class="p-1.5 border-r border-slate-300 print:border-black">
+                  <input type="text" [(ngModel)]="item.remarks" placeholder="Enter remarks..." class="w-full bg-transparent px-2 py-1 focus:bg-white focus:ring-1 focus:ring-[#7B1113] rounded outline-none" />
+                </td>
+                <td class="p-1.5 text-center print:hidden">
+                  <button (click)="removeRow(i)" title="Delete Row" class="w-6 h-6 inline-flex items-center justify-center text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-full transition-all">
+                    &times;
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Summary & Sign-Off -->
+      <section class="space-y-4">
+        <div class="flex items-center gap-2 text-xs font-bold text-[#7B1113] uppercase tracking-wider">
+          <span class="w-2 h-2 rounded-full bg-[#7B1113]"></span>
+          [Batch Summary & Sign-off]
+        </div>
+
+        <!-- Metric Stat Cards -->
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 print:grid-cols-5">
+          <div class="bg-slate-50 border border-slate-300 rounded-xl p-3 text-center print:border-black">
+            <span class="block text-[10px] font-semibold uppercase text-slate-500">Total Inspected</span>
+            <span class="text-lg font-black text-slate-800">{{ totalInspected }}</span>
+          </div>
+          <div class="bg-emerald-50/60 border border-emerald-300/80 rounded-xl p-3 text-center print:border-black print:bg-transparent">
+            <span class="block text-[10px] font-semibold uppercase text-emerald-600">Passed [P]</span>
+            <span class="text-lg font-black text-emerald-700">{{ totalPassed }}</span>
+          </div>
+          <div class="bg-amber-50/60 border border-amber-300/80 rounded-xl p-3 text-center print:border-black print:bg-transparent">
+            <span class="block text-[10px] font-semibold uppercase text-amber-600">Warranty [W]</span>
+            <span class="text-lg font-black text-amber-700">{{ totalWarranty }}</span>
+          </div>
+          <div class="bg-rose-50/60 border border-rose-300/80 rounded-xl p-3 text-center print:border-black print:bg-transparent">
+            <span class="block text-[10px] font-semibold uppercase text-rose-600">Job Order [J]</span>
+            <span class="text-lg font-black text-rose-700">{{ totalJobOrder }}</span>
+          </div>
+          <div class="bg-red-100/60 border border-red-300 rounded-xl p-3 text-center col-span-2 sm:col-span-1 print:border-black print:bg-transparent">
+            <span class="block text-[10px] font-semibold uppercase text-red-600">Unserviceable [U]</span>
+            <span class="text-lg font-black text-red-700">{{ totalUnserviceable }}</span>
+          </div>
+        </div>
+
+        <!-- Signature Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- Technician Signature Box -->
+          <div class="border border-slate-300 rounded-xl p-4 bg-slate-50/30 space-y-3 relative print:border-black">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">Technician Signature</span>
+              <button (click)="clearCanvas('tech')" class="text-[10px] font-medium px-2 py-0.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded transition-colors print:hidden">
+                Clear Canvas
+              </button>
+            </div>
+            
+            <div class="relative bg-white border border-dashed border-slate-300 rounded-lg overflow-hidden">
+              <canvas 
+                #techCanvas 
+                width="320" 
+                height="90" 
+                class="w-full h-[90px] block cursor-crosshair"
+                (mousedown)="startDrawing($event, 'tech')"
+                (mousemove)="draw($event, 'tech')"
+                (mouseup)="stopDrawing('tech')"
+                (mouseleave)="stopDrawing('tech')"
+                (touchstart)="startDrawing($event, 'tech')"
+                (touchmove)="draw($event, 'tech')"
+                (touchend)="stopDrawing('tech')">
+              </canvas>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 text-xs pt-1">
+              <div>
+                <label class="block text-[10px] font-semibold text-slate-500 uppercase">Name</label>
+                <input type="text" [(ngModel)]="signatures.techName" placeholder="Full Name" class="w-full bg-transparent border-b border-slate-300 py-1 focus:border-[#7B1113] outline-none font-medium text-slate-800 print:border-black" />
+              </div>
+              <div>
+                <label class="block text-[10px] font-semibold text-slate-500 uppercase">Date</label>
+                <input type="date" [(ngModel)]="signatures.techDate" class="w-full bg-transparent border-b border-slate-300 py-1 focus:border-[#7B1113] outline-none font-medium text-slate-800 print:border-black" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Custodian Signature Box -->
+          <div class="border border-slate-300 rounded-xl p-4 bg-slate-50/30 space-y-3 relative print:border-black">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">Custodian Signature</span>
+              <button (click)="clearCanvas('custodian')" class="text-[10px] font-medium px-2 py-0.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded transition-colors print:hidden">
+                Clear Canvas
+              </button>
+            </div>
+            
+            <div class="relative bg-white border border-dashed border-slate-300 rounded-lg overflow-hidden">
+              <canvas 
+                #custodianCanvas 
+                width="320" 
+                height="90" 
+                class="w-full h-[90px] block cursor-crosshair"
+                (mousedown)="startDrawing($event, 'custodian')"
+                (mousemove)="draw($event, 'custodian')"
+                (mouseup)="stopDrawing('custodian')"
+                (mouseleave)="stopDrawing('custodian')"
+                (touchstart)="startDrawing($event, 'custodian')"
+                (touchmove)="draw($event, 'custodian')"
+                (touchend)="stopDrawing('custodian')">
+              </canvas>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 text-xs pt-1">
+              <div>
+                <label class="block text-[10px] font-semibold text-slate-500 uppercase">Name</label>
+                <input type="text" [(ngModel)]="signatures.custodianName" placeholder="Full Name" class="w-full bg-transparent border-b border-slate-300 py-1 focus:border-[#7B1113] outline-none font-medium text-slate-800 print:border-black" />
+              </div>
+              <div>
+                <label class="block text-[10px] font-semibold text-slate-500 uppercase">Date</label>
+                <input type="date" [(ngModel)]="signatures.custodianDate" class="w-full bg-transparent border-b border-slate-300 py-1 focus:border-[#7B1113] outline-none font-medium text-slate-800 print:border-black" />
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>

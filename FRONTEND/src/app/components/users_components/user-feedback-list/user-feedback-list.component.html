@@ -1,0 +1,209 @@
+<div class="min-h-screen bg-[#f8fafc] text-gray-900 px-4 pt-10 pb-16 font-sans">
+  <div class="max-w-6xl mx-auto">
+    <!-- Header & Search -->
+    <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+      <div>
+        <h1 class="text-2xl font-bold text-[#4d0000]">Technical Support Feedbacks</h1>
+        <p class="text-sm text-gray-500">View and review submitted feedback records.</p>
+      </div>
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="filterFeedback()"
+        placeholder="Search by ticket, name, agent..."
+        class="w-full sm:w-72 border border-slate-300 rounded-lg p-2.5 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-[#800000]"
+      />
+    </div>
+
+    <!-- Data Table -->
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-300 overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm border-collapse">
+          <thead>
+            <tr class="bg-slate-100 border-b border-slate-200 text-slate-700 font-semibold text-xs uppercase tracking-wider">
+              <th class="p-4">Ticket #</th>
+              <th class="p-4">Customer Name</th>
+              <th class="p-4">Support Agent</th>
+              <th class="p-4">Date</th>
+              <th class="p-4">Rating</th>
+              <th class="p-4 text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 text-slate-700">
+            <tr *ngFor="let item of filteredList" class="hover:bg-slate-50 transition-colors">
+              <td class="p-4 font-bold text-[#800000]">{{ item.TicketNumber }}</td>
+              <td class="p-4">{{ item.FullName }}</td>
+              <td class="p-4">{{ item.SupportAgent }}</td>
+              <td class="p-4">{{ item.DateRequested | date:'mediumDate' }}</td>
+              <td class="p-4">
+                <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">
+                  ★ {{ item.Rating }}/5
+                </span>
+              </td>
+              <td class="p-4 text-center">
+                <button
+                  (click)="viewFeedback(item)"
+                  class="px-4 py-1.5 rounded-lg text-xs font-semibold text-white bg-[#800000] hover:bg-[#660000] transition-all"
+                >
+                  View Form
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="filteredList.length === 0">
+              <td colspan="6" class="p-8 text-center text-gray-400">No feedback records found.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW FEEDBACK MODAL -->
+  <div *ngIf="selectedFeedback" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex justify-center items-start overflow-y-auto p-4 pt-10">
+    <div class="w-full max-w-4xl bg-white rounded-2xl p-6 sm:p-10 shadow-2xl border border-slate-300 relative my-8">
+      
+      <!-- Close Button -->
+      <button
+        (click)="closeModal()"
+        class="absolute top-6 right-6 text-slate-400 hover:text-slate-600 text-xl font-bold w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 transition-all"
+      >
+        ✕
+      </button>
+
+      <!-- Form Title -->
+      <div class="border-b border-slate-200 pb-6 mb-8">
+        <h2 class="text-2xl font-bold tracking-tight text-[#4d0000]">
+          Feedback Details — Ticket #{{ selectedFeedback.TicketNumber }}
+        </h2>
+        <p class="text-sm text-gray-500 mt-1">Submitted on {{ selectedFeedback.DateRequested | date:'longDate' }}</p>
+      </div>
+
+      <!-- Header Info -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+        <div class="flex flex-col">
+          <label class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">Company Name</label>
+          <input type="text" [value]="selectedFeedback.CompanyName || 'N/A'" readonly class="w-full border border-slate-300 bg-gray-50 rounded-lg p-3 text-sm" />
+        </div>
+
+        <div class="flex flex-col">
+          <label class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">Requested Date</label>
+          <input type="text" [value]="selectedFeedback.DateRequested | date:'yyyy-MM-dd'" readonly class="w-full border border-slate-300 bg-gray-50 rounded-lg p-3 text-sm" />
+        </div>
+
+        <div class="flex flex-col">
+          <label class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">Ticket Number</label>
+          <input type="text" [value]="selectedFeedback.TicketNumber" readonly class="w-full border border-slate-300 bg-gray-50 font-bold text-[#800000] rounded-lg p-3 text-sm" />
+        </div>
+      </div>
+
+      <!-- Customer Info -->
+      <div class="mb-10">
+        <h3 class="text-sm font-bold uppercase tracking-wider text-[#4d0000] mb-4 pb-2 border-b border-slate-300">Customer Information</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+          <div class="flex flex-col">
+            <label class="text-xs font-medium text-gray-600 mb-1.5">Full Name</label>
+            <input type="text" [value]="selectedFeedback.FullName" readonly class="w-full border border-slate-300 bg-gray-50 rounded-lg p-3 text-sm" />
+          </div>
+          <div class="flex flex-col">
+            <label class="text-xs font-medium text-gray-600 mb-1.5">Email Address</label>
+            <input type="text" [value]="selectedFeedback.Email" readonly class="w-full border border-slate-300 bg-gray-50 rounded-lg p-3 text-sm" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div class="flex flex-col">
+            <label class="text-xs font-medium text-gray-600 mb-1.5">Phone</label>
+            <input type="text" [value]="selectedFeedback.Phone || 'N/A'" readonly class="w-full border border-slate-300 bg-gray-50 rounded-lg p-3 text-sm" />
+          </div>
+          <div class="flex flex-col">
+            <label class="text-xs font-medium text-gray-600 mb-1.5">Unit / Program</label>
+            <input type="text" [value]="selectedFeedback.Unit" readonly class="w-full border border-slate-300 bg-gray-50 rounded-lg p-3 text-sm" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Support Details -->
+      <div class="mb-10">
+        <h3 class="text-sm font-bold uppercase tracking-wider text-[#4d0000] mb-4 pb-2 border-b border-slate-300">Support Details</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+          <div class="flex flex-col">
+            <label class="text-xs font-medium text-gray-600 mb-1.5">Support Agent Email</label>
+            <input type="text" [value]="selectedFeedback.SupportAgent" readonly class="w-full border border-slate-300 bg-gray-50 rounded-lg p-3 text-sm" />
+          </div>
+          <div class="flex flex-col">
+            <label class="text-xs font-medium text-gray-600 mb-1.5">Date Resolved</label>
+            <input type="text" [value]="selectedFeedback.DateResolved | date:'yyyy-MM-dd'" readonly class="w-full border border-slate-300 bg-gray-50 rounded-lg p-3 text-sm" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+          <div class="flex flex-col">
+            <label class="text-xs font-medium text-gray-600 mb-1.5">Issue Type</label>
+            <input type="text" [value]="selectedFeedback.IssueType" readonly class="w-full border border-slate-300 bg-gray-50 rounded-lg p-3 text-sm" />
+          </div>
+          <div class="flex flex-col">
+            <label class="text-xs font-medium text-gray-600 mb-1.5">Support Channel</label>
+            <input type="text" [value]="selectedFeedback.SupportChannel" readonly class="w-full border border-slate-300 bg-gray-50 rounded-lg p-3 text-sm" />
+          </div>
+        </div>
+
+        <!-- Rating -->
+        <div class="mb-8 p-4 bg-amber-50/50 border border-amber-200 rounded-xl">
+          <label class="text-xs font-medium text-gray-600 block mb-1">Overall Satisfaction Rating</label>
+          <div class="text-lg font-bold text-amber-700">★ {{ selectedFeedback.Rating }} / 5</div>
+        </div>
+
+        <!-- Performance Breakdown Table -->
+        <div class="mb-8">
+          <label class="text-xs font-medium text-gray-600 block mb-3">Detailed Performance Breakdown</label>
+          <div class="overflow-x-auto rounded-xl border border-slate-300">
+            <table class="w-full text-xs sm:text-sm text-center bg-white border-collapse">
+              <thead>
+                <tr class="bg-gray-50 border-b border-slate-300 text-gray-600 font-semibold">
+                  <th class="p-3 text-left">Criteria</th>
+                  <th class="p-3">Rating Given</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100 text-gray-700 text-left">
+                <tr><td class="p-3 font-medium">Response Time</td><td class="p-3 font-semibold text-[#800000]">{{ selectedFeedback.ResponseTime }}</td></tr>
+                <tr><td class="p-3 font-medium">Technical Knowledge</td><td class="p-3 font-semibold text-[#800000]">{{ selectedFeedback.TechnicalKnowledge }}</td></tr>
+                <tr><td class="p-3 font-medium">Professionalism</td><td class="p-3 font-semibold text-[#800000]">{{ selectedFeedback.Professionalism }}</td></tr>
+                <tr><td class="p-3 font-medium">Communication</td><td class="p-3 font-semibold text-[#800000]">{{ selectedFeedback.Communication }}</td></tr>
+                <tr><td class="p-3 font-medium">Resolution Effectiveness</td><td class="p-3 font-semibold text-[#800000]">{{ selectedFeedback.Resolution }}</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Comments -->
+        <div class="flex flex-col mb-8">
+          <label class="text-xs font-medium text-gray-600 mb-1.5">Feedback / Comments</label>
+          <textarea rows="3" readonly class="w-full border border-slate-300 bg-gray-50 rounded-lg p-3 text-sm resize-none">{{ selectedFeedback.FeedbackText || 'No comments provided.' }}</textarea>
+        </div>
+
+        <!-- Saved Electronic Signature Display -->
+        <div class="p-4 sm:p-5 rounded-xl border border-slate-300 bg-slate-50 mb-8">
+          <label class="text-xs font-medium text-gray-600 block mb-2">Customer Signature</label>
+          <img
+            *ngIf="selectedFeedback.Signature"
+            [src]="selectedFeedback.Signature"
+            alt="Customer Signature"
+            class="w-full rounded-lg border border-slate-300 bg-white max-h-[160px] object-contain p-2"
+          />
+          <span *ngIf="!selectedFeedback.Signature" class="text-xs text-slate-400 italic">No signature recorded</span>
+        </div>
+      </div>
+
+      <!-- Close Action -->
+      <div class="border-t border-slate-300 pt-4 flex justify-end">
+        <button
+          (click)="closeModal()"
+          class="px-6 py-2.5 rounded-lg text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-all"
+        >
+          Close Preview
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

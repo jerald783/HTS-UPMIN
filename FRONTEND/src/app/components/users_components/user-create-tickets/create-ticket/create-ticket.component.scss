@@ -1,0 +1,16 @@
+.custom-premium-select .ng-select-container {
+  border-radius: 12px !important;
+  border-color: #e2e8f0 !important;
+  min-h: 42px !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.01) !important;
+  background-color: #ffffff !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &:hover {
+    border-color: #cbd5e1 !important;
+  }
+}
+.custom-premium-select.ng-select-focused .ng-select-container {
+  border-color: #800000 !important;
+  box-shadow: 0 0 0 4px rgba(128, 0, 0, 0.05) !important;
+}

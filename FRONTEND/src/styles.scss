@@ -1,0 +1,72 @@
+
+// @tailwind base;
+// @tailwind components;
+// @tailwind utilities;
+// html,
+// body {
+//   font-family: "Roboto", sans-serif;
+// }
+
+// /* Force all elements to use Roboto */
+// *,
+// *::before,
+// *::after {
+//   font-family: inherit;
+// }
+
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global styles */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+  @apply bg-slate-50 text-slate-900 antialiased;
+}
+
+/* Inherit the font everywhere */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+/* Better scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection color */
+::selection {
+  @apply bg-blue-600 text-white;
+}
+
+/* Optional nicer scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-400 rounded-full;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-100;
+}
+
+/* Global fix for Tailwind reset interfering with Angular Material Outlined Inputs */
+.mdc-notched-outline__notch {
+  border-right: none !important;
+}
+
+/* Ensure the top border is hidden when the label is resting (notched) */
+.mdc-notched-outline--notched .mdc-notched-outline__notch {
+  border-top: none !important;
+
+}

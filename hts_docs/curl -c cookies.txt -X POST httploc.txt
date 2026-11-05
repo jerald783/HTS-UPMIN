@@ -1,0 +1,9 @@
+curl -c cookies.txt -X POST http://localhost:5000/api/User/login   -H "Content-Type: application/json"   -d '{"Email":"jntulibao@up.edu.ph","password":"Hello@@123"}'
+{"role":"Admin","fullName":"Jerald Tulibao"}
+
+
+curl -i -X POST http://localhost:5000/api/User/login   -H "Content-Type: application/json"   -d '{"Email":"jntulibao@up.edu.ph","password":"Hello@@123"}'
+
+
+
+$ curl -b cookies.txt -X POST http://localhost:5000/api/Smtp/decrypt-password

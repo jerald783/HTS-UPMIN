@@ -1,0 +1,23 @@
+/* Restabilize and realign the labels inside the custom action dropdown menu */
+::ng-deep .custom-professional-menu .mat-mdc-form-field-infix {
+  min-height: 48px !important;
+  padding-top: 12px !important;
+  padding-bottom: 8px !important;
+}
+
+/* Force override native tailwind browser inputs inside the material template framework */
+::ng-deep .custom-professional-menu input.mat-mdc-input-element {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  height: auto !important;
+}
+
+/* Ensure the floating mat-label transitions above the outline frame layout correctly */
+::ng-deep .custom-professional-menu .mat-mdc-form-field-can-float.mat-form-field-should-float .mat-mdc-form-field-label {
+  transform: translateY(-22px) scale(0.75) !important;
+  background: white !important;
+  padding: 0 4px !important;
+}

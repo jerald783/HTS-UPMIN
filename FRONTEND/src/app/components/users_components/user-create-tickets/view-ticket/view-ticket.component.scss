@@ -1,0 +1,18 @@
+/* Custom component hooks that aren't native to basic utility styles */
+
+.btnaction {
+  background: #800000;
+  color: white;
+}
+
+.btnview {
+  background: #800000;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}

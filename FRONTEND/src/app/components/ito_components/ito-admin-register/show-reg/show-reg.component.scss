@@ -1,0 +1,10 @@
+/* Prevents long pages from rendering overlay windows outside viewports */
+::ng-deep .cdk-overlay-container {
+  z-index: 9999 !important;
+}
+
+/* Forces items-per-page overlay selection panels to expand upwards */
+::ng-deep .mat-mdc-select-panel {
+  margin-bottom: 8px !important;
+  max-height: 220px !important;
+}

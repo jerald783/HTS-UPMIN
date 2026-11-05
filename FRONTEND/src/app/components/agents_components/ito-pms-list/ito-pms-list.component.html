@@ -1,0 +1,139 @@
+<app-ito-headers
+  class="fixed top-0 left-0 right-0 z-[1000] bg-white border-b border-slate-200 block"
+></app-ito-headers>
+<br>
+<br>
+<div class="min-h-screen bg-slate-100 py-8 px-4 sm:px-6 font-sans text-slate-800">
+  <div class="max-w-6xl mx-auto space-y-6">
+
+    <!-- Header & Action Bar -->
+    <div class="bg-white p-4 sm:p-6 rounded-2xl border border-slate-300/90 shadow-lg flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3 w-full sm:w-auto">
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-[#7B1113]/10 text-[#7B1113] font-black text-base">
+          IT
+        </span>
+        <div>
+          <h2 class="font-bold text-slate-800 text-base">Saved Preventive Maintenance Logs</h2>
+          <p class="text-xs text-slate-500">Total Saved Records: {{ filteredLogs.length }}</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 w-full sm:w-auto">
+        <!-- Search Input -->
+        <div class="relative w-full sm:w-64">
+          <input 
+            type="text" 
+            [value]="searchTerm"
+            (input)="onSearchInput($event)" 
+            placeholder="Search doc code, department, tech..." 
+            class="w-full pl-9 pr-3 py-2 bg-slate-50 border-1 border-slate-300 rounded-xl text-xs focus:bg-white focus:ring-2 focus:ring-[#7B1113]/20 focus:border-[#7B1113] outline-none transition-all" />
+          <svg class="w-4 h-4 text-slate-400 absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </div>
+
+        <!-- Create Button -->
+        <button (click)="createNewForm()" class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#7B1113] hover:bg-[#630e0f] active:scale-95 text-white rounded-xl font-medium text-xs transition-all shadow-sm cursor-pointer whitespace-nowrap">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+          New PM Form
+        </button>
+      </div>
+    </div>
+
+    <!-- Table Container -->
+    <div class="bg-white rounded-2xl border border-slate-300/90 shadow-xl overflow-hidden">
+      <div class="h-2 w-full bg-gradient-to-r from-[#7B1113] via-[#a3191c] to-[#005A36]"></div>
+
+      <div class="p-6">
+        <!-- Loading State -->
+        <div *ngIf="isLoading" class="text-center py-12 text-slate-500 space-y-2">
+          <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-slate-300 border-t-[#7B1113]"></div>
+          <p class="text-xs font-semibold">Fetching saved records from database...</p>
+        </div>
+
+        <!-- Error State -->
+        <div *ngIf="errorMessage" class="bg-rose-50 border border-rose-200 rounded-xl p-4 text-center text-rose-700 text-xs font-semibold">
+          {{ errorMessage }}
+        </div>
+
+        <!-- Empty State -->
+        <div *ngIf="!isLoading && !errorMessage && filteredLogs.length === 0" class="text-center py-12 space-y-3">
+          <div class="w-12 h-12 bg-slate-100 text-slate-400 rounded-full inline-flex items-center justify-center">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          </div>
+          <p class="text-sm font-semibold text-slate-600">No saved forms found</p>
+          <button (click)="createNewForm()" class="px-3.5 py-1.5 bg-[#005A36] hover:bg-[#00472b] text-white rounded-lg text-xs font-medium transition-all">
+            Create New Form
+          </button>
+        </div>
+
+        <!-- Table View -->
+        <div *ngIf="!isLoading && filteredLogs.length > 0" class="overflow-x-auto rounded-xl border border-slate-300">
+          <table class="w-full border-collapse text-xs text-left">
+            <thead>
+              <tr class="bg-slate-100/90 text-slate-700 font-bold border-b border-slate-300 uppercase tracking-wider text-[11px]">
+                <th class="p-3 w-12 text-center">ID</th>
+                <th class="p-3">Doc Code</th>
+                <th class="p-3">Department / Unit</th>
+                <th class="p-3">Building / Room</th>
+                <th class="p-3">Servicing Date</th>
+                <th class="p-3">Class</th>
+                <th class="p-3">Custodian</th>
+                <th class="p-3">Technician</th>
+                <th class="p-3 text-center w-28">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+              <tr *ngFor="let log of filteredLogs" class="hover:bg-slate-50/80 transition-colors cursor-pointer" (click)="viewForm(log.Id)">
+                <td class="p-3 text-center font-mono text-slate-400 font-bold">
+                  #{{ log.Id }}
+                </td>
+                <td class="p-3 font-mono font-bold text-[#7B1113]">
+                  {{ log.DocumentCode }}
+                </td>
+                <td class="p-3 font-semibold text-slate-800">
+                  {{ log.Department }}
+                </td>
+                <td class="p-3 text-slate-600">
+                  {{ log.BuildingRoom }}
+                </td>
+                <td class="p-3 font-mono text-slate-600">
+                  {{ log.ServicingDate }}
+                </td>
+                <td class="p-3">
+                  <span class="inline-block px-2 py-0.5 bg-slate-100 text-slate-700 rounded text-[10px] font-semibold border-1 border-slate-300">
+                    {{ log.MaintenanceClass }}
+                  </span>
+                </td>
+                <td class="p-3 text-slate-700">
+                  {{ log.Custodian }}
+                </td>
+                <td class="p-3 text-slate-700">
+                  {{ log.TechName }}
+                </td>
+                <td class="p-3 text-center">
+                  <div class="flex items-center justify-center gap-1.5">
+                    <button 
+                      (click)="viewForm(log.Id)" 
+                      title="Open Form"
+                      class="px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-md font-semibold text-[11px] transition-colors">
+                      View
+                    </button>
+                    <button 
+                      (click)="deleteForm(log.Id, $event)" 
+                      title="Delete Form"
+                      class="px-2.5 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-md font-semibold text-[11px] transition-colors">
+                      Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

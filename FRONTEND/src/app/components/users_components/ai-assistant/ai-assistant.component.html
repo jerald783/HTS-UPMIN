@@ -1,0 +1,58 @@
+<div class="mx-auto my-7 max-w-[850px] font-['Roboto',_sans-serif]">
+  <mat-card class="p-6 rounded-xl">
+    <div class="flex items-center gap-2.5 mb-5">
+      <mat-icon color="primary">smart_toy</mat-icon>
+      <h2 class="m-0 text-2xl font-medium">IT Helpdesk AI Assistant</h2>
+    </div>
+
+    <div 
+      class="flex-1 max-h-[400px] overflow-y-auto p-4 bg-[#f5f7fa] rounded-xl flex flex-col gap-2.5 scrollbar-thin scrollbar-thumb-black/20" 
+      #chatBox
+    >
+      <div
+        class="flex items-start gap-2.5"
+        *ngFor="let chat of chatHistory"
+        [ngClass]="{ 'justify-end': chat.sender === 'user' }"
+      >
+        <mat-icon *ngIf="chat.sender === 'user'">person</mat-icon>
+        <mat-icon *ngIf="chat.sender === 'ai'" color="primary">smart_toy</mat-icon>
+        
+        <div
+          class="py-3 px-4.5 rounded-[15px] max-w-[70%] text-sm leading-relaxed break-words"
+          [ngClass]="{
+            'bg-[#1976d2] text-white rounded-br-none': chat.sender === 'user',
+            'bg-[#e4e6eb] rounded-bl-none whitespace-pre-line': chat.sender === 'ai',
+            'flex items-center': chat.message.includes('analyzing')
+          }"
+        >
+          {{ chat.message }}
+          <ng-container *ngIf="chat.message.includes('analyzing')">
+            <span class="h-1.5 w-1.5 bg-[#555] rounded-full ml-1 animate-[blink_1.4s_infinite_both]"></span>
+            <span class="h-1.5 w-1.5 bg-[#555] rounded-full ml-1 animate-[blink_1.4s_infinite_both_0.2s]"></span>
+            <span class="h-1.5 w-1.5 bg-[#555] rounded-full ml-1 animate-[blink_1.4s_infinite_both_0.4s]"></span>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <mat-form-field appearance="outline" class="w-full mb-3.5 mt-4">
+      <mat-label>Describe your issue</mat-label>
+      <textarea matInput rows="3" [(ngModel)]="issueDesc"></textarea>
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="primary"
+      class="w-full flex items-center justify-center gap-2"
+      (click)="analyzeIssue()"
+      [disabled]="loading"
+    >
+      <mat-icon *ngIf="!loading">send</mat-icon>
+
+      <mat-progress-spinner *ngIf="loading" diameter="20" mode="indeterminate">
+      </mat-progress-spinner>
+
+      <span>{{ loading ? "Analyzing..." : "Analyze Issue" }}</span>
+    </button>
+  </mat-card>
+</div>

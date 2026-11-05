@@ -1,0 +1,55 @@
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { TicketService } from '../../../../../services/UserServices/ticket.service';
+
+@Component({
+  selector: 'app-ticket-details-dialog',
+  templateUrl: './ticket-details-dialog.component.html',
+  styleUrls: ['./ticket-details-dialog.component.scss'],
+  standalone: false,
+})
+export class TicketDetailsDialogComponent {
+  isEditingDiagnostic = false;
+  editedDiagnostic = '';
+
+  constructor(
+    public dialogRef: MatDialogRef<TicketDetailsDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private signalRService: TicketService,
+    private tICKET: TicketService,
+  ) {}
+
+  enableEditDiagnostic(): void {
+    this.editedDiagnostic = this.data.Diagnostic_Result || '';
+    this.isEditingDiagnostic = true;
+  }
+
+  cancelEditDiagnostic(): void {
+    this.isEditingDiagnostic = false;
+  }
+
+  saveDiagnostic(): void {
+    if (!this.editedDiagnostic.trim()) {
+      return;
+    }
+
+    this.tICKET.updateDiagnosticResult(this.data.TicketId, this.editedDiagnostic).subscribe({
+      next: () => {
+        this.data.Diagnostic_Result = this.editedDiagnostic;
+        this.isEditingDiagnostic = false;
+      },
+      error: (err) => {
+        console.error('Failed to update diagnostic result:', err);
+      }
+    });
+  }
+
+  close(): void {
+    this.dialogRef.close();
+  }
+
+  viewFile(fileName: string): void {
+    const url = this.tICKET.getTicketFile(fileName);
+    window.open(url, '_blank');
+  }
+}
